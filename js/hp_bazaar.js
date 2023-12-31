@@ -4,5 +4,5 @@ function init() {
 
 function navClick(item) {
     const ctrl = document.getElementById('cWelcome');
-    ctrl.innerHTML = item.text + ' clicked'
+    ctrl.innerHTML = item.textContent + ' clicked';
 }

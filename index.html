@@ -6,46 +6,57 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <title>Hypixel Bazaar observer</title>
     <meta name="description" content="Hypixel Bazaar observer"/>
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/theme.css" rel="stylesheet">
-    <script src="/js/color-modes.js"></script>
-    <script src="/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/hp_bazaar.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/theme.css" rel="stylesheet">
+    <link href="css/override.css" rel="stylesheet">
+    <script src="js/color-modes.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/hp_bazaar.js"></script>
 </head>
 <body onload="init();">
     <div id="cWelcome" class="container-fluid border rounded text-center">
         Some text
     </div>
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a onclick="navClick(this);">Monitor</a></li>
-          <li class="breadcrumb-item active" aria-current="page"><a onclick="navClick(this);">Farming crops</a></li>
-        </ol>
-      </nav>
+
+    <ul class="nav nav-pills" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active p-1" data-bs-toggle="pill" type="button" aria-selected="true" onclick="navClick(this);">Farming crops</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link p-1" data-bs-toggle="pill" type="button" aria-selected="false" onclick="navClick(this);">Forge</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link p-1" data-bs-toggle="pill" type="button" aria-selected="false" onclick="navClick(this);">Gems</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link p-1" data-bs-toggle="pill" type="button" aria-selected="false" onclick="navClick(this);">Monitored</button>
+        </li>
+    </ul>
+
     <table class="table table-striped table-sm">
         <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-          </tr>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+            </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td colspan="2">Larry the Bird</td>
-          </tr>
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td colspan="2">Larry the Bird</td>
+            </tr>
         </tbody>
-      </table>
+    </table>
 </body>
 </html>
