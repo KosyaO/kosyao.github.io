@@ -1,8 +1,26 @@
+let bzConfig = null;
+
+function updateStatus(text) {
+    const ctrl = document.getElementById('cStatus');
+    ctrl.innerHTML = text;
+}
+
+function updateConfig(response) {
+    bzConfig = response;
+    if (!bzConfig) {
+
+    };
+}
+
 function init() {
-    document.getElementById('cWelcome').innerHTML = "This is text!"
+    updateStatus("This is text!");
+    let request = new XMLHttpRequest();
+    request.open("GET", 'json/bazaar_monitored.json');
+    request.responseType = "json";
+    request.send();
+    request.onload = () => updateConfig(request.response);
 }
 
 function navClick(item) {
-    const ctrl = document.getElementById('cWelcome');
-    ctrl.innerHTML = item.textContent + ' clicked';
+    updateStatus(item.textContent + ' clicked');
 }
