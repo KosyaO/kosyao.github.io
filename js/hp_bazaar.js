@@ -73,7 +73,7 @@ function updateMarket(market) {
 function downloadMarket() {
     fetch('https://api.hypixel.net/skyblock/bazaar').then(res => res.json().then(res => updateMarket(res)));
     if (currentInterval) clearInterval(currentInterval);
-    currentInterval = setInterval(downloadMarket, updatedSuccessfully? 20000: 6000);
+    currentInterval = setInterval(downloadMarket, updatedSuccessfully? 300000: 60000);
 }
 
 function formMenuItem(menu) {
