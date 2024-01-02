@@ -14,6 +14,10 @@
     <script src="js/hp_bazaar.js"></script>
 </head>
 <body onload="init();">
+    <div id="cStatus" class="container-fluid border rounded">
+        Some text. Text could be very, very long and can&nbsp;shifted to next line
+    </div>
+
     <ul class="nav nav-pills" role="tablist" id="nMarketMenu">
         <li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="pill" type="button" 
             aria-selected="true" onclick="navClick(this);">Farming crops</button></li>
@@ -43,12 +47,13 @@
                 <th scope="row" class="text-start">Enchanted Seeds</th>
                 <td>451.5</td>
                 <td>+0.0%</td>
-                <td>506.5</td>
+                <td class="table-success">506.5</td>
                 <td>-0.1%</td>
-                <td>12.2%</td>
+                <td class="table-danger">12.2%</td>
                 <td>4 367.2k</td>
                 <td>9 199</td>
             </tr>
+            <tr><th colspan="8" class="text-center">123</td></tr>
             <tr>
                 <th scope="row" class="text-start">Enchanted Hay block</th>
                 <td>451.5</td>
@@ -61,9 +66,5 @@
             </tr>
         </tbody>
     </table>
-
-    <div id="cStatus" class="container-fluid border rounded">
-        Some text. Text could be very, very long and can&nbsp;shifted to next line
-    </div>
 </body>
 </html>
