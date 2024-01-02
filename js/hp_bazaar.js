@@ -49,11 +49,15 @@ function updateMarket(market) {
             if (spread > 999.99) spread = 999.99;
             buy_move = marketCrop.quick_status.buyMovingWeek;
             move_changes = buy_move - (oldMarket[product]?.buy_move ?? buy_move);
-
+            const alert_crop = config.alerts_dict[crop] ?? {};
+            let color_buy_green = (alert_crop.high && buy_price >= alert_crop.high) ? ' class="table-success"' : "";
+            let color_sell_green = (alert_crop.low && sell_price <= alert_crop.low) ? ' class="table-success"' : "";
+            let color_buy_red = (alert_crop.low && buy_price <= alert_crop.low) ? ' class="table-danger"' : "";
+            let color_sell_red = (alert_crop.high && sell_price  >= alert_crop.high) ? ' class="table-danger"' : "";
             tableData += `<tr><th scope="row" class="text-start">${product}</th>
-                <td>${formatNumber(sell_price)}</td>
+                <td${color_sell_red ? color_sell_red : color_sell_green}>${formatNumber(sell_price)}</td>
                 <td>${formatNumber(sell_changes, 1) + ' %'}</td>
-                <td>${formatNumber(buy_price)}</td>
+                <td${color_buy_red ? color_buy_red : color_buy_green}>${formatNumber(buy_price)}</td>
                 <td>${formatNumber(buy_changes, 1) + ' %'}</td>
                 <td>${formatNumber(spread) + ' %'}</td>
                 <td>${formatNumber(buy_move, 0)}</td>
@@ -61,7 +65,8 @@ function updateMarket(market) {
             oldMarket[product] = {sell_price, sell_changes, buy_price, buy_changes, spread, buy_move, move_changes};
         }
     document.getElementById('tCrops').innerHTML = tableData;
-    updateStatus('Last updated: ' + market.lastUpdated);
+    const lang = navigator.language || navigator.userLanguage;
+    updateStatus('Last updated: ' + new Date(market.lastUpdated).toLocaleString(lang) + ` (${market.lastUpdated})`);
     updatedSuccessfully = true;
 }
 

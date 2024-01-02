@@ -139,7 +139,7 @@
     { "name": "enchantment_green_thumb_1", "high": 8000000},
     { "name": "griffin_feather", "low": 100000},
     { "name": "enchanted_mycelium", "low": 9999, "high": 12000},
-    { "name": "enchanted_mycelium_cube", "low": 125000},
+    { "name": "enchanted_mycelium_cube", "low": 135000},
     { "name": "- Gems" },
     { "name": "rough_jade_gem", "low": 1},
     { "name": "rough_amber_gem", "low": 1},
@@ -148,7 +148,7 @@
     { "name": "- Forge" },
     { "name": "gemstone_mixture", "high": 1650000},
     { "name": "refined_titanium", "high": 800000},
-    { "name": "refined_mithril", "high": 400000},
+    { "name": "refined_mithril", "high": 580000},
     { "name": "enchanted_gold", "high": 900}  
   ]
 }
