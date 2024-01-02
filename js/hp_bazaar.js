@@ -19,9 +19,14 @@ function averagePrice(summary) {
     return cnt ? sum / cnt : 0;
 }
 
-function formatNumber(num, digits=2) {
-    if (num > 1000) return (num / 1000).toFixed(digits) + 'k';
-    return num.toFixed(digits);
+function formatNumber(num, maximumFractionDigits=2) {
+    let postfix = '';
+    const lang = (navigator.language || navigator.userLanguage).slice(0, 2);
+    if (num > 10000) { 
+        num/= 1000; 
+        postfix='k'; 
+    }
+    return new Intl.NumberFormat(lang, {maximumFractionDigits, minimumFractionDigits: maximumFractionDigits}).format(num) + postfix;
 }
 
 
