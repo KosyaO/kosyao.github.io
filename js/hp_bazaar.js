@@ -10,6 +10,17 @@ function updateStatus(text) {
     ctrl.innerHTML = text;
 }
 
+function averagePrice(summary) {
+    let cnt = 0, sum = 0;
+    summary.slice(0, 3).map(item => { cnt += item.amount; sum += item.pricePerUnit * item.amount});
+    return cnt ? sum / cnt : 0;
+}
+
+function formatNumber(num, digits=2) {
+    if (num > 1000) return (num / 1000).toFixed(digits) + 'k';
+    return num.toFixed(digits);
+}
+
 
 function updateMarket(market) {
     if (!market.success) return updateStatus('Error loading market data');
@@ -17,8 +28,27 @@ function updateMarket(market) {
     for (crop of config.menu[selectedMenu]) {
         let product, sell_price, sell_changes, buy_price, buy_changes, spread, buy_move, move_changes;
         product = crop.split('_').map(capitalize).join(' ');
-        tableData += `<tr><th scope="row">${product}</th><td>${sell_price}</td>
-        <td>+0.0%</td><td>buy_price</td><td>-0.1%</td><td>12.2%</td><td>4 367.2k</td><td>9 199</td></tr>\n`
+        const marketCrop = market.products[crop.toUpperCase()];
+        if (!marketCrop) continue;
+        sell_price = averagePrice(marketCrop.sell_summary);
+        const s_old = oldMarket[product]?.sell_price ?? 0;
+        sell_changes = s_old? (sell_price - s_old) / s_old * 100: 0;
+        buy_price = averagePrice(marketCrop.buy_summary);
+        const b_old = oldMarket[product]?.buy_price ?? 0;
+        buy_changes = b_old? (buy_price - b_old) / b_old * 100: 0;
+        spread = buy_price? (buy_price - sell_price) / sell_price * 100 : 999;
+        if (spread > 999.99) spread = 999.99;
+        buy_move = marketCrop.quick_status.buyMovingWeek;
+        move_changes = buy_move - (oldMarket[product]?.buy_move ?? buy_move);
+
+        tableData += `<tr><th scope="row" class="text-start">${product}</th>
+            <td>${formatNumber(sell_price)}</td>
+            <td>${formatNumber(sell_changes, 1) + ' %'}</td>
+            <td>${formatNumber(buy_price)}</td>
+            <td>${formatNumber(buy_changes, 1)}</td>
+            <td>${formatNumber(spread)}</td>
+            <td>${formatNumber(buy_move, 0)}</td>
+            <td>${formatNumber(move_changes, 0)}</td></tr>\n`
         oldMarket[product] = {sell_price, sell_changes, buy_price, buy_changes, spread, buy_move, move_changes};
     }
     document.getElementById('tCrops').innerHTML = tableData;
