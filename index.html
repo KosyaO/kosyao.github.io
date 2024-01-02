@@ -14,11 +14,7 @@
     <script src="js/hp_bazaar.js"></script>
 </head>
 <body onload="init();">
-    <div id="cStatus" class="container-fluid border rounded text-center">
-        Some text
-    </div>
-
-    <ul class="nav nav-pills" role="tablist">
+    <ul class="nav nav-pills" role="tablist" id="nMarketMenu">
         <li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="pill" type="button" 
             aria-selected="true" onclick="navClick(this);">Farming crops</button></li>
         <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="pill" type="button" 
@@ -32,27 +28,42 @@
     <table class="table table-striped table-sm">
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
+                <th scope="col" class="col-3">Product</th>
+                <th scope="col">Sell price</th>
+                <th scope="col">Changes</th>
+                <th scope="col">Buy price</th>
+                <th scope="col">Changes</th>
+                <th scope="col">Spread</th>
+                <th scope="col">Buy move</th>
+                <th scope="col">Changes</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="tCrops">
             <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
+                <th scope="row">Enchanted Seeds</th>
+                <td>451.5</td>
+                <td>+0.0%</td>
+                <td>506.5</td>
+                <td>-0.1%</td>
+                <td>12.2%</td>
+                <td>4 367.2k</td>
+                <td>9 199</td>
             </tr>
             <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td colspan="2">Larry the Bird</td>
+                <th scope="row">Enchanted Hay block</th>
+                <td>451.5</td>
+                <td>+0.0%</td>
+                <td>506.5</td>
+                <td>-0.1%</td>
+                <td>12.2%</td>
+                <td>4 367.2k</td>
+                <td>9 199</td>
             </tr>
         </tbody>
     </table>
+
+    <div id="cStatus" class="container-fluid border rounded">
+        Some text. Text could be very, very long and can&nbsp;shifted to next line
+    </div>
 </body>
 </html>
