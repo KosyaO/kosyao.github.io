@@ -3,6 +3,7 @@ let selectedMenu;
 let oldMarket = {};
 let currentInterval;
 let updatedSuccessfully = true;
+let lsPrefix = 'hp_baz_';
 const alertMenu = 'Alert';
 
 const capitalize = word => word.slice(0, 1).toUpperCase() + word.slice(1);
@@ -29,6 +30,9 @@ function formatNumber(num, maximumFractionDigits=2) {
     return new Intl.NumberFormat(lang, {maximumFractionDigits, minimumFractionDigits: maximumFractionDigits}).format(num) + postfix;
 }
 
+function drawMarket() {
+    
+}
 
 function updateMarket(market) {
     if (!market.success) return updateStatus('Error loading market data');
@@ -54,15 +58,14 @@ function updateMarket(market) {
             if (spread > 999.99) spread = 999.99;
             buy_move = marketCrop.quick_status.buyMovingWeek;
             move_changes = buy_move - (oldMarket[product]?.buy_move ?? buy_move);
-            const alert_crop = config.alerts_dict[crop] ?? {};
-            let color_buy_green = (alert_crop.high && buy_price >= alert_crop.high) ? ' class="table-success"' : "";
-            let color_sell_green = (alert_crop.low && sell_price <= alert_crop.low) ? ' class="table-success"' : "";
-            let color_buy_red = (alert_crop.low && buy_price <= alert_crop.low) ? ' class="table-danger"' : "";
-            let color_sell_red = (alert_crop.high && sell_price  >= alert_crop.high) ? ' class="table-danger"' : "";
+            const {low, high} = config.alerts_dict[crop] ?? {};
+            const color_buy = buy_price <= low ? 'r' : (buy_price >= high ? 'g' : 'd');
+            const color_sell = sell_price >= high ? 'r' : (sell_price <= low ? 'g' : 'd');
+            const color_map = {r: ' class="table-danger"', g: ' class="table-success"', d: ''};
             tableData += `<tr><th scope="row" class="text-start">${product}</th>
-                <td${color_sell_red ? color_sell_red : color_sell_green}>${formatNumber(sell_price)}</td>
+                <td${color_map[color_sell]}>${formatNumber(sell_price)}</td>
                 <td>${formatNumber(sell_changes, 1) + ' %'}</td>
-                <td${color_buy_red ? color_buy_red : color_buy_green}>${formatNumber(buy_price)}</td>
+                <td${color_map[color_buy]}>${formatNumber(buy_price)}</td>
                 <td>${formatNumber(buy_changes, 1) + ' %'}</td>
                 <td>${formatNumber(spread) + ' %'}</td>
                 <td>${formatNumber(buy_move, 0)}</td>
@@ -107,7 +110,8 @@ function updateConfig(response) {
 }
 
 function init() {
-    updateStatus("This is text!");
+    selectedMenu = localStorage?.getItem?.(lsPrefix + 'selectedMenu');
+
     fetch('json/bazaar_monitored.json').then(res => res.json().then(res => updateConfig(res)))
     // let request = new XMLHttpRequest();
     // request.open("GET", 'json/bazaar_monitored.json');
@@ -118,5 +122,6 @@ function init() {
 
 function navClick(item) {
     selectedMenu = item.textContent;
+    localStorage?.setItem?.(lsPrefix + 'selectedMenu', selectedMenu);
     downloadMarket();
 }
