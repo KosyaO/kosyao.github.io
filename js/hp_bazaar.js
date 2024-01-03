@@ -4,7 +4,7 @@ let oldMarket = {};
 let currentInterval;
 let updatedSuccessfully = true;
 let lsPrefix = 'hp_baz_';
-const alertMenu = 'Alert';
+const alertMenu = 'Alerts';
 
 const capitalize = word => word.slice(0, 1).toUpperCase() + word.slice(1);
 
@@ -31,7 +31,7 @@ function formatNumber(num, maximumFractionDigits=2) {
 }
 
 function drawMarket() {
-    
+
 }
 
 function updateMarket(market) {
@@ -49,10 +49,10 @@ function updateMarket(market) {
             const marketCrop = market.products[crop.toUpperCase()];
             if (!marketCrop) continue;
             sell_price = averagePrice(marketCrop.sell_summary);
-            const s_old = oldMarket[product]?.sell_price ?? 0;
+            const s_old = oldMarket[product]?.sell_price;
             sell_changes = s_old? (sell_price - s_old) / s_old * 100: 0;
             buy_price = averagePrice(marketCrop.buy_summary);
-            const b_old = oldMarket[product]?.buy_price ?? 0;
+            const b_old = oldMarket[product]?.buy_price;
             buy_changes = b_old? (buy_price - b_old) / b_old * 100: 0;
             spread = buy_price? (buy_price - sell_price) / sell_price * 100 : 999;
             if (spread > 999.99) spread = 999.99;
@@ -94,7 +94,7 @@ function formMenuItem(menu) {
 function updateConfig(response) {
     if (!response) return;
     config = response;
-    if (config.menu_order.indexOf(selectedMenu) < 0 && config.menu_order.length > 0) selectedMenu = config.menu_order[0];
+    if (selectedMenu != alertMenu && config.menu_order.indexOf(selectedMenu) < 0 && config.menu_order.length > 0) selectedMenu = config.menu_order[0];
 
     let menuTemp = ""
     for (let menu of config.menu_order) menuTemp += formMenuItem(menu);
