@@ -143,3 +143,5 @@ function navClick(item) {
     localStorage?.setItem?.(lsPrefix + 'selectedMenu', selectedMenu);
     drawMarket();
 }
+
+// TODO: что-то
