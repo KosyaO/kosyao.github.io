@@ -1,7 +1,7 @@
-let config;
+let config = {};
 let alerts = {};
-let selectedMenu;
 let oldMarket = {};
+let selectedMenu;
 let currentInterval;
 let updatedSuccessfully = true;
 let lsPrefix = 'hp_baz_';
@@ -86,8 +86,9 @@ function updateMarket(market) {
     for (let crop of crops) updateCrop(crop, market.products[crop.toUpperCase()]);
 
     const lang = navigator.language || navigator.userLanguage;
-    updateStatus('Last updated: ' + new Date(market.lastUpdated).toLocaleString(lang) + ` (${market.lastUpdated})`);
     updatedSuccessfully = true;
+    updateStatus('Last updated: ' + new Date(market.lastUpdated).toLocaleString(lang) + ` (${market.lastUpdated})`);
+    localStorage?.setItem?.(lsPrefix + 'oldMarket', JSON.stringify(oldMarket));
     drawMarket();
 }
 
@@ -123,16 +124,22 @@ function updateConfig(response) {
 
 function init() {
     selectedMenu = localStorage?.getItem?.(lsPrefix + 'selectedMenu');
+    const oldStr = localStorage?.getItem?.(lsPrefix + 'oldMarket');
+    if (oldStr) oldMarket = JSON.parse(oldStr);
     const cfgStr = localStorage?.getItem?.(lsPrefix + 'config');
-    if (cfgStr) updateConfig(JSON.parse(cfgStr));
+    if (cfgStr) {
+        updateConfig(JSON.parse(cfgStr));
+        drawMarket();
+    }
     else fetch('json/bazaar_monitored.json').then(res => res.json().then(res => {
         localStorage?.setItem?.(lsPrefix + 'config', JSON.stringify(res));
         updateConfig(res);
     }))
+
 }
 
 function navClick(item) {
     selectedMenu = item.textContent;
     localStorage?.setItem?.(lsPrefix + 'selectedMenu', selectedMenu);
     drawMarket();
-} 
+}
