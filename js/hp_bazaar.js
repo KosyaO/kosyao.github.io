@@ -76,8 +76,16 @@ function updateCrop(product, marketCrop) {
     oldMarket[product] = {sell_price, sell_changes, buy_price, buy_changes, spread, buy_move, move_changes, color_buy, color_sell};
 }
 
+function marketSchedule(error) {
+    updatedSuccessfully = error === undefined;
+    if (error) updateStatus(error.message);
+    if (currentInterval) clearInterval(currentInterval);
+    currentInterval = setInterval(downloadMarket, updatedSuccessfully? 300000: 60000);
+}
+
 function updateMarket(market) {
-    if (!market.success) return updateStatus('Error loading market data');
+    if (!market.success) return marketSchedule({ message: 'Error loading market data' });
+    marketSchedule();
     const crops = new Set();
     for (let section in config.menu) 
         for (let crop of config.menu[section]) crops.add(crop);
@@ -93,9 +101,8 @@ function updateMarket(market) {
 }
 
 function downloadMarket() {
-    fetch('https://api.hypixel.net/skyblock/bazaar').then(res => res.json().then(res => updateMarket(res)));
-    if (currentInterval) clearInterval(currentInterval);
-    currentInterval = setInterval(downloadMarket, updatedSuccessfully? 300000: 60000);
+    const download = fetch('https://api.hypixel.net/skyblock/bazaar');
+    download.catch(marketSchedule).then(res => res?.json().then(res => updateMarket(res)).catch(marketSchedule));
 }
 
 function formMenuItem(menu) {
@@ -143,3 +150,5 @@ function navClick(item) {
     localStorage?.setItem?.(lsPrefix + 'selectedMenu', selectedMenu);
     drawMarket();
 }
+
+
