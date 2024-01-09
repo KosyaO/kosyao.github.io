@@ -151,4 +151,3 @@ function navClick(item) {
     drawMarket();
 }
 
-
