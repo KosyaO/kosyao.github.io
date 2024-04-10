@@ -34,10 +34,10 @@ function formatNumber(num, maximumFractionDigits=2) {
 function drawMarket() {
     let tableData = "";
     let menuItems;
-    if (selectedMenu == alertMenu) menuItems = config.Alerts.map(item => item.name);
+    if (selectedMenu === alertMenu) menuItems = config.Alerts.map(item => item.name);
     else menuItems = config.menu[selectedMenu];
-    for (crop of menuItems) 
-        if (crop[0] == '-') {
+    for (let crop of menuItems)
+        if (crop[0] === '-') {
             tableData += `<tr><th colspan="8" class="text-center">${crop.slice(1)}</td></tr>`;
         } else {
             const product = crop.split('_').map(capitalize).join(' ');
@@ -57,7 +57,7 @@ function drawMarket() {
 }
 
 function updateCrop(product, marketCrop) {
-    if (product[0] == "-" || marketCrop === undefined) return;
+    if (product[0] === "-" || marketCrop === undefined) return;
     let sell_price, sell_changes, buy_price, buy_changes, spread, buy_move, move_changes;
     sell_price = averagePrice(marketCrop.sell_summary);
     const s_old = oldMarket[product]?.sell_price;
@@ -106,8 +106,8 @@ function downloadMarket() {
 }
 
 function formMenuItem(menu) {
-    const isActive = menu == selectedMenu;
-    const active = menu == selectedMenu ? ' active': '';
+    const isActive = menu === selectedMenu;
+    const active = menu === selectedMenu ? ' active': '';
     return `<li class="nav-item" role="presentation"><button class="nav-link${active}" data-bs-toggle="pill" type="button" 
         aria-selected="${isActive}" onclick="navClick(this);">${menu}</button>\n`;
 }
@@ -115,7 +115,7 @@ function formMenuItem(menu) {
 function updateConfig(response) {
     if (!response) return;
     config = response;
-    if (selectedMenu != alertMenu && config.menu_order.indexOf(selectedMenu) < 0 && config.menu_order.length > 0) selectedMenu = config.menu_order[0];
+    if (selectedMenu !== alertMenu && config.menu_order.indexOf(selectedMenu) < 0 && config.menu_order.length > 0) selectedMenu = config.menu_order[0];
 
     let menuTemp = ""
     for (let menu of config.menu_order) menuTemp += formMenuItem(menu);
