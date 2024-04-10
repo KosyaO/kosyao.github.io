@@ -52,6 +52,7 @@
       "mithril_plate",
       "golden_plate",
       "gemstone_mixture",
+      "glacite_amalgamation",
       "refined_titanium",
       "refined_mithril",
       "refined_diamond",
@@ -115,7 +116,11 @@
       "fine_sapphire_gem",
       "fine_amethyst_gem",
       "fine_jasper_gem",
-      "fine_ruby_gem"
+      "fine_ruby_gem",
+      "fine_onyx_gem",
+      "fine_citrine_gem",
+      "fine_peridot_gem",
+      "fine_aquamarine_gem"
     ]
   },
   "menu_order": ["Farming crops", "Forge & Additional", "Gemstones"],
