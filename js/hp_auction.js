@@ -2,9 +2,6 @@ import { auctionDownload, auctionFilter, templates } from './auction.mjs';
 
 let searchProcessed = false;
 
-function init() {
-}
-
 function armorChanged(element) {
     const name = document.getElementById('armorName').value + ' ' + document.getElementById('partName').value;
     document.getElementById('itemName').value = name;
@@ -94,20 +91,22 @@ function namePress(event) {
     }
 }
 
-
-init();
-const events = {
-    'searchBtn': {event: 'click', func: searchBtn},
-    'clearBtn': {event: 'click', func: clearBtn},
-    'armorName': {event: 'change', func: armorChanged},
-    'partName': {event: 'change', func: armorChanged},
-    'itemName': {event: 'keydown', func: namePress}
+function init() {
+    const handlers = {
+        'click-search': searchBtn,
+        'click-clear': clearBtn,
+        'change-armor': armorChanged,
+        'keydown-name': namePress,
+        'change-template': templateSelect
+    }
+    
+    for (let [kind, handler] of Object.entries(handlers)) {
+        const elements = document.querySelectorAll(`*[evnt-${kind}]`);
+        console.log(elements);
+        const [eventType] = kind.split('-',1);
+        elements.forEach(element => element.addEventListener(eventType, handler));
+    }
 }
 
-document.getElementById('searchBtn').addEventListener('click', searchBtn);
-document.getElementById('clearBtn').addEventListener('click', clearBtn);
-document.getElementById('armorName').addEventListener('change', armorChanged);
-document.getElementById('partName').addEventListener('change', armorChanged);
-document.getElementById('itemName').addEventListener('keydown', namePress);
-document.getElementById('itemTemplate').addEventListener('change', templateSelect);
+init();
 

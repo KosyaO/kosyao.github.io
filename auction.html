@@ -19,7 +19,7 @@
         <div class="row">
             <div class="col py-1">
                 <label for="itemTemplate" class="form-label">Item template</label>
-                <select class="form-select" id="itemTemplate" aria-label="Select item template">
+                <select class="form-select" id="itemTemplate" aria-label="Select item template" evnt-change-template>
                     <option value="">No template - select params manually</option>
                     <option value="archer_balanced">Archer balanced (Dominance, Vitality)</option>
                     <option value="mage_armor">Mage Armor (Mana Pool, Mana Regen)</option>
@@ -30,10 +30,21 @@
             </div>  
         </div>
         <div id="pnlParams" class="container-fluid p-0">
+            <div class="py-2">
+                <input type="radio" class="btn-check" name="searchType" id="option1" autocomplete="off" checked>
+                <label class="btn" for="option1">Search manually</label>
+                <input type="radio" class="btn-check" name="searchType" id="option2" autocomplete="off">
+                <label class="btn" for="option2">Crimson armor</label>
+                <input type="radio" class="btn-check" name="searchType" id="option3" autocomplete="off">
+                <label class="btn" for="option3">Armor piece attribute</label>
+                <input type="radio" class="btn-check" name="searchType" id="option4" autocomplete="off">
+                <label class="btn" for="option4">Item attribute</label>
+            </div>
+    
             <div class="row">
                 <label for="itemName" class="form-label">Item name</label>
                 <div class="col">
-                    <input class="form-control" list="itemNameOptions" id="itemName" placeholder="Enter item name...">
+                    <input class="form-control" list="itemNameOptions" id="itemName" placeholder="Enter item name..." evnt-keydown-name>
                     <datalist id="itemNameOptions">
                         <option value="Dark Claymore">
                         <option value="Attribute Shard">
@@ -45,43 +56,11 @@
                     </datalist>
                 </div>
             </div>
-            <div class="row py-2">
-                <label class="form-label">Attributes</label>
-                <div class="col">
-                    <select class="form-select col" id="attribute1" aria-label="Select first attribute">
-                        <option selected></option>
-                        <option>Dominance</option>
-                        <option>Veteran</option>
-                        <option>Vitality </option>
-                        <option>Mana Pool</option>
-                        <option>Mana Regen</option>
-                        <option>Speed </option>
-                        <option>Lifeline</option>
-                        <option>Blazing Fortune</option>
-                        <option>Fishing Exp</option>
-                    </select>
-                </div>
-                <div class="col">
-                    <select class="form-select" id="attribute2" aria-label="Select first attribute">
-                        <option selected></option>
-                        <option>Dominance</option>
-                        <option>Veteran</option>
-                        <option>Vitality </option>
-                        <option>Mana Pool</option>
-                        <option>Mana Regen</option>
-                        <option>Speed </option>
-                        <option>Lifeline</option>
-                        <option>Blazing Fortune</option>
-                        <option>Fishing Exp</option>
-                    </select>
-                </div>
-                <button id="clearBtn" type="button" class="btn btn col-auto">Clear</button>
-            </div>
-            <div class="row py-2">
+            <div class="row py-2" id="pnlArmorType">
                 <label class="form-label d-none">Name constructor</label>
-                <div class="col">
+                <div class="col-4">
                     <label for="armorName" class="form-label">Armor name</label>
-                    <select class="form-select" id="armorName" aria-label="Select armor name">
+                    <select class="form-select" id="armorName" aria-label="Select armor name" evnt-change-armor>
                         <option>{Any armor type}</option>
                         <option>Crimson</option>
                         <option>Aurora</option>
@@ -90,9 +69,9 @@
                         <option>Hollow</option>
                     </select>
                 </div>
-                <div class="col">
+                <div class="col-4">
                     <label for="partName" class="form-label">Part name</label>
-                    <select class="form-select" id="partName" aria-label="Select part name">
+                    <select class="form-select" id="partName" aria-label="Select part name" evnt-change-armor>
                         <option>{Any piece}</option>
                         <option>Helmet</option>
                         <option>Chestplate</option>
@@ -101,9 +80,41 @@
                     </select>
                 </div>
             </div>
+            <div class="row py-2" id="pnlAttributes">
+                <label class="form-label">Attributes</label>
+                <div class="col-4">
+                    <select class="form-select" id="attribute1" aria-label="Select first attribute">
+                        <option selected></option>
+                        <option>Dominance</option>
+                        <option>Veteran</option>
+                        <option>Vitality </option>
+                        <option>Mana Pool</option>
+                        <option>Mana Regen</option>
+                        <option>Speed </option>
+                        <option>Lifeline</option>
+                        <option>Blazing Fortune</option>
+                        <option>Fishing Exp</option>
+                    </select>
+                </div>
+                <div class="col-4">
+                    <select class="form-select" id="attribute2" aria-label="Select second attribute">
+                        <option selected></option>
+                        <option>Dominance</option>
+                        <option>Veteran</option>
+                        <option>Vitality </option>
+                        <option>Mana Pool</option>
+                        <option>Mana Regen</option>
+                        <option>Speed </option>
+                        <option>Lifeline</option>
+                        <option>Blazing Fortune</option>
+                        <option>Fishing Exp</option>
+                    </select>
+                </div>
+                <button id="clearBtn" type="button" class="btn btn col-auto" evnt-click-clear>Clear</button>
+            </div>
         </div>
         <div class="d-grid py-2">
-            <button id="searchBtn" type="button" class="btn btn-primary">Search</button>
+            <button id="searchBtn" type="button" class="btn btn-primary" evnt-click-search>Search</button>
         </div>
     </div>
     <div class="container-fluid border rounded">
