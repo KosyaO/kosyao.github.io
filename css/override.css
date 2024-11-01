@@ -2,6 +2,10 @@
     padding: 0rem 0rem;
   }
   
+.table-midi > :not(caption) > * > * {
+    padding: 0rem 0.25rem;
+}
+
 .nav {
     --bs-nav-link-padding-x: 0.5rem;
     --bs-nav-link-padding-y: 0rem;

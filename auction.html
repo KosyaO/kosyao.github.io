@@ -11,9 +11,128 @@
     <link href="css/override.css" rel="stylesheet">
     <script src="js/color-modes.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/hp_auction.js"></script>
+    <script type="module" src="/js/hp_auction.js"></script>
 </head>
-<body onload="init();">
+<body>
     <div id="cStatus" class="container-fluid border rounded">&nbsp;</div>
+    <div class="container-fluid border rounded">
+        <div class="row">
+            <div class="col py-1">
+                <label for="itemTemplate" class="form-label">Item template</label>
+                <select class="form-select" id="itemTemplate" aria-label="Select item template">
+                    <option value="">No template - select params manually</option>
+                    <option value="archer_balanced">Archer balanced (Dominance, Vitality)</option>
+                    <option value="mage_armor">Mage Armor (Mana Pool, Mana Regen)</option>
+                    <option value="demon_lord_armor">Demon Lord Armor (Veteran, Vitality)</option>
+                    <option value="slayer_dps">Slayer DPS (Dominance, Veteran)</option>
+                    <option value="slayer_armor">Slayer Armor (Veteran, Magic Find)</option>
+                </select>
+            </div>  
+        </div>
+        <div id="pnlParams" class="container-fluid p-0">
+            <div class="row">
+                <label for="itemName" class="form-label">Item name</label>
+                <div class="col">
+                    <input class="form-control" list="itemNameOptions" id="itemName" placeholder="Enter item name...">
+                    <datalist id="itemNameOptions">
+                        <option value="Dark Claymore">
+                        <option value="Attribute Shard">
+                        <option value="Crimson">
+                        <option value="Aurora">
+                        <option value="Terror">
+                        <option value="Fervor">
+                        <option value="Hollow">
+                    </datalist>
+                </div>
+            </div>
+            <div class="row py-2">
+                <label class="form-label">Attributes</label>
+                <div class="col">
+                    <select class="form-select col" id="attribute1" aria-label="Select first attribute">
+                        <option selected></option>
+                        <option>Dominance</option>
+                        <option>Veteran</option>
+                        <option>Vitality </option>
+                        <option>Mana Pool</option>
+                        <option>Mana Regen</option>
+                        <option>Speed </option>
+                        <option>Lifeline</option>
+                        <option>Blazing Fortune</option>
+                        <option>Fishing Exp</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <select class="form-select" id="attribute2" aria-label="Select first attribute">
+                        <option selected></option>
+                        <option>Dominance</option>
+                        <option>Veteran</option>
+                        <option>Vitality </option>
+                        <option>Mana Pool</option>
+                        <option>Mana Regen</option>
+                        <option>Speed </option>
+                        <option>Lifeline</option>
+                        <option>Blazing Fortune</option>
+                        <option>Fishing Exp</option>
+                    </select>
+                </div>
+                <button id="clearBtn" type="button" class="btn btn col-auto">Clear</button>
+            </div>
+            <div class="row py-2">
+                <label class="form-label d-none">Name constructor</label>
+                <div class="col">
+                    <label for="armorName" class="form-label">Armor name</label>
+                    <select class="form-select" id="armorName" aria-label="Select armor name">
+                        <option>{Any armor type}</option>
+                        <option>Crimson</option>
+                        <option>Aurora</option>
+                        <option>Terror</option>
+                        <option>Fervor</option>
+                        <option>Hollow</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="partName" class="form-label">Part name</label>
+                    <select class="form-select" id="partName" aria-label="Select part name">
+                        <option>{Any piece}</option>
+                        <option>Helmet</option>
+                        <option>Chestplate</option>
+                        <option>Leggings</option>
+                        <option>Boots</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="d-grid py-2">
+            <button id="searchBtn" type="button" class="btn btn-primary">Search</button>
+        </div>
+    </div>
+    <div class="container-fluid border rounded">
+        <table class="table table-striped table-midi">
+            <thead><tr>
+                <th scope="col" class="col-4">Item Name</th>
+                <th scope="col" class="col-2">Price</th>
+                <th id="perOneCol" scope="col" class="col-2">Per one</th>
+                <th scope="col" class="col-1">Bin</th>
+                <th scope="col" class="col-auto">Attributes</th>
+            </tr></thead>
+            <tbody id="tResults">
+                <tr class="">
+                    <th scope="row">Crimson Chestplate</th>
+                    <td class="table-success text-end">12 000 000.0</td>
+                    <td class="text-end"></td>
+                    <td></td>
+                    <td>Veteran I, Vitality I</td>
+                </tr>
+                <tr class="d-none"><th colspan="8" class="text-center">123</th></tr>
+                <tr class="">
+                    <th scope="row">Fervor Chestplate</th>
+                    <td class="table-danger text-end">199 000 000.0</td>
+                    <td class="text-end"></td>
+                    <td>No</td>
+                    <td>Veteran V, Vitality IV</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
