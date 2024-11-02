@@ -1,4 +1,5 @@
-import { auctionDownload, auctionFilter, translate_attribute_name, generate_armor_template, generate_piece_attribute, generate_piece_template, templates } from './auction.mjs';
+import { auctionDownload, auctionFilter, translate_attribute_name, 
+    generate_armor_template, generate_piece_attribute, generate_piece_template, templates } from './auction.mjs';
 
 let searchProcessed = false;
 
@@ -26,7 +27,7 @@ function fillTable(filtered, max_items = 999) {
         const item_name = item['item_name'].slice(0, 30);
         const top_bid = intl.format(item.top_bid);
         const per_one = intl.format(item.price_one);
-        const item_lore = item.lore_entries.join(', ');
+        const item_lore = item.lore_entries.map(elem => elem.replace('✖', '').trim()).join(', ');
         const bin = item['bin'] ? '' : 'No';
         tableData += `<tr><th scope="row">${item_name}</th><td class="text-end">${top_bid}</td>
           <td class="text-end${filtered.attribute_sort? "": " d-none"}">${per_one}</td>
@@ -72,20 +73,17 @@ function searchBtn() {
         const attr1 = document.getElementById('attribute1');
         const attr2 = document.getElementById('attribute2');
         const attributes = [];
+        if (attributeSearch && attr1.value === "") {
+            setStatus('You must select attribute for attribute search');
+            return;
+        }
         if (attr1.value !== "") attributes.push(translate_attribute_name(attr1.value));
         if (!attr2.hasAttribute('disabled') && attr2.value !== "") attributes.push(translate_attribute_name(attr2.value));
 
         if (name.checked) {
-            if (!attributeSearch) filter = generate_armor_template(itemName, attributes);
+            filter = generate_armor_template(itemName, attributes, attributeSearch);
         } else if (part.checked) {
-            if (attributeSearch) {
-                if (attr1.value === "") {
-                    setStatus('You must select attribute for attribute search');
-                    return;
-                }
-                filter = generate_piece_attribute(itemName, attr1.value, undefined, true);
-            } else filter = generate_piece_template(itemName, attributes);
-                 
+            filter = generate_piece_template(itemName, attributes, attributeSearch);
         } else {
             filter[itemName] = { 'lore_entries': attributes };
             filter.attribute_sort = attributeSearch;
@@ -137,6 +135,7 @@ function optionChanged() {
     setDisabled('attribute2', attributeSearch);
     setDisabled('armorName', tmpPart);
     setDisabled('partName', tmpName);
+    setDisabled('itemName', tmpPart && attributeSearch);
     armorChanged(undefined);
 }
 
