@@ -11,13 +11,13 @@
     <link href="css/override.css" rel="stylesheet">
     <script src="js/color-modes.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
-    <script type="module" src="/js/hp_auction.js"></script>
+    <script type="module" src="js/hp_auction.js"></script>
 </head>
 <body>
     <div id="cStatus" class="container-fluid border rounded">&nbsp;</div>
     <div class="container-fluid border rounded">
         <div class="row">
-            <div class="col py-1">
+            <div class="col">
                 <label for="itemTemplate" class="form-label">Item template</label>
                 <select class="form-select" id="itemTemplate" aria-label="Select item template" evnt-change-template>
                     <option value="">No template - select params manually</option>
@@ -29,16 +29,27 @@
                 </select>
             </div>  
         </div>
-        <div id="pnlParams" class="container-fluid p-0">
-            <div class="py-2">
-                <input type="radio" class="btn-check" name="searchType" id="option1" autocomplete="off" checked>
-                <label class="btn" for="option1">Search manually</label>
-                <input type="radio" class="btn-check" name="searchType" id="option2" autocomplete="off">
-                <label class="btn" for="option2">Crimson armor</label>
-                <input type="radio" class="btn-check" name="searchType" id="option3" autocomplete="off">
-                <label class="btn" for="option3">Armor piece attribute</label>
-                <input type="radio" class="btn-check" name="searchType" id="option4" autocomplete="off">
-                <label class="btn" for="option4">Item attribute</label>
+        <div id="pnlParams" class="row">
+            <div class="row align-items-center py-3">
+                <div class="col">
+                    <label class="form-label pe-2">Generate template</label>
+                    <input type="radio" class="btn-check" name="searchType" id="tOption1"
+                           autocomplete="off" evnt-change-option checked>
+                    <label class="btn" for="tOption1">No</label>
+                    <input type="radio" class="btn-check" name="searchType" id="tOption2"
+                           autocomplete="off" evnt-change-option>
+                    <label class="btn" for="tOption2">Part</label>
+                    <input type="radio" class="btn-check" name="searchType" id="tOption3"
+                           autocomplete="off" evnt-change-option>
+                    <label class="btn" for="tOption3">Name</label>
+                </div>
+                <div class="col">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="attributeSearch"
+                               evnt-change-option>
+                        <label class="form-check-label" for="attributeSearch">Attribute search</label>
+                    </div>
+                </div>
             </div>
     
             <div class="row">
@@ -59,24 +70,24 @@
             <div class="row py-2" id="pnlArmorType">
                 <label class="form-label d-none">Name constructor</label>
                 <div class="col-4">
+                    <label for="partName" class="form-label">Part name</label>
+                    <select class="form-select" id="partName" aria-label="Select part name" evnt-change-armor>
+                        <option value="">{Any piece}</option>
+                        <option>Helmet</option>
+                        <option>Chestplate</option>
+                        <option>Leggings</option>
+                        <option>Boots</option>
+                    </select>
+                </div>
+                <div class="col-4">
                     <label for="armorName" class="form-label">Armor name</label>
                     <select class="form-select" id="armorName" aria-label="Select armor name" evnt-change-armor>
-                        <option>{Any armor type}</option>
+                        <option value="">{Any armor type}</option>
                         <option>Crimson</option>
                         <option>Aurora</option>
                         <option>Terror</option>
                         <option>Fervor</option>
                         <option>Hollow</option>
-                    </select>
-                </div>
-                <div class="col-4">
-                    <label for="partName" class="form-label">Part name</label>
-                    <select class="form-select" id="partName" aria-label="Select part name" evnt-change-armor>
-                        <option>{Any piece}</option>
-                        <option>Helmet</option>
-                        <option>Chestplate</option>
-                        <option>Leggings</option>
-                        <option>Boots</option>
                     </select>
                 </div>
             </div>
@@ -127,7 +138,7 @@
                 <th scope="col" class="col-auto">Attributes</th>
             </tr></thead>
             <tbody id="tResults">
-                <tr class="">
+                <tr class="d-none">
                     <th scope="row">Crimson Chestplate</th>
                     <td class="table-success text-end">12 000 000.0</td>
                     <td class="text-end"></td>
@@ -135,7 +146,7 @@
                     <td>Veteran I, Vitality I</td>
                 </tr>
                 <tr class="d-none"><th colspan="8" class="text-center">123</th></tr>
-                <tr class="">
+                <tr class="d-none">
                     <th scope="row">Fervor Chestplate</th>
                     <td class="table-danger text-end">199 000 000.0</td>
                     <td class="text-end"></td>
