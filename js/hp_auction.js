@@ -1,4 +1,4 @@
-import { auctionDownload, auctionFilter, templates } from './auction.mjs';
+import { auctionDownload, auctionFilter, generate_armor_attributes, generate_armor_template, generate_piece_attribute, generate_piece_template, templates } from './auction.mjs';
 
 let searchProcessed = false;
 
@@ -37,35 +37,60 @@ function fillTable(filtered, max_items = 999) {
     return {passed_total, found_total};
 }
 
-async function auctionSearch(filter) {
+function setStatus(text) {
     const status = document.getElementById('cStatus'); 
+    status.innerHTML = text;
+}
+
+async function auctionSearch(filter) {
     if (searchProcessed) {
-        status.innerHTML = 'Search already runned';
+        setStatus('Search already runned');
         return;
     }
     searchProcessed = true;
-    status.innerHTML = 'Downloading data...';
+    setStatus('Downloading data...');
     try {
         const data = await auctionDownload();
-        status.innerHTML = 'Processing data...';
+        setStatus('Processing data...');
         const filtered = auctionFilter(data, filter);
         const {passed_total, found_total} = fillTable(filtered);
-        status.innerHTML = `Search completed, filtered ${passed_total} items from ${found_total}`;
+        setStatus(`Search completed, filtered ${passed_total} items from ${found_total}`);
     } catch (error) {
-        status.innerHTML = `Loading error: ${error}`;
+        setStatus(`Loading error: ${error}`);
     }
     searchProcessed = false;
 }
 
 function searchBtn() {
-    let filter;
+    let filter = {};
     const template = document.getElementById('itemTemplate').value;
     if (template === "") {
         const itemName = document.getElementById('itemName').value;
-        const attribute1 = document.getElementById('attribute1').value;
-        const attribute2 = document.getElementById('attribute2').value;
-        filter = {};
+        const attributeSearch = document.getElementById('attributeSearch').checked;
+        const part = document.getElementById('tOption2');
+        const name = document.getElementById('tOption3');
+        const attr1 = document.getElementById('attribute1');
+        const attr2 = document.getElementById('attribute2');
+        const attributes = [];
+        if (attr1.value !== "") attributes.push(attr1.value);
+        if (!attr2.hasAttribute('disabled') && attr2.value !== "") attributes.push(attr2.value);
+
+        if (name.checked) {
+            if (!attributeSearch) filter = generate_armor_template(itemName, attributes);
+        } else if (part.checked) {
+            if (attributeSearch) {
+                if (attr1.value === "") {
+                    setStatus('You must select attribute for attribute search');
+                    return;
+                }
+                filter = generate_piece_attribute(itemName, attr1.value, undefined, true);
+            } else filter = generate_piece_template(itemName, attributes);
+                 
+        } else {
+            filter[itemName] = {'lore_entries': attributes};
+        }
     } else filter = templates[template];
+    console.log(filter);
     auctionSearch(filter);
 }
 
@@ -91,7 +116,7 @@ function templateSelect(event) {
 }
 
 function armorChanged(element) {
-    const name = document.getElementById('armorName')
+    const name = document.getElementById('armorName');
     const part = document.getElementById('partName');
     const nameValue = name.hasAttribute('disabled') ? '' : name.value;
     const partValue = part.hasAttribute('disabled') ? '' : part.value;
