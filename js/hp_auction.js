@@ -1,4 +1,4 @@
-import { auctionDownload, auctionFilter, generate_armor_attributes, generate_armor_template, generate_piece_attribute, generate_piece_template, templates } from './auction.mjs';
+import { auctionDownload, auctionFilter, translate_attribute_name, generate_armor_template, generate_piece_attribute, generate_piece_template, templates } from './auction.mjs';
 
 let searchProcessed = false;
 
@@ -72,8 +72,8 @@ function searchBtn() {
         const attr1 = document.getElementById('attribute1');
         const attr2 = document.getElementById('attribute2');
         const attributes = [];
-        if (attr1.value !== "") attributes.push(attr1.value);
-        if (!attr2.hasAttribute('disabled') && attr2.value !== "") attributes.push(attr2.value);
+        if (attr1.value !== "") attributes.push(translate_attribute_name(attr1.value));
+        if (!attr2.hasAttribute('disabled') && attr2.value !== "") attributes.push(translate_attribute_name(attr2.value));
 
         if (name.checked) {
             if (!attributeSearch) filter = generate_armor_template(itemName, attributes);
@@ -87,7 +87,8 @@ function searchBtn() {
             } else filter = generate_piece_template(itemName, attributes);
                  
         } else {
-            filter[itemName] = {'lore_entries': attributes};
+            filter[itemName] = { 'lore_entries': attributes };
+            filter.attribute_sort = attributeSearch;
         }
     } else filter = templates[template];
     console.log(filter);

@@ -35,7 +35,7 @@ export const analyzed = {
     }
 };
 
-function translate_attribute_name(short_name) {
+export function translate_attribute_name(short_name) {
     return {
         'bf': 'Blazing Fortune',
         'dom': 'Dominance',
