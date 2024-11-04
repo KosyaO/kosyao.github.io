@@ -127,9 +127,9 @@ export const templates = {
         'Aurora Boots': {'lore_entries':['Mana Regen', 'Mana Pool']}
     },
     mage_ender: {
-        'Aurora Chestplate': {'lore_entries':['Mana Regen', 'Dominance']},
-        'Aurora Leggings': {'lore_entries':['Mana Regen', 'Dominance']},
-        'Aurora Boots': {'lore_entries':['Mana Regen', 'Dominance']}
+        'Crimson Chestplate': {'lore_entries':['Mana Pool', 'Veteran']},
+        'Crimson Leggings': {'lore_entries':['Mana Pool', 'Veteran']},
+        'Crimson Boots': {'lore_entries':['Mana Pool', 'Veteran']}
     },
     demon_lord_armor: {
         'Crimson Chestplate': {'lore_entries':['Veteran', 'Vitality ']},
@@ -250,7 +250,7 @@ const roman_multipliers = {
 };
 
 export async function auctionDownload() {
-    const result = [];
+    const result = { pages: [] };
     let active = 0;
     let next = 0;
 
@@ -264,11 +264,11 @@ export async function auctionDownload() {
         const answer = response.ok ? await response.json() : response;
         // console.timeEnd(`Page ${page}`);
         active--;
-        result.push({'load_time': Date.now() - start, answer});
+        result.pages.push({load_time: Date.now() - start, answer});
         return answer;
     }
 
-    console.time('Load time');
+    const start = Date.now();
     await new Promise((resolve, reject) => {
         let remain = 0;
         function start() {
@@ -290,8 +290,9 @@ export async function auctionDownload() {
             start();
         }
     });
-    console.timeEnd('Load time');
-    console.log(`Pages loaded: ${result.length}`);
+    result.load_time = Date.now() - start;
+    console.log(`Pages loaded: ${result.pages.length}, Load time: ${result.load_time/1000} sec`);
+
 
     return result;
 }
@@ -299,7 +300,7 @@ export async function auctionDownload() {
 export function auctionFilter(data, filter) {
     const result = [];
     const counter = {};
-    data.forEach(page => {
+    data.pages.forEach(page => {
         if (page.answer.success) {
             for (let item of page.answer['auctions']) {
                 const item_name = item['item_name'];
@@ -363,7 +364,7 @@ export function auctionFilter(data, filter) {
 export function analyzeData(data, filter) {
     const prices = {};
 
-    data.forEach(page => {
+    data.pages.forEach(page => {
         if (page.answer.success) {
             for (let item of page.answer['auctions']) {
                 const item_name = item['item_name'];

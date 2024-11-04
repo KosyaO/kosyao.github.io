@@ -55,7 +55,7 @@ async function auctionSearch(filter) {
         setStatus('Processing data...');
         const filtered = auctionFilter(data, filter);
         const {passed_total, found_total} = fillTable(filtered);
-        setStatus(`Search completed, filtered ${passed_total} items from ${found_total}`);
+        setStatus(`Search completed, filtered ${passed_total} items from ${found_total}, Load time: ${data.load_time/1000} sec`);
     } catch (error) {
         setStatus(`Loading error: ${error}`);
     }
