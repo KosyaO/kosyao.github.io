@@ -11,20 +11,20 @@
     <link href="css/override.css" rel="stylesheet">
     <script src="js/color-modes.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/hp_bazaar.js"></script>
+    <script type="module" src="js/hp_bazaar.js"></script>
 </head>
-<body onload="init();">
+<body>
     <div id="cStatus" class="container-fluid border rounded">&nbsp;</div>
 
-    <ul class="nav nav-pills" role="tablist" id="nMarketMenu">
+    <ul class="nav nav-pills" role="tablist" id="nMarketMenu" evnt-click-navigation>
         <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="pill" type="button" 
-            aria-selected="false" onclick="navClick(this);">Farming crops</button></li>
+            aria-selected="false">Farming crops</button></li>
         <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="pill" type="button" 
-            aria-selected="false" onclick="navClick(this);">Forge & Additional</button></li>
+            aria-selected="false">Forge & Additional</button></li>
         <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="pill" type="button" 
-            aria-selected="false" onclick="navClick(this);">Gemstones</button></li>
+            aria-selected="false">Gemstones</button></li>
         <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="pill" type="button" 
-            aria-selected="false" onclick="navClick(this);">Alerts</button></li>
+            aria-selected="false">Alerts</button></li>
     </ul>
 
     <table class="table table-striped table-mini text-end">

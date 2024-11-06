@@ -1,3 +1,5 @@
+import { bazaarUpdate } from './bazaar.mjs';
+
 let config = {};
 let alerts = {};
 let oldMarket = {};
@@ -107,9 +109,9 @@ function downloadMarket() {
 
 function formMenuItem(menu) {
     const isActive = menu === selectedMenu;
-    const active = menu === selectedMenu ? ' active': '';
+    const active = isActive ? ' active': '';
     return `<li class="nav-item" role="presentation"><button class="nav-link${active}" data-bs-toggle="pill" type="button" 
-        aria-selected="${isActive}" onclick="navClick(this);">${menu}</button>\n`;
+        aria-selected="${isActive}">${menu}</button>\n`;
 }
 
 function updateConfig(response) {
@@ -129,25 +131,40 @@ function updateConfig(response) {
     downloadMarket();
 }
 
+function navClick(item) {
+    selectedMenu = item.delegateTarget.textContent;
+    localStorage?.setItem?.(lsPrefix + 'selectedMenu', selectedMenu);
+    drawMarket();
+}
+
+function addHandlers() {
+    const handlers = {
+        'click-navigation': navClick,
+    };
+    
+    for (let [kind, handler] of Object.entries(handlers)) {
+        const elements = document.querySelectorAll(`*[evnt-${kind}]`);
+        console.log(elements);
+        const [eventType] = kind.split('-',1);
+        elements.forEach(element => element.addEventListener(eventType, handler));
+    }
+}
+
 function init() {
+    // addHandlers();  because only one handler now
+    document.getElementById('nMarketMenu').addEventListener('click', navClick);
+
     selectedMenu = localStorage?.getItem?.(lsPrefix + 'selectedMenu');
     const oldStr = localStorage?.getItem?.(lsPrefix + 'oldMarket');
     if (oldStr) oldMarket = JSON.parse(oldStr);
     const cfgStr = localStorage?.getItem?.(lsPrefix + 'config');
     if (cfgStr) {
         updateConfig(JSON.parse(cfgStr));
-        drawMarket();
     }
     else fetch('json/bazaar_monitored.json').then(res => res.json().then(res => {
         localStorage?.setItem?.(lsPrefix + 'config', JSON.stringify(res));
         updateConfig(res);
     }))
-
 }
 
-function navClick(item) {
-    selectedMenu = item.textContent;
-    localStorage?.setItem?.(lsPrefix + 'selectedMenu', selectedMenu);
-    drawMarket();
-}
-
+init();
