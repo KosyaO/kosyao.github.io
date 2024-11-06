@@ -2,6 +2,7 @@ import { auctionDownload, auctionFilter, translate_attribute_name,
     generate_armor_template, generate_piece_attribute, generate_piece_template, templates } from './auction.mjs';
 
 let searchProcessed = false;
+let auctionData = { time_updated: 0 };
 
 function fillTable(filtered, max_items = 999) {
     let found_total = 0, passed_total = 0;
@@ -49,13 +50,17 @@ async function auctionSearch(filter) {
         return;
     }
     searchProcessed = true;
-    setStatus('Downloading data...');
     try {
-        const data = await auctionDownload();
+        const need_update = Date.now() - auctionData.time_updated > 10000;
+        if (need_update) {
+            setStatus('Downloading data...');
+            auctionData = await auctionDownload();
+        }
         setStatus('Processing data...');
-        const filtered = auctionFilter(data, filter);
+        const filtered = auctionFilter(auctionData, filter);
         const {passed_total, found_total} = fillTable(filtered);
-        setStatus(`Search completed, filtered ${passed_total} items from ${found_total}, Load time: ${data.load_time/1000} sec`);
+        const load_time = need_update ? auctionData.load_time/1000 + ' sec' : 'cache';
+        setStatus(`Search completed, filtered ${passed_total} items from ${found_total}, Load time: ${load_time}`);
     } catch (error) {
         setStatus(`Loading error: ${error}`);
     }

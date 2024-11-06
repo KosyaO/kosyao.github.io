@@ -4,36 +4,48 @@ export const prices_filter = {
     'Dark Claymore': {}
 };
 
-export const analyzed = {
-    'Dark Claymore': {
-        enchants_exact: [
-            'Critical VII',
-            'Cleave VI',
-            'First Strike V',
-            'Ender Slayer VII',
-            'Experience V',
-            'Giant Killer VII',
-            'Looting V',
-            'Luck VII',
-            'Prosecute VI',
-            'Execute VI',
-            'Scavenger V',
-            'Sharpness VII',
-            'Syphon V',
-            'Thunderlord VII',
-            'Venomous VI',
-            'Vicious V'
-        ],
-        enchants_one: [
-            'Divine Gift',
-            'Chimera',
-            'Soul Eater',
-            'Smoldering'
-        ],
-        essence: { name: 'Wither Essence', count: [150, 450, 950, 1850, 3350] },
-        stars: "✪➊➋➌➍➎"
+const roman_multipliers = { 'I': 1, 'II': 2, 'III': 4, 'IV': 8, 'V': 16, 'VI': 16, 'VII': 32, 'VIII': 64, 'IX': 128, 'X': 256 };
+
+export const real_templates = {
+    dark_claymore: {
+        item_name: 'Dark Claymore',
+        base_price: 188000000,
+        essence: { name: 'Wither Essence', code: 'essence_wither', count: [0, 150, 450, 950, 1850, 3350] }
     }
 };
+
+const stars = {
+    symbols: "➊➋➌➍➎",
+    names: ['first_master_star', 'second_master_star', 'third_master_star', 'fourth_master_star', 'fifth_master_star']
+}
+
+const enchants_exact = {
+    'Critical VII': 'enchantment_critical_7',
+    'Cleave VI': 'enchantment_cleave_6',
+    'First Strike V': 'enchantment_first_strike_5',
+    'Ender Slayer VII': 'enchantment_ender_slayer_7',
+    'Experience V': 'enchantment_experience_5',
+    'Giant Killer VII': 'enchantment_giant_killer_7',
+    'Looting V': 'enchantment_looting_5',
+    'Luck VII': 'enchantment_luck_7',
+    'Prosecute VI': 'enchantment_prosecute_6',
+    'Execute VI': 'enchantment_execute_6',
+    'Scavenger V': 'enchantment_scavenger_5',
+    'Sharpness VII': 'enchantment_sharpness_7',
+    'Syphon V': 'enchantment_syphon_5',
+    'Thunderlord VII': 'enchantment_thunderlord_7',
+    'Venomous VI': 'enchantment_venomous_6',
+    'Vicious V': 'enchantment_vicious_5'
+};
+
+const enchants_one = {
+    'Divine Gift': 'enchantment_divine_gift_1',
+    'Chimera': 'enchantment_ultimate_chimera_1',
+    'Soul Eater': 'enchantment_ultimate_soul_eater_1',
+    'Smoldering': 'enchantment_smoldering_1'
+};
+
+export const bazaar_items = Object.values(enchants_one).concat(Object.values(enchants_exact)).concat(stars.names);
 
 export function translate_attribute_name(short_name) {
     return {
@@ -50,8 +62,7 @@ export function translate_attribute_name(short_name) {
     }[short_name.toLowerCase()] ?? short_name;
 }
 
-export function generate_piece_template(piece_name, lore_entries = [],
-                                        attribute_sort = false, max_price = undefined) {
+export function generate_piece_template(piece_name, lore_entries = [], attribute_sort = false, max_price = undefined) {
     const types = ['Fervor', 'Hollow', 'Crimson', 'Aurora', 'Terror'];
     let result = {};
     lore_entries = lore_entries.map(entry => translate_attribute_name(entry));
@@ -72,8 +83,7 @@ export function generate_equip_attribute(equip_name, attribute_name, max_price =
     return result;
 }
 
-export function generate_armor_template(armor_name, lore_entries = [],
-                                        attribute_sort = false, max_price = undefined) {
+export function generate_armor_template(armor_name, lore_entries = [], attribute_sort = false, max_price = undefined) {
     const pieces = ['Helmet', 'Chestplate', 'Leggings', 'Boots'];
     let result = {};
     lore_entries = lore_entries.map(entry => translate_attribute_name(entry));
@@ -84,8 +94,7 @@ export function generate_armor_template(armor_name, lore_entries = [],
     return result;
 }
 
-export function generate_armor_attributes(lore_entries = [],
-                                        attribute_sort = false, max_price = undefined) {
+export function generate_armor_attributes(lore_entries = [], attribute_sort = false, max_price = undefined) {
     const pieces = ['Chestplate', 'Leggings', 'Boots'];
     const types = ['Fervor', 'Hollow', 'Crimson', 'Aurora', 'Terror'];
     let result = {};
@@ -245,10 +254,6 @@ export const templates = {
     pet_slug_100: { '[Lvl 100] Slug': {}}
 }
 
-const roman_multipliers = {
-    'I': 1, 'II': 2, 'III': 4, 'IV': 8, 'V': 16, 'VI': 16, 'VII': 32, 'VIII': 64, 'IX': 128, 'X': 256
-};
-
 export async function auctionDownload() {
     const result = { pages: [] };
     let active = 0;
@@ -290,9 +295,9 @@ export async function auctionDownload() {
             start();
         }
     });
-    result.load_time = Date.now() - start;
+    result.time_updated = Date.now();
+    result.load_time = result.time_updated - start;
     console.log(`Pages loaded: ${result.pages.length}, Load time: ${result.load_time/1000} sec`);
-
 
     return result;
 }
@@ -389,10 +394,73 @@ export function analyzeData(data, filter) {
         }
     });
 
-    for (let price_item in prices) {
-        prices[price_item].items.sort((a, b) => a.top_bid - b.top_bid);
-    }
-
+    for (let price_item of Object.values(prices)) price_item.items.sort((a, b) => a.top_bid - b.top_bid);
+    
     return prices;
 }
 
+export function calculatePrices(data, bazaar, filter) {
+    const result = [];
+
+    data.pages.forEach(page => {
+        if (page.answer.success) {
+            for (let item of page.answer['auctions']) {
+                const item_name = item['item_name'];
+                const item_lore = item['item_lore'];
+                if (!item_name.includes(filter.item_name)) continue;
+
+                const new_item = { item_name, bin: item.bin, price_entries: {'Raw item': filter.base_price}};
+                let topBid = item['highest_bid_amount'];
+                if (topBid === 0) topBid = item['starting_bid'];
+                new_item.top_bid = topBid;
+                let ench_price = 0;
+                // enchants with specific level
+                for (let [ench, code] of Object.entries(enchants_exact))
+                    if (item_lore.includes(ench)) {
+                        const price = bazaar.products[code].sell_price;
+                        new_item.price_entries[ench] = price;
+                        ench_price += price;
+                    }
+                // enchants counted from 1st level
+                for (let [ench, code] of Object.entries(enchants_one))
+                    if (item_lore.includes(ench)) {
+                        let price = bazaar.products[code].sell_price;
+                        let p = item_lore.indexOf(ench);
+                        const lore_part = item_lore.slice(p, item_lore.indexOf('§', p));
+                        p = lore_part.indexOf(' ', ench.length - 1) + 1;
+                        if (p > 0) {
+                            let end = lore_part.indexOf('\n', p);
+                            if (end === -1) { end = lore_part.length; }
+                            const roman = lore_part.slice(p, end);
+                            price *= roman_multipliers[roman] ?? 1;
+                        }
+                        new_item.price_entries[ench] = price;
+                        ench_price += price;
+                    }
+                // stars
+                const stars_count = item_name.split('✪').length - 1;
+                const essence_price = bazaar.products[filter.essence.code].sell_price ?? 0;
+                let star_price = essence_price * filter.essence.count[stars_count];
+                // master stars
+                let i = stars.symbols.length;
+                while (i > 0 ) {
+                    if (item_name.includes(stars.symbols[i-1])) break;
+                    i--;
+                }
+                while (--i >= 0) {
+                    const ms_star_price = bazaar.products[stars.names[i]].sell_price ?? 0;
+                    star_price += ms_star_price;
+                }
+                new_item.star_price = star_price;
+                new_item.ench_price = ench_price;
+                new_item.real_price = filter.base_price + ench_price + star_price;
+                new_item.profit = new_item.real_price - topBid;
+                result.push(new_item);
+            }
+        }
+    });
+    
+    result.sort((a, b) => b.profit - a.profit);
+
+    return result;
+}
