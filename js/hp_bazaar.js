@@ -1,13 +1,10 @@
 import { bazaarUpdate } from './bazaar.mjs';
 
 let config = {};
-let alerts = {};
-let oldMarket = {};
+let prices = { last_updated: 0, products: {} };
 let selectedMenu;
 let currentInterval;
-let updatedSuccessfully = true;
 let lsPrefix = 'hp_baz_';
-const alertMenu = 'Alerts';
 
 const capitalize = word => word.slice(0, 1).toUpperCase() + word.slice(1);
 
@@ -15,12 +12,6 @@ function updateStatus(text) {
     const ctrl = document.getElementById('cStatus');
     text = text.replaceAll('\n','<br>').replaceAll(' ', '&nbsp;');
     ctrl.innerHTML = text;
-}
-
-function averagePrice(summary) {
-    let cnt = 0, sum = 0;
-    summary.slice(0, 3).map(item => { cnt += item.amount; sum += item.pricePerUnit * item.amount});
-    return cnt ? sum / cnt : 0;
 }
 
 function formatNumber(num, maximumFractionDigits=2) {
@@ -33,77 +24,64 @@ function formatNumber(num, maximumFractionDigits=2) {
     return new Intl.NumberFormat(lang, {maximumFractionDigits, minimumFractionDigits: maximumFractionDigits}).format(num) + postfix;
 }
 
-function drawMarket() {
-    let tableData = "";
-    let menuItems;
-    if (selectedMenu === alertMenu) menuItems = config.Alerts.map(item => item.name);
-    else menuItems = config.menu[selectedMenu];
-    for (let crop of menuItems)
-        if (crop[0] === '-') {
-            tableData += `<tr><th colspan="8" class="text-center">${crop.slice(1)}</td></tr>`;
-        } else {
-            const product = crop.split('_').map(capitalize).join(' ');
-            const marketCrop = oldMarket[crop];
-            tableData += `<tr><th scope="row" class="text-start">${product}</th>`
-            if (!marketCrop) 
-                tableData += `<th colspan="7" class="text-center">not found in hypixel data</td></tr>`;
-            else tableData += `<td${marketCrop.color_sell}>${formatNumber(marketCrop.sell_price)}</td>
-                <td>${formatNumber(marketCrop.sell_changes, 1) + ' %'}</td>
-                <td${marketCrop.color_buy}>${formatNumber(marketCrop.buy_price)}</td>
-                <td>${formatNumber(marketCrop.buy_changes, 1) + ' %'}</td>
-                <td>${formatNumber(marketCrop.spread) + ' %'}</td>
-                <td>${formatNumber(marketCrop.buy_move, 0)}</td>
-                <td>${formatNumber(marketCrop.move_changes, 0)}</td></tr>\n`
-        }
-    document.getElementById('tCrops').innerHTML = tableData;
-}
-
 function getAlertColors(product, buy_price, sell_price) {
-    const {low, high} = alerts[product] ?? {};
+    const {low, high} = (config['Alerts'] ?? {})[product] ?? {};
     const color_map = {r: ' class="table-danger"', g: ' class="table-success"', d: ''};
     const color_buy = color_map[buy_price <= low ? 'r' : (buy_price >= high ? 'g' : 'd')];
     const color_sell = color_map[sell_price >= high ? 'r' : (sell_price <= low ? 'g' : 'd')];
     return {color_buy, color_sell};
 }
 
-function updateCrop(product, marketCrop) {
-    if (product[0] === "-" || marketCrop === undefined) return;
-    let sell_price, sell_changes, buy_price, buy_changes, spread, buy_move, move_changes;
-    sell_price = averagePrice(marketCrop.sell_summary);
-    const s_old = oldMarket[product]?.sell_price;
-    sell_changes = s_old? (sell_price - s_old) / s_old * 100: 0;
-    buy_price = averagePrice(marketCrop.buy_summary);
-    const b_old = oldMarket[product]?.buy_price;
-    buy_changes = b_old? (buy_price - b_old) / b_old * 100: 0;
-    spread = buy_price? (buy_price - sell_price) / sell_price * 100 : 999;
-    if (spread > 999.99) spread = 999.99;
-    buy_move = marketCrop.quick_status.buyMovingWeek;
-    move_changes = buy_move - (oldMarket[product]?.buy_move ?? buy_move);
-    let {color_buy, color_sell} = getAlertColors(product, buy_price, sell_price);
-    oldMarket[product] = {sell_price, sell_changes, buy_price, buy_changes, spread, buy_move, move_changes, color_buy, color_sell};
+function drawMarket() {
+    let tableData = "";
+    let menuItems;
+    for (let page of config['Pages'])
+        if (page.name === selectedMenu) {
+            menuItems = page.items;
+            break;
+        }
+    if (menuItems === undefined) return;
+
+    for (let crop of menuItems)
+        if (crop[0] === '-') {
+            let text = crop.slice(1);
+            if (text === '') text = '&nbsp;'
+            tableData += `<tr><th colspan="8" class="text-center">${text}</td></tr>`;
+        } else {
+            const product = crop.split('_').map(capitalize).join(' ');
+            const marketCrop = prices.products[crop];
+            tableData += `<tr><th scope="row" class="text-start">${product}</th>`
+            if (!marketCrop) 
+                tableData += `<th colspan="7" class="text-center">not found in hypixel data</td></tr>`;
+            else {
+                const {color_buy, color_sell} = getAlertColors(crop, marketCrop.buy_price, marketCrop.sell_price);
+                tableData += `<td${color_sell}>${formatNumber(marketCrop.sell_price)}</td>
+                    <td>${formatNumber(marketCrop.sell_changed, 1) + ' %'}</td>
+                    <td${color_buy}>${formatNumber(marketCrop.buy_price)}</td>
+                    <td>${formatNumber(marketCrop.buy_changed, 1) + ' %'}</td>
+                    <td>${formatNumber(marketCrop.spread) + ' %'}</td>
+                    <td>${formatNumber(marketCrop.buy_moving_week, 0)}</td>
+                    <td>${formatNumber(marketCrop.buy_moving_changes, 0)}</td></tr>\n`
+            }
+        }
+    document.getElementById('tCrops').innerHTML = tableData;
 }
 
 function marketSchedule(error) {
-    updatedSuccessfully = error === undefined;
-    if (error) updateStatus(error.message);
+    const updatedUnsuccessfully = error !== undefined;
+    if (updatedUnsuccessfully) updateStatus(error.message);
     if (currentInterval) clearInterval(currentInterval);
-    currentInterval = setInterval(downloadMarket, updatedSuccessfully? 300000: 60000);
+    currentInterval = setInterval(downloadMarket, updatedUnsuccessfully? 60000: 300000 );
 }
 
 function updateMarket(market) {
     if (!market.success) return marketSchedule({ message: 'Error loading market data' });
     marketSchedule();
-    const crops = new Set();
-    for (let section in config.menu) 
-        for (let crop of config.menu[section]) crops.add(crop);
-    for (let alert of config.Alerts) crops.add(alert.name);
-
-    for (let crop of crops) updateCrop(crop, market.products[crop.toUpperCase()]);
+    bazaarUpdate(config.goods, market, prices);
 
     const lang = navigator.language || navigator.userLanguage;
-    updatedSuccessfully = true;
     updateStatus('Last updated: ' + new Date(market.lastUpdated).toLocaleString(lang) + ` (${market.lastUpdated})`);
-    localStorage?.setItem?.(lsPrefix + 'oldMarket', JSON.stringify(oldMarket));
+    localStorage?.setItem?.(lsPrefix + 'prices', JSON.stringify(prices));
     drawMarket();
 }
 
@@ -112,25 +90,25 @@ function downloadMarket() {
     download.catch(marketSchedule).then(res => res?.json().then(res => updateMarket(res)).catch(marketSchedule));
 }
 
-function formMenuItem(menu) {
-    const isActive = menu === selectedMenu;
-    const active = isActive ? ' active': '';
-    return `<li class="nav-item" role="presentation"><button class="nav-link${active}" data-bs-toggle="pill" type="button" 
-        aria-selected="${isActive}">${menu}</button>\n`;
-}
-
 function updateConfig(response) {
     if (!response) return;
     config = response;
-    if (selectedMenu !== alertMenu && config.menu_order.indexOf(selectedMenu) < 0 && config.menu_order.length > 0) selectedMenu = config.menu_order[0];
+    const pages = config['Pages'];
+
+    // restore selected menu
+    if (pages.every(elem => elem.name !== selectedMenu)) {
+        selectedMenu = pages.length > 0? pages[0].name: '';
+    }
 
     let menuTemp = ""
-    for (let menu of config.menu_order) menuTemp += formMenuItem(menu);
-    if (config.Alerts) {
-        menuTemp += formMenuItem(alertMenu);
-        alerts = {}
-        for (let elem of config.Alerts) alerts[elem.name] = {low: elem.low, high: elem.high};
-    }   
+    config.goods = new Set(config['Hidden'] ?? []);
+    for (let page of pages) {
+        const isActive = page.name === selectedMenu;
+        const active = isActive ? ' active': '';
+        menuTemp += `<li class="nav-item" role="presentation"><button class="nav-link${active}" data-bs-toggle="pill"` + 
+                    ` type="button" aria-selected="${isActive}">${page.name}</button></li>\n`;
+        if ((page.type ?? 'bazaar') === 'bazaar') page.items.forEach(config.goods.add, config.goods);
+    }
 
     document.getElementById('nMarketMenu').innerHTML = menuTemp;
     downloadMarket();
@@ -156,17 +134,17 @@ function addHandlers() {
 }
 
 function init() {
-    // addHandlers();  because only one handler now
+    // addHandlers();  commented because only one handler now
     document.getElementById('nMarketMenu').addEventListener('click', navClick);
 
     selectedMenu = localStorage?.getItem?.(lsPrefix + 'selectedMenu');
-    const oldStr = localStorage?.getItem?.(lsPrefix + 'oldMarket');
-    if (oldStr) oldMarket = JSON.parse(oldStr);
+    const oldStr = localStorage?.getItem?.(lsPrefix + 'prices');
+    if (oldStr) prices = JSON.parse(oldStr);
     const cfgStr = localStorage?.getItem?.(lsPrefix + 'config');
-    if (cfgStr) {
+    if (cfgStr !== null) {
         updateConfig(JSON.parse(cfgStr));
     }
-    else fetch('json/bazaar_monitored.json').then(res => res.json().then(res => {
+    else fetch('json/bazaar_monitored_new.json').then(res => res.json().then(res => {
         localStorage?.setItem?.(lsPrefix + 'config', JSON.stringify(res));
         updateConfig(res);
     }))
