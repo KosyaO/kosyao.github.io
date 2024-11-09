@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Hypixel Bazaar observer</title>
+    <meta name="description" content="Hypixel Bazaar observer"/>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/theme.css" rel="stylesheet">
+    <link href="css/override.css" rel="stylesheet">
+    <script src="js/color-modes.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="js/hp_bazaar.js"></script>
+</head>
+<body>
+    <div id="cStatus" class="container-fluid border rounded">&nbsp;</div>
+
+    <ul class="nav nav-pills" role="tablist" id="nMarketMenu" evnt-click-navigation>
+        <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="pill" type="button" 
+            aria-selected="false">Farming crops</button></li>
+        <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="pill" type="button" 
+            aria-selected="false">Forge & Additional</button></li>
+        <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="pill" type="button" 
+            aria-selected="false">Gemstones</button></li>
+        <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="pill" type="button" 
+            aria-selected="false">Alerts</button></li>
+    </ul>
+
+    <table class="table table-striped table-mini text-end">
+        <thead><tr>
+            <th scope="col" class="col-3 text-start">Product</th>
+            <th scope="col" class="col-1">Sell price</th>
+            <th scope="col" class="col-1">Changes</th>
+            <th scope="col" class="col-1">Buy price</th>
+            <th scope="col" class="col-1">Changes</th>
+            <th scope="col" class="col-1">Spread</th>
+            <th scope="col" class="col-1">Buy move</th>
+            <th scope="col" class="col-1">Changes</th>
+        </tr></thead>
+        <tbody id="tCrops">
+            <tr class="d-none">
+                <th scope="row" class="text-start">Enchanted Seeds</th>
+                <td>451.5</td>
+                <td>+0.0%</td>
+                <td class="table-success">506.5</td>
+                <td>-0.1%</td>
+                <td class="table-danger">12.2%</td>
+                <td>4 367.2k</td>
+                <td>9 199</td>
+            </tr>
+            <tr class="d-none"><th colspan="8" class="text-center">123</th></tr>
+            <tr class="d-none">
+                <th scope="row" class="text-start">Enchanted Hay block</th>
+                <td>451.5</td>
+                <td>+0.0%</td>
+                <td>506.5</td>
+                <td>-0.1%</td>
+                <td>12.2%</td>
+                <td>4 367.2k</td>
+                <td>9 199</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
