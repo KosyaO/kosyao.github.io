@@ -16,23 +16,27 @@ export async function bazaarUpdate(goods, bazaar, prices) {
         const product = bazaar['products'][good.toUpperCase()];
         if (product !== undefined) {
             const qs = product['quick_status'];
-            const status = { sell_moving_week: qs['sellMovingWeek'], buy_moving_week: qs['buyMovingWeek'] };
-            const oldData = prices[good] ?? {};
-            const oldSell = oldData['sell_price'];
-            const oldBuy = oldData['buy_price'];
-            const sell_changed = oldSell === undefined ? 0 : (status.sell_price - oldSell) * 100 / oldSell;
-            const buy_changed = oldBuy === undefined ? 0 : (status.buy_price - oldBuy) * 100 / oldBuy;
+            const status = prices.products[good] ?? {};
 
+            status.last_updated = last_up;
             status.sell_price = topOrdersAverage(product['sell_summary']);
             status.buy_price = topOrdersAverage(product['buy_summary']);
-            status.sell_changed = sell_changed > 999 ? 999 : sell_changed;
-            status.buy_changed = buy_changed > 999 ? 999 : buy_changed;
-            status.buy_moving_changes = status.buy_moving_week - (oldData.buy_moving_week ?? 0);
+            status.sell_moving_week = qs['sellMovingWeek'];
+            status.buy_moving_week  = qs['buyMovingWeek'];
             status.spread = status.buy_price? (status.buy_price - status.sell_price) / status.sell_price * 100 : 999;
             if (status.spread > 999.99) status.spread = 999.99;
-            status['last_updated'] = last_up;
-            
-            prices.products[good] = status;
+
+            if (last_up - (status.previous_update ?? 0) > 1200000) { // 20 min
+                status.previous_update = last_up;
+                const oldSell = status.previous_sell_price;
+                const oldBuy = status.previous_buy_price;
+                const sell_changes = oldSell === undefined ? 0 : (status.sell_price - oldSell) * 100 / oldSell;
+                const buy_changes = oldBuy === undefined ? 0 : (status.buy_price - oldBuy) * 100 / oldBuy;
+                status.previous_sell_price = status.sell_price;
+                status.previous_buy_price = status.buy_price;
+                status.sell_changes = sell_changes > 999 ? 999 : sell_changes;
+                status.buy_changes = buy_changes > 999 ? 999 : buy_changes;
+            }
         }
     }
 }

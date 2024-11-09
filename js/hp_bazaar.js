@@ -56,12 +56,12 @@ function drawMarket() {
             else {
                 const {color_buy, color_sell} = getAlertColors(crop, marketCrop.buy_price, marketCrop.sell_price);
                 tableData += `<td${color_sell}>${formatNumber(marketCrop.sell_price)}</td>
-                    <td>${formatNumber(marketCrop.sell_changed, 1) + ' %'}</td>
+                    <td>${formatNumber(marketCrop.sell_changes, 1) + ' %'}</td>
                     <td${color_buy}>${formatNumber(marketCrop.buy_price)}</td>
-                    <td>${formatNumber(marketCrop.buy_changed, 1) + ' %'}</td>
+                    <td>${formatNumber(marketCrop.buy_changes, 1) + ' %'}</td>
                     <td>${formatNumber(marketCrop.spread) + ' %'}</td>
                     <td>${formatNumber(marketCrop.buy_moving_week, 0)}</td>
-                    <td>${formatNumber(marketCrop.buy_moving_changes, 0)}</td></tr>\n`
+                    <td>${formatNumber(marketCrop.sell_moving_week, 0)}</td></tr>\n`
             }
         }
     document.getElementById('tCrops').innerHTML = tableData;
@@ -71,7 +71,7 @@ function marketSchedule(error) {
     const updatedUnsuccessfully = error !== undefined;
     if (updatedUnsuccessfully) updateStatus(error.message);
     if (currentInterval) clearInterval(currentInterval);
-    currentInterval = setInterval(downloadMarket, updatedUnsuccessfully? 60000: 300000 );
+    currentInterval = setInterval(downloadMarket, updatedUnsuccessfully? 20000: 65000 );
 }
 
 function updateMarket(market) {
