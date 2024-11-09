@@ -140,12 +140,12 @@ function init() {
     selectedMenu = localStorage?.getItem?.(lsPrefix + 'selectedMenu');
     const oldStr = localStorage?.getItem?.(lsPrefix + 'prices');
     if (oldStr) prices = JSON.parse(oldStr);
-    const cfgStr = localStorage?.getItem?.(lsPrefix + 'config');
+    const cfgStr = localStorage?.getItem?.(lsPrefix + 'config_new');
     if (cfgStr !== null) {
         updateConfig(JSON.parse(cfgStr));
     }
     else fetch('json/bazaar_monitored_new.json').then(res => res.json().then(res => {
-        localStorage?.setItem?.(lsPrefix + 'config', JSON.stringify(res));
+        localStorage?.setItem?.(lsPrefix + 'config_new', JSON.stringify(res));
         updateConfig(res);
     }))
 }
