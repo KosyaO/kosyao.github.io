@@ -58,6 +58,14 @@ function drawMarket() {
     document.getElementById('tCrops').innerHTML = tableData;
 }
 
+function getAlertColors(product, buy_price, sell_price) {
+    const {low, high} = alerts[product] ?? {};
+    const color_map = {r: ' class="table-danger"', g: ' class="table-success"', d: ''};
+    const color_buy = color_map[buy_price <= low ? 'r' : (buy_price >= high ? 'g' : 'd')];
+    const color_sell = color_map[sell_price >= high ? 'r' : (sell_price <= low ? 'g' : 'd')];
+    return {color_buy, color_sell};
+}
+
 function updateCrop(product, marketCrop) {
     if (product[0] === "-" || marketCrop === undefined) return;
     let sell_price, sell_changes, buy_price, buy_changes, spread, buy_move, move_changes;
@@ -71,10 +79,7 @@ function updateCrop(product, marketCrop) {
     if (spread > 999.99) spread = 999.99;
     buy_move = marketCrop.quick_status.buyMovingWeek;
     move_changes = buy_move - (oldMarket[product]?.buy_move ?? buy_move);
-    const {low, high} = alerts[product] ?? {};
-    const color_map = {r: ' class="table-danger"', g: ' class="table-success"', d: ''};
-    const color_buy = color_map[buy_price <= low ? 'r' : (buy_price >= high ? 'g' : 'd')];
-    const color_sell = color_map[sell_price >= high ? 'r' : (sell_price <= low ? 'g' : 'd')];
+    let {color_buy, color_sell} = getAlertColors(product, buy_price, sell_price);
     oldMarket[product] = {sell_price, sell_changes, buy_price, buy_changes, spread, buy_move, move_changes, color_buy, color_sell};
 }
 
