@@ -37,6 +37,7 @@ export async function bazaarUpdate(goods, bazaar, prices) {
                 status.sell_changes = sell_changes > 999 ? 999 : sell_changes;
                 status.buy_changes = buy_changes > 999 ? 999 : buy_changes;
             }
+            prices.products[good] = status;
         }
     }
 }
