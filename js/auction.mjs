@@ -275,12 +275,10 @@ export async function auctionDownload() {
     async function task() {
         let page = next++;
         const start = Date.now();
-        // console.time(`Page ${page}`);
         active++;
         const url = `https://api.hypixel.net/skyblock/auctions?page=${page}`;
         const response = await fetch(url);
         const answer = response.ok ? await response.json() : response;
-        // console.timeEnd(`Page ${page}`);
         active--;
         result.pages.push({load_time: Date.now() - start, answer});
         return answer;
