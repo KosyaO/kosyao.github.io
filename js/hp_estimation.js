@@ -3,7 +3,7 @@ import { bazaarDownload, bazaarUpdate } from './bazaar.mjs'
 
 let searchProcessed = false;
 let auctionData  = { time_updated: 0 };
-let bazaarData   = {};
+let bazaarData   = { time_updated: 0 };
 let bazaarPrices = { last_updated: 0, products: {} };
 
 
@@ -37,14 +37,10 @@ function fillTable(filtered, max_items = 999) {
         const profit_color = item.profit > 0? 'table-success': 'table-danger';
         const ench_price = intl.format(item.ench_price/1e6) + 'M';
         const star_price = intl.format(item.star_price/1e6) + 'M';
+        const scrolls_price = intl.format(item.scrolls_price/1e6) + 'M';
         tableData += `<tr class="text-end"><th scope="row" class="text-start">${item_name}</th>
-            <td>${bin}</td>
-            <td>${top_bid}</td>
-            <td>${real_price}</td>
-            <td class="${profit_color}">${profit}</td>
-            <td>${ench_price}</td>
-            <td>${star_price}</td>
-            </tr>`;
+            <td>${bin}</td><td>${top_bid}</td><td>${real_price}</td><td class="${profit_color}">${profit}</td>
+            <td>${ench_price}</td><td>${star_price}</td><td>${scrolls_price}</td></tr>`;
         if (++printed >= max_items) break;
     }
     document.getElementById('tResults').innerHTML = tableData;
@@ -57,7 +53,7 @@ async function auctionSearch(filter) {
     }
     searchProcessed = true;
     try {
-        const need_update = Date.now() - auctionData.time_updated > 10000;
+        const need_update = Date.now() - bazaarData.time_updated > 10000;
         if (need_update) {
             setStatus('Downloading auction...');
             auctionData = await auctionDownload();

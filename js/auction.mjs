@@ -16,13 +16,30 @@ export const real_templates = {
         item_name: 'Terminator',
         base_price: 599000000,
         essence: { name: 'Dragon Essence', code: 'essence_dragon', count: [0, 400, 600, 900, 1400, 2150] }
+    },
+    hyperion: {
+        item_name: 'Hyperion',
+        base_price: 940000000,
+        essence: { name: 'Wither Essence', code: 'essence_wither', count: [0, 150, 450, 950, 1850, 3350] },
+        abilities: {
+            'Wither Shield': ['wither_shield_scroll'],
+            'Shadow Warp': ['shadow_warp_scroll'],
+            'Implosion': ['implosion_scroll'],
+            'Wither Impact': ['wither_shield_scroll', 'shadow_warp_scroll', 'implosion_scroll']
+        }
     }
 };
 
-const stars = {
-    symbols: "➊➋➌➍➎",
-    names: ['first_master_star', 'second_master_star', 'third_master_star', 'fourth_master_star', 'fifth_master_star']
-}
+const enchants_one = {
+    'Divine Gift': 'enchantment_divine_gift_1',
+    'Chimera': 'enchantment_ultimate_chimera_1',
+    'Soul Eater': 'enchantment_ultimate_soul_eater_1',
+    'Smoldering': 'enchantment_smoldering_1',
+    'Fatal Tempo': 'enchantment_ultimate_fatal_tempo_1',
+    'Duplex': 'enchantment_ultimate_reiterate_1',
+    'Overload': 'enchantment_overload_1',
+    'Dragon Hunter': 'enchantment_dragon_hunter_1'
+};
 
 const enchants_exact = {
     'Critical VII': 'enchantment_critical_7',
@@ -47,18 +64,18 @@ const enchants_exact = {
     'Power VII': 'enchantment_power_7'
 };
 
-const enchants_one = {
-    'Divine Gift': 'enchantment_divine_gift_1',
-    'Chimera': 'enchantment_ultimate_chimera_1',
-    'Soul Eater': 'enchantment_ultimate_soul_eater_1',
-    'Smoldering': 'enchantment_smoldering_1',
-    'Fatal Tempo': 'enchantment_ultimate_fatal_tempo_1',
-    'Duplex': 'enchantment_ultimate_reiterate_1',
-    'Overload': 'enchantment_overload_1',
-    'Dragon Hunter': 'enchantment_dragon_hunter_1'
-};
+const stars = {
+    symbols: "➊➋➌➍➎",
+    names: ['first_master_star', 'second_master_star', 'third_master_star', 'fourth_master_star', 'fifth_master_star']
+}
 
-export const bazaar_items = Object.values(enchants_one).concat(Object.values(enchants_exact)).concat(stars.names);
+const auxiliary_items = [
+    'wither_shield_scroll', 
+    'shadow_warp_scroll', 
+    'implosion_scroll',
+];
+
+export const bazaar_items = Object.values(enchants_one).concat(Object.values(enchants_exact)).concat(stars.names).concat(auxiliary_items);
 
 export function translate_attribute_name(short_name) {
     return {
@@ -425,7 +442,7 @@ export function calculatePrices(data, bazaar, filter) {
                 const item_lore = item['item_lore'];
                 if (!item_name.includes(filter.item_name)) continue;
 
-                const new_item = { item_name, bin: item.bin, price_entries: {'Raw item': filter.base_price}};
+                const new_item = { item_name, bin: item.bin, price_entries: {'Raw item': filter.base_price}, item_lore};
                 let topBid = item['highest_bid_amount'];
                 if (topBid === 0) topBid = item['starting_bid'];
                 new_item.top_bid = topBid;
@@ -467,9 +484,18 @@ export function calculatePrices(data, bazaar, filter) {
                     const ms_star_price = getSellPrice(stars.names[i]);
                     star_price += ms_star_price;
                 }
+                // abilities
+                let scrolls_price = 0;
+                for (let [ability, scrolls] of Object.entries(filter.abilities ?? {})) 
+                    if (item_lore.includes('Ability: ' + ability)) {
+                        for (let scroll of scrolls) {
+                            scrolls_price += getSellPrice(scroll);
+                        }
+                    }
                 new_item.star_price = star_price;
                 new_item.ench_price = ench_price;
-                new_item.real_price = filter.base_price + ench_price + star_price;
+                new_item.scrolls_price = scrolls_price;
+                new_item.real_price = filter.base_price + ench_price + star_price + scrolls_price;
                 new_item.profit = new_item.real_price - topBid;
                 result.push(new_item);
             }

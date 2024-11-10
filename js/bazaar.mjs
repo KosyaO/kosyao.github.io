@@ -46,6 +46,7 @@ export async function bazaarDownload() {
     const start = Date.now();
     const response = await fetch('https://api.hypixel.net/skyblock/bazaar');
     const answer = response.ok ? await response.json() : response;
-    answer.load_time = Date.now() - start;
+    answer.time_updated = Date.now();
+    answer.load_time = answer.time_updated - start;
     return answer;
 }
