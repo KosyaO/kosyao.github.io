@@ -11,6 +11,11 @@ export const real_templates = {
         item_name: 'Dark Claymore',
         base_price: 188000000,
         essence: { name: 'Wither Essence', code: 'essence_wither', count: [0, 150, 450, 950, 1850, 3350] }
+    },
+    terminator: {
+        item_name: 'Terminator',
+        base_price: 599000000,
+        essence: { name: 'Dragon Essence', code: 'essence_dragon', count: [0, 400, 600, 900, 1400, 2150] }
     }
 };
 
@@ -22,6 +27,8 @@ const stars = {
 const enchants_exact = {
     'Critical VII': 'enchantment_critical_7',
     'Cleave VI': 'enchantment_cleave_6',
+    'Chance V': 'enchantment_chance_5',
+    'Cubism VI': 'enchantment_cubism_6',
     'First Strike V': 'enchantment_first_strike_5',
     'Ender Slayer VII': 'enchantment_ender_slayer_7',
     'Experience V': 'enchantment_experience_5',
@@ -32,17 +39,23 @@ const enchants_exact = {
     'Execute VI': 'enchantment_execute_6',
     'Scavenger V': 'enchantment_scavenger_5',
     'Sharpness VII': 'enchantment_sharpness_7',
+    'Snipe IV': 'enchantment_snipe_4',
     'Syphon V': 'enchantment_syphon_5',
     'Thunderlord VII': 'enchantment_thunderlord_7',
     'Venomous VI': 'enchantment_venomous_6',
-    'Vicious V': 'enchantment_vicious_5'
+    'Vicious V': 'enchantment_vicious_5',
+    'Power VII': 'enchantment_power_7'
 };
 
 const enchants_one = {
     'Divine Gift': 'enchantment_divine_gift_1',
     'Chimera': 'enchantment_ultimate_chimera_1',
     'Soul Eater': 'enchantment_ultimate_soul_eater_1',
-    'Smoldering': 'enchantment_smoldering_1'
+    'Smoldering': 'enchantment_smoldering_1',
+    'Fatal Tempo': 'enchantment_ultimate_fatal_tempo_1',
+    'Duplex': 'enchantment_ultimate_reiterate_1',
+    'Overload': 'enchantment_overload_1',
+    'Dragon Hunter': 'enchantment_dragon_hunter_1'
 };
 
 export const bazaar_items = Object.values(enchants_one).concat(Object.values(enchants_exact)).concat(stars.names);
@@ -400,8 +413,13 @@ export function analyzeData(data, filter) {
 }
 
 export function calculatePrices(data, bazaar, filter) {
-    const result = [];
+    function getSellPrice(code) {
+        const product = bazaar.products[code];
+        if (product === undefined) console.log(`Product ${code} not found`);
+        return product === undefined? 0: product.sell_price;
+    }
 
+    const result = [];
     data.pages.forEach(page => {
         if (page.answer.success) {
             for (let item of page.answer['auctions']) {
@@ -417,14 +435,14 @@ export function calculatePrices(data, bazaar, filter) {
                 // enchants with specific level
                 for (let [ench, code] of Object.entries(enchants_exact))
                     if (item_lore.includes(ench)) {
-                        const price = bazaar.products[code].sell_price;
+                        const price = getSellPrice(code);
                         new_item.price_entries[ench] = price;
                         ench_price += price;
                     }
                 // enchants counted from 1st level
                 for (let [ench, code] of Object.entries(enchants_one))
                     if (item_lore.includes(ench)) {
-                        let price = bazaar.products[code].sell_price;
+                        let price = getSellPrice(code);
                         let p = item_lore.indexOf(ench);
                         const lore_part = item_lore.slice(p, item_lore.indexOf('§', p));
                         p = lore_part.indexOf(' ', ench.length - 1) + 1;
@@ -439,7 +457,7 @@ export function calculatePrices(data, bazaar, filter) {
                     }
                 // stars
                 const stars_count = item_name.split('✪').length - 1;
-                const essence_price = bazaar.products[filter.essence.code].sell_price ?? 0;
+                const essence_price = getSellPrice(filter.essence.code);
                 let star_price = essence_price * filter.essence.count[stars_count];
                 // master stars
                 let i = stars.symbols.length;
@@ -448,7 +466,7 @@ export function calculatePrices(data, bazaar, filter) {
                     i--;
                 }
                 while (--i >= 0) {
-                    const ms_star_price = bazaar.products[stars.names[i]].sell_price ?? 0;
+                    const ms_star_price = getSellPrice(stars.names[i]);
                     star_price += ms_star_price;
                 }
                 new_item.star_price = star_price;
