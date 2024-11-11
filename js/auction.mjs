@@ -1,3 +1,6 @@
+const capitalize = word => word.slice(0, 1).toUpperCase() + word.slice(1);
+const snakeToSpaced = text => text.split('_').map(capitalize).join(' ');
+
 export const prices_filter = {
     'Artifact of Control': { buy_cheaper: 2000000000, count: 3 },
     'Spirit Mask': { buy_cheaper: 120000000, count: 3 },
@@ -10,16 +13,19 @@ export const real_templates = {
     dark_claymore: {
         item_name: 'Dark Claymore',
         base_price: 188000000,
+        base_tier: "LEGENDARY",
         essence: { name: 'Wither Essence', code: 'essence_wither', count: [0, 150, 450, 950, 1850, 3350] }
     },
     terminator: {
         item_name: 'Terminator',
         base_price: 599000000,
+        base_tier: "LEGENDARY",
         essence: { name: 'Dragon Essence', code: 'essence_dragon', count: [0, 400, 600, 900, 1400, 2150] }
     },
     hyperion: {
         item_name: 'Hyperion',
         base_price: 940000000,
+        base_tier: "LEGENDARY",
         essence: { name: 'Wither Essence', code: 'essence_wither', count: [0, 150, 450, 950, 1850, 3350] },
         abilities: {
             'Wither Shield': ['wither_shield_scroll'],
@@ -69,10 +75,13 @@ const stars = {
     names: ['first_master_star', 'second_master_star', 'third_master_star', 'fourth_master_star', 'fifth_master_star']
 }
 
+const recomb_item = 'recombobulator_3000';
+
 const auxiliary_items = [
     'wither_shield_scroll', 
     'shadow_warp_scroll', 
     'implosion_scroll',
+    recomb_item
 ];
 
 export const bazaar_items = Object.values(enchants_one).concat(Object.values(enchants_exact)).concat(stars.names).concat(auxiliary_items);
@@ -281,7 +290,8 @@ export const templates = {
     mana_pool_armor: generate_armor_attributes(['mp'], true, 10000000),
     mana_regen_armor: generate_armor_attributes(['mr'], true, 10000000),
     pet_mole_100: { '[Lvl 100] Mole': {}},
-    pet_slug_100: { '[Lvl 100] Slug': {}}
+    pet_slug_100: { '[Lvl 100] Slug': { exact_tier: "LEGENDARY" }},
+    pet_slug_leg: { '] Slug': { exact_tier: "LEGENDARY" }}
 }
 
 export async function auctionDownload() {
@@ -353,9 +363,11 @@ export function auctionFilter(data, filter) {
                 cnt.found += 1;
                 const maxPrice = conditions.max_price;
                 const allTogether = conditions.all_together ?? true;
+                const exactTier = conditions.exact_tier;
                 let topBid = item['highest_bid_amount'];
                 if (topBid === 0) topBid = item['starting_bid'];
                 if (maxPrice !== undefined && topBid > maxPrice) continue;
+                if (exactTier !== undefined && item.tier !== exactTier) continue;
                 const entries = [];
                 const lore_entries = conditions.lore_entries ?? [];
                 const item_lore = item['item_lore'];
@@ -482,6 +494,7 @@ export function calculatePrices(data, bazaar, filter) {
                 }
                 while (--i >= 0) {
                     const ms_star_price = getSellPrice(stars.names[i]);
+                    new_item.price_entries[snakeToSpaced(stars.names[i])] = ms_star_price;
                     star_price += ms_star_price;
                 }
                 // abilities
@@ -489,13 +502,25 @@ export function calculatePrices(data, bazaar, filter) {
                 for (let [ability, scrolls] of Object.entries(filter.abilities ?? {})) 
                     if (item_lore.includes('Ability: ' + ability)) {
                         for (let scroll of scrolls) {
-                            scrolls_price += getSellPrice(scroll);
+                            const price = getSellPrice(scroll);
+                            scrolls_price += price;
+                            new_item.price_entries[snakeToSpaced(scroll)] = price;
                         }
                     }
+                let other_price = 0;
+                // recomb
+                new_item.tier = item.tier;
+                if (new_item.tier !== filter.base_tier) {
+                    const rec_price = getSellPrice(recomb_item);
+                    other_price += rec_price;
+                    new_item.price_entries[snakeToSpaced(recomb_item)] = other_price;
+                }
+
                 new_item.star_price = star_price;
                 new_item.ench_price = ench_price;
                 new_item.scrolls_price = scrolls_price;
-                new_item.real_price = filter.base_price + ench_price + star_price + scrolls_price;
+                new_item.other_price = other_price;
+                new_item.real_price = filter.base_price + ench_price + star_price + scrolls_price + other_price;
                 new_item.profit = new_item.real_price - topBid;
                 result.push(new_item);
             }
