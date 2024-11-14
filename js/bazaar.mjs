@@ -1,3 +1,7 @@
+function round(float_number, digits = 0) {
+    return parseFloat(float_number.toFixed(digits));
+}
+
 function topOrdersAverage(arr) {
     let count = 0;
     let sum = 0;
@@ -5,7 +9,7 @@ function topOrdersAverage(arr) {
         count += item['amount'];
         sum += item['pricePerUnit'] * item['amount'];
     })
-    return count > 0 ? sum / count : 0;
+    return round(count > 0 ? sum / count : 0, 1);
 }
 
 export async function bazaarUpdate(goods, bazaar, prices) {
@@ -23,8 +27,8 @@ export async function bazaarUpdate(goods, bazaar, prices) {
             status.buy_price = topOrdersAverage(product['buy_summary']);
             status.sell_moving_week = qs['sellMovingWeek'];
             status.buy_moving_week  = qs['buyMovingWeek'];
-            status.spread = status.buy_price? (status.buy_price - status.sell_price) / status.sell_price * 100 : 999;
-            if (status.spread > 999.99) status.spread = 999.99;
+            status.spread = round(status.buy_price? (status.buy_price - status.sell_price) / status.sell_price * 100 : 999, 1);
+            if (status.spread > 999.9) status.spread = 999.9;
 
             if (last_up - (status.previous_update ?? 0) > 1200000) { // 20 min
                 status.previous_update = last_up;
@@ -34,8 +38,8 @@ export async function bazaarUpdate(goods, bazaar, prices) {
                 const buy_changes = oldBuy === undefined ? 0 : (status.buy_price - oldBuy) * 100 / oldBuy;
                 status.previous_sell_price = status.sell_price;
                 status.previous_buy_price = status.buy_price;
-                status.sell_changes = sell_changes > 999 ? 999 : sell_changes;
-                status.buy_changes = buy_changes > 999 ? 999 : buy_changes;
+                status.sell_changes = round(sell_changes > 999 ? 999 : sell_changes, 2);
+                status.buy_changes = round(buy_changes > 999 ? 999 : buy_changes, 2);
             }
             prices.products[good] = status;
         }

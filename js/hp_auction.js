@@ -133,7 +133,7 @@ function namePress(event) {
     }
 }
 
-function optionChanged() {
+function optionChanged(element) {
     const attributeSearch = document.getElementById('attributeSearch').checked;
     const tmpPart = document.getElementById('tOption2').checked;
     const tmpName = document.getElementById('tOption3').checked;
@@ -141,7 +141,7 @@ function optionChanged() {
     setDisabled('armorName', tmpPart);
     setDisabled('partName', tmpName);
     setDisabled('itemName', tmpPart && attributeSearch);
-    armorChanged(undefined);
+    if (element.target.id !== 'attributeSearch') armorChanged(element);
 }
 
 function init() {

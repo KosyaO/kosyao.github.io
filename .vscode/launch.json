@@ -38,7 +38,7 @@
             "postDebugTask": "StopServer"
         },
         {
-            "name": "Live Server Debug (market)",
+            "name": "Live Server Debug (bazaar)",
             "port": 9222,
             "request": "launch",
             "type": "chrome",

@@ -1,5 +1,8 @@
 const capitalize = word => word.slice(0, 1).toUpperCase() + word.slice(1);
 const snakeToSpaced = text => text.split('_').map(capitalize).join(' ');
+function round(float_number, digits = 0) {
+    return parseFloat(float_number.toFixed(digits));
+}
 
 export const prices_filter = {
     'Artifact of Control': { buy_cheaper: 2000000000, count: 3 },
@@ -516,12 +519,12 @@ export function calculatePrices(data, bazaar, filter) {
                     new_item.price_entries[snakeToSpaced(recomb_item)] = other_price;
                 }
 
-                new_item.star_price = star_price;
-                new_item.ench_price = ench_price;
-                new_item.scrolls_price = scrolls_price;
+                new_item.star_price = round(star_price, 1);
+                new_item.ench_price = round(ench_price, 1);
+                new_item.scrolls_price = round(scrolls_price, 1);
                 new_item.other_price = other_price;
-                new_item.real_price = filter.base_price + ench_price + star_price + scrolls_price + other_price;
-                new_item.profit = new_item.real_price - topBid;
+                new_item.real_price = round(filter.base_price + ench_price + star_price + scrolls_price + other_price, 1);
+                new_item.profit = round(new_item.real_price - topBid, 1);
                 result.push(new_item);
             }
         }
