@@ -17,6 +17,10 @@ function updateStatus(text) {
 function formatNumber(num, maximumFractionDigits=2) {
     let postfix = '';
     const lang = (navigator.language || navigator.userLanguage).slice(0, 2);
+    // if (num > 10e6) {
+    //     num /= 1e6;
+    //     postfix = 'M';
+    // } else 
     if (num > 10000) { 
         num/= 1000; 
         postfix='k'; 
@@ -52,7 +56,7 @@ function drawMarket() {
             const marketCrop = prices.products[crop];
             tableData += `<tr><th scope="row" class="text-start">${product}</th>`
             if (!marketCrop) 
-                tableData += `<th colspan="7" class="text-center">not found in hypixel data</td></tr>`;
+                tableData += `<th colspan="7" class="text-center">not found in hypixel data</th></tr>`;
             else {
                 const {color_buy, color_sell} = getAlertColors(crop, marketCrop.buy_price, marketCrop.sell_price);
                 tableData += `<td${color_sell}>${formatNumber(marketCrop.sell_price)}</td>
@@ -60,8 +64,8 @@ function drawMarket() {
                     <td${color_buy}>${formatNumber(marketCrop.buy_price)}</td>
                     <td>${formatNumber(marketCrop.buy_changes, 1) + ' %'}</td>
                     <td>${formatNumber(marketCrop.spread) + ' %'}</td>
-                    <td>${formatNumber(marketCrop.buy_moving_week, 0)}</td>
-                    <td>${formatNumber(marketCrop.sell_moving_week, 0)}</td></tr>\n`
+                    <td>${formatNumber(marketCrop.sell_moving_week, 0)}</td>
+                    <td>${formatNumber(marketCrop.buy_moving_week, 0)}</td></tr>\n`
             }
         }
     document.getElementById('tCrops').innerHTML = tableData;
