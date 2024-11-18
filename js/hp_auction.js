@@ -46,7 +46,7 @@ function setStatus(text) {
 
 async function auctionSearch(filter) {
     if (searchProcessed) {
-        setStatus('Search already runned');
+        setStatus('Search already ran');
         return;
     }
     searchProcessed = true;

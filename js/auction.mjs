@@ -36,6 +36,13 @@ export const real_templates = {
             'Implosion': ['implosion_scroll'],
             'Wither Impact': ['wither_shield_scroll', 'shadow_warp_scroll', 'implosion_scroll']
         }
+    },
+    midas_sword: {
+        item_name: "Midas' Sword",
+        max_paid: 250000000,
+        base_tier: "LEGENDARY",
+        essence: { name: 'Gold Essence', code: 'essence_gold', count: [0, 125, 175, 250, 375, 575] },
+        upgrades: {'⚚': {'golden_fragment': 8}}
     }
 };
 
@@ -84,7 +91,8 @@ const auxiliary_items = [
     'wither_shield_scroll', 
     'shadow_warp_scroll', 
     'implosion_scroll',
-    recomb_item
+    recomb_item,
+    'golden_fragment'
 ];
 
 export const bazaar_items = Object.values(enchants_one).concat(Object.values(enchants_exact)).concat(stars.names).concat(auxiliary_items);
@@ -457,10 +465,24 @@ export function calculatePrices(data, bazaar, filter) {
                 const item_lore = item['item_lore'];
                 if (!item_name.includes(filter.item_name)) continue;
 
-                const new_item = { item_name, bin: item.bin, price_entries: {'Raw item': filter.base_price}, item_lore};
+                const new_item = { item_name, bin: item.bin, price_entries: {}, item_lore};
                 let topBid = item['highest_bid_amount'];
                 if (topBid === 0) topBid = item['starting_bid'];
                 new_item.top_bid = topBid;
+                // base price
+                let base_price = filter.base_price ?? 0;
+                if (filter.max_paid !== undefined) {
+                    const paid_str = 'Price paid: §6';
+                    let p = item_lore.indexOf(paid_str);
+                    if (p >= 0) {
+                        const end = item_lore.indexOf(' Coins', p);
+                        const paid_sum = item_lore.slice(p + paid_str.length, end);
+                        base_price = parseFloat(paid_sum.replaceAll(',',''));
+                        if (base_price > filter.max_paid) {
+                            base_price = filter.max_paid;
+                        }
+                    }
+                }
                 let ench_price = 0;
                 // enchants with specific level
                 for (let [ench, code] of Object.entries(enchants_exact))
@@ -512,18 +534,31 @@ export function calculatePrices(data, bazaar, filter) {
                     }
                 let other_price = 0;
                 // recomb
-                new_item.tier = item.tier;
-                if (new_item.tier !== filter.base_tier) {
+                if (item.tier !== filter.base_tier) {
                     const rec_price = getSellPrice(recomb_item);
                     other_price += rec_price;
                     new_item.price_entries[snakeToSpaced(recomb_item)] = other_price;
                 }
+                // upgrades
+                if (filter.upgrades !== undefined) 
+                    for (let [upgrade, params] of Object.entries(filter.upgrades)) {
+                        if (item_name.includes(upgrade)) {
+                            for (let [up_name, up_count] of Object.entries(params)) {
+                                const up_price = getSellPrice(up_name) * up_count;
+                                other_price += up_price;
+                                new_item.price_entries[snakeToSpaced(up_name)] = up_price   ;
+                            }
+                        }
+                    }
 
+                new_item.tier = item.tier;
+                new_item.base_price = base_price;
+                new_item.price_entries['Base price'] = base_price;
                 new_item.star_price = round(star_price, 1);
                 new_item.ench_price = round(ench_price, 1);
                 new_item.scrolls_price = round(scrolls_price, 1);
                 new_item.other_price = other_price;
-                new_item.real_price = round(filter.base_price + ench_price + star_price + scrolls_price + other_price, 1);
+                new_item.real_price = round(base_price + ench_price + star_price + scrolls_price + other_price, 1);
                 new_item.profit = round(new_item.real_price - topBid, 1);
                 result.push(new_item);
             }
