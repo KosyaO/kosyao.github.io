@@ -1,5 +1,5 @@
 import { auctionDownload, auctionFilter, translate_attribute_name, 
-    generate_armor_template, generate_piece_attribute, generate_piece_template, templates } from './auction.mjs';
+    generate_armor_template, generate_piece_template, templates } from './auction.mjs';
 
 let searchProcessed = false;
 let auctionData = { time_updated: 0 };
@@ -95,7 +95,7 @@ function searchBtn() {
         }
     } else filter = templates[template];
     console.log(filter);
-    auctionSearch(filter);
+    auctionSearch(filter).then(()=> console.log('Search completed'));
 }
 
 function setDisabled(ctrlName, value) {
@@ -119,7 +119,7 @@ function templateSelect(event) {
     setVisible('pnlParams', event.target.value === "");
 }
 
-function armorChanged(element) {
+function armorChanged() {
     const name = document.getElementById('armorName');
     const part = document.getElementById('partName');
     const nameValue = name.hasAttribute('disabled') ? '' : name.value;

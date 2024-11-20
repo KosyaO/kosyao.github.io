@@ -43,6 +43,13 @@ export const real_templates = {
         base_tier: "LEGENDARY",
         essence: { name: 'Gold Essence', code: 'essence_gold', count: [0, 125, 175, 250, 375, 575] },
         upgrades: {'⚚': {'golden_fragment': 8}}
+    },
+    midas_staff: {
+        item_name: "Midas Staff",
+        max_paid: 500000000,
+        base_tier: "LEGENDARY",
+        essence: { name: 'Gold Essence', code: 'essence_gold', count: [0, 125, 175, 250, 375, 575] },
+        upgrades: {'⚚': {'golden_fragment': 8}}
     }
 };
 

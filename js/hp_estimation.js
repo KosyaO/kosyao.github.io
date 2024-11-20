@@ -6,19 +6,6 @@ let auctionData  = { time_updated: 0 };
 let bazaarData   = { time_updated: 0 };
 let bazaarPrices = { last_updated: 0, products: {} };
 
-
-function setDisabled(ctrlName, value) {
-    const ctrl = document.getElementById(ctrlName);
-    if (value) ctrl.setAttribute('disabled', 'true')
-        else ctrl.removeAttribute('disabled');
-}
-
-function setVisible(ctrlName, value) {
-    const ctrl = document.getElementById(ctrlName);
-    if (value) ctrl.classList.remove('d-none')
-        else ctrl.classList.add('d-none');
-}
-
 function setStatus(text) {
     const status = document.getElementById('cStatus'); 
     status.innerHTML = text;
@@ -35,20 +22,21 @@ function fillTable(filtered, max_items = 999) {
         const real_price = intl.format(item.real_price/1e6) + 'M';
         const profit = intl.format(item.profit/1e6) + 'M';
         const profit_color = item.profit > 0? 'table-success': 'table-danger';
-        const ench_price = intl.format(item.ench_price/1e6) + 'M';
+        const enchants_price = intl.format(item.ench_price/1e6) + 'M';
         const star_price = intl.format(item.star_price/1e6) + 'M';
         const scrolls_price = intl.format(item.scrolls_price/1e6) + 'M';
         tableData += `<tr class="text-end"><th scope="row" class="text-start">${item_name}</th>
             <td>${bin}</td><td>${top_bid}</td><td>${real_price}</td><td class="${profit_color}">${profit}</td>
-            <td>${ench_price}</td><td>${star_price}</td><td>${scrolls_price}</td></tr>`;
+            <td>${enchants_price}</td><td>${star_price}</td><td>${scrolls_price}</td></tr>`;
         if (++printed >= max_items) break;
     }
     document.getElementById('tResults').innerHTML = tableData;
+    return printed
 }
 
 async function auctionSearch(filter) {
     if (searchProcessed) {
-        setStatus('Search already runned');
+        setStatus('Search already ran');
         return;
     }
     searchProcessed = true;
@@ -65,7 +53,7 @@ async function auctionSearch(filter) {
         setStatus('Processing data...');
 
         const filtered = calculatePrices(auctionData, bazaarPrices, filter);
-        const found_total = fillTable(filtered);
+        fillTable(filtered);
         const load_time = need_update ? `auction - ${auctionData.load_time/1000} sec, bazaar - ${bazaarData.load_time/1000}` : 'cache';
         setStatus(`Search completed, ${filtered.length} items found, Load time: ${load_time}`);
     } catch (error) {
@@ -77,8 +65,7 @@ async function auctionSearch(filter) {
 function searchBtn() {
     const template = document.getElementById('searchTemplate').value;
     const filter = real_templates[template];
-    console.log(filter);
-    auctionSearch(filter);
+    auctionSearch(filter).then(()=> console.log('Search completed'));
 }
 
 function init() {

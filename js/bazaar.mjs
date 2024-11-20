@@ -12,7 +12,7 @@ function topOrdersAverage(arr) {
     return round(count > 0 ? sum / count : 0, 1);
 }
 
-export async function bazaarUpdate(goods, bazaar, prices) {
+export function bazaarUpdate(goods, bazaar, prices) {
     const last_up = bazaar['lastUpdated'];
     prices['last_updated'] = last_up;
 
