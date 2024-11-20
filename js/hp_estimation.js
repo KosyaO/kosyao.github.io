@@ -36,7 +36,7 @@ function fillTable(filtered, max_items = 999) {
 
 async function auctionSearch(filter) {
     if (searchProcessed) {
-        setStatus('Search already ran');
+        setStatus('The search has already been run.');
         return;
     }
     searchProcessed = true;
