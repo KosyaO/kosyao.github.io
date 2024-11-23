@@ -44,7 +44,9 @@ async function auctionSearch(filter) {
         const need_update = Date.now() - bazaarData.time_updated > 10000;
         if (need_update) {
             setStatus('Downloading auction...');
-            auctionData = await auctionDownload();
+            auctionData = await auctionDownload(state => 
+                setStatus(`Downloading auction (${state.loaded}/${state.total ?? '?'} pages loaded)...`)
+            );
             setStatus('Downloading bazaar...');
             bazaarData = await bazaarDownload();
             const goods = bazaar_items.concat([filter.essence.code]);

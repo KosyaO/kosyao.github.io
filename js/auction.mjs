@@ -312,7 +312,7 @@ export const templates = {
     pet_slug_leg: { '] Slug': { exact_tier: "LEGENDARY" }}
 }
 
-export async function auctionDownload() {
+export async function auctionDownload(stateCallback = undefined) {
     const result = { pages: [] };
     let active = 0;
     let next = 0;
@@ -331,13 +331,18 @@ export async function auctionDownload() {
 
     const start = Date.now();
     await new Promise((resolve, reject) => {
-        let remain = 0;
+        let remain = 0, loaded = 0, total = undefined;
         function start() {
+            loaded++
             remain--;
+            if (stateCallback !== undefined) {
+                stateCallback({loaded, total});
+            }
             task().then(json => {
                 if (remain < 0) {
-                    remain += json['totalPages'];
-                    console.log(`Loading auction, ${json['totalPages']} pages total...`);
+                    total = json['totalPages']
+                    remain += total;
+                    console.log(`Loading auction, ${total} pages total...`);
                 }
                 if (remain > 0) {
                     start();
