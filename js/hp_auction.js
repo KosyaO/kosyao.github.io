@@ -54,7 +54,9 @@ async function auctionSearch(filter) {
         const need_update = Date.now() - auctionData.time_updated > 10000;
         if (need_update) {
             setStatus('Downloading data...');
-            auctionData = await auctionDownload();
+            auctionData = await auctionDownload(state => 
+                setStatus(`Downloading auction (${state.loaded}/${state.total ?? '?'} pages loaded)...`)
+            );
         }
         setStatus('Processing data...');
         const filtered = auctionFilter(auctionData, filter);
