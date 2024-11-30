@@ -41,7 +41,7 @@ async function auctionSearch(filter) {
     }
     searchProcessed = true;
     try {
-        const need_update = Date.now() - bazaarData.time_updated > 10000;
+        const need_update = Date.now() - bazaarData.time_updated > 30000;
         if (need_update) {
             setStatus('Downloading auction...');
             auctionData = await auctionDownload(state => 
