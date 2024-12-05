@@ -50,7 +50,14 @@ export const real_templates = {
         base_tier: "LEGENDARY",
         essence: { name: 'Gold Essence', code: 'essence_gold', count: [0, 125, 175, 250, 375, 575] },
         upgrades: {'⚚': {'golden_fragment': 8}}
-    }
+    },
+    daedalus_axe: {
+        item_name: 'Daedalus Axe',
+        base_price: 7500000,
+        base_tier: "LEGENDARY",
+        upgrades: {'⚚': {'golden_fragment': 8}}
+    },
+
 };
 
 const enchants_one = {
@@ -519,11 +526,8 @@ export function calculatePrices(data, bazaar, filter) {
                         new_item.price_entries[ench] = price;
                         ench_price += price;
                     }
-                // stars
-                const stars_count = item_name.split('✪').length - 1;
-                const essence_price = getSellPrice(filter.essence.code);
-                let star_price = essence_price * filter.essence.count[stars_count];
                 // master stars
+                let star_price = 0;
                 let i = stars.symbols.length;
                 while (i > 0 ) {
                     if (item_name.includes(stars.symbols[i-1])) break;
@@ -533,6 +537,12 @@ export function calculatePrices(data, bazaar, filter) {
                     const ms_star_price = getSellPrice(stars.names[i]);
                     new_item.price_entries[snakeToSpaced(stars.names[i])] = ms_star_price;
                     star_price += ms_star_price;
+                }
+                // stars
+                const stars_count = item_name.split('✪').length - 1;
+                if (filter.essence !== undefined) {
+                    const essence_price = getSellPrice(filter.essence.code);
+                    star_price += essence_price * filter.essence.count[stars_count];
                 }
                 // abilities
                 let scrolls_price = 0;

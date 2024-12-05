@@ -49,7 +49,8 @@ async function auctionSearch(filter) {
             );
             setStatus('Downloading bazaar...');
             bazaarData = await bazaarDownload();
-            const goods = bazaar_items.concat([filter.essence.code]);
+            const goods = bazaar_items;
+            if (filter.essence !== undefined) goods.push(filter.essence.code);
             bazaarUpdate(goods, bazaarData, bazaarPrices);
         }
         setStatus('Processing data...');
@@ -71,6 +72,13 @@ function searchBtn() {
 }
 
 function init() {
+    const ctrl = document.getElementById('searchTemplate');
+    let options = '';
+    for (let [item_code, item_data] of Object.entries(real_templates)) {
+        options += `<option value="${item_code}">${item_data.item_name}</option>\n`
+    }
+    ctrl.innerHTML = options;
+
     const handlers = {
         'click-search': searchBtn,
     }
