@@ -85,7 +85,7 @@ function init() {
     
     for (let [kind, handler] of Object.entries(handlers)) {
         const elements = document.querySelectorAll(`*[evnt-${kind}]`);
-        console.log(elements);
+        console.log(kind, elements);
         const [eventType] = kind.split('-',1);
         elements.forEach(element => element.addEventListener(eventType, handler));
     }

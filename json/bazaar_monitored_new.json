@@ -127,6 +127,10 @@
         "flawed_amethyst_gem",
         "flawed_jasper_gem",
         "flawed_ruby_gem",
+        "flawed_onyx_gem",
+        "flawed_citrine_gem",
+        "flawed_peridot_gem",
+        "flawed_aquamarine_gem",
         "-",
         "fine_jade_gem",
         "fine_amber_gem",
@@ -189,7 +193,7 @@
       "name": "Alerts",
       "items": [
         "enchanted_compost",
-        "enchanted_hay_block",
+        "enchanted_wheat",
         "enchanted_sugar_cane",
         "mutant_nether_stalk",
         "enchanted_baked_potato",
@@ -199,6 +203,7 @@
         "enchanted_golden_carrot",
         "enchanted_cookie",
         "box_of_seeds",
+        "enchanted_hay_bale",
         "enchantment_replenish_1",
         "enchantment_green_thumb_1",
         "enchantment_green_thumb_2",
@@ -209,11 +214,18 @@
         "glacite_amalgamation",
         "skeleton_key",
         "enchanted_gold",
+        "enchanted_coal",
         "- inferno",
         "very_crude_gabagool",
         "capsaicin_eyedrops_no_charges",
         "inferno_vertex",
-        "inferno_apex"
+        "inferno_apex",
+        "- crimson",
+        "essence_crimson",
+        "enchantment_mana_vampire_5",
+        "enchantment_ferocious_mana_5",
+        "enchantment_strong_mana_5",
+        "enchantment_hardened_mana_5"
       ]
     }
   ],
@@ -321,6 +333,7 @@
     "enchantment_giant_killer_7",
     "enchantment_protection_7",
     "enchantment_power_7",
+    "enchantment_big_brain_3",
 
     "divan_fragment",
     "refined_mineral",
@@ -332,49 +345,56 @@
     "great_carrot_candy",
     "superb_carrot_candy",
     "ultimate_carrot_candy",
-    "carrot_item"
+    "carrot_item",
+    "thunder_shards",
+    "horn_of_taurus",
+    "moogma_pelt",
+    "flaming_heart",
+    "lump_of_magma",
+    "cup_of_blood"
   ],
 
   "Estimation": {
     "Wheat": [
-      {"crop": "Seeds", "harvested": 613700, "sale_crop": "box_of_seeds", "ratio": 25600, "add_cost": 0},
-      {"crop": "Wheat", "harvested": 655000, "sale_crop": "enchanted_hay_block", "ratio": 1296, "add_cost": 0}
+      {"crop": "Seeds", "harvested": 750000, "sale_crop": "box_of_seeds", "ratio": 25600, "npc_cost": 76800},
+      {"crop": "Wheat", "harvested": 515000, "sale_crop": "enchanted_wheat", "ratio": 160, "npc_cost": 960},
+      {"crop": "Mushrooms" ,"harvested": 23700, "sale_crop": "enchanted_huge_mushroom_1", "ratio": 5120, "npc_cost": 51200}
     ],
     "Carrot": [
-      {"harvested": 1480000, "sale_crop": "enchanted_golden_carrot", "ratio": 20480, "add_cost": 480},
-      {"crop": "Mushrooms" ,"harvested": 21500, "sale_crop": "enchanted_huge_mushroom_1", "ratio": 5120, "add_cost": 0}
+      {"harvested": 1550000, "sale_crop": "enchanted_golden_carrot", "ratio": 20480, "add_cost": 480, "npc_cost": 61440},
+      {"crop": "Mushrooms" ,"harvested": 23700, "sale_crop": "enchanted_huge_mushroom_1", "ratio": 5120, "npc_cost": 51200}
     ],
     "Potato": [
-      {"harvested": 1477000, "sale_crop": "enchanted_baked_potato", "ratio": 25600, "add_cost": 0},
-      {"crop": "Mushrooms" ,"harvested": 20800, "sale_crop": "enchanted_huge_mushroom_1", "ratio": 5120, "add_cost": 0}
+      {"harvested": 1542000, "sale_crop": "enchanted_baked_potato", "ratio": 25600, "npc_cost": 76800},
+      {"crop": "Mushrooms" ,"harvested": 24000, "sale_crop": "enchanted_huge_mushroom_1", "ratio": 5120, "npc_cost": 51200}
     ],
     "Melon": [
-      {"harvested": 2350000, "sale_crop": "enchanted_melon_block", "ratio": 25600, "add_cost": 0},
-      {"crop": "Mushrooms" ,"harvested": 20800, "sale_crop": "enchanted_huge_mushroom_1", "ratio": 5120, "add_cost": 0}
+      {"harvested": 2406000, "sale_crop": "enchanted_melon_block", "ratio": 25600, "npc_cost": 51200},
+      {"crop": "Mushrooms" ,"harvested": 26000, "sale_crop": "enchanted_huge_mushroom_1", "ratio": 5120, "npc_cost": 51200}
     ],
     "Pumpkin": [
-      {"harvested": 475000, "sale_crop": "polished_pumpkin", "ratio": 25600, "add_cost": 0},
-      {"crop": "Mushrooms" ,"harvested": 21360, "sale_crop": "enchanted_huge_mushroom_1", "ratio": 5120, "add_cost": 0}
+      {"harvested": 486200, "sale_crop": "polished_pumpkin", "ratio": 25600, "npc_cost": 256000},
+      {"crop": "Mushrooms" ,"harvested": 23200, "sale_crop": "enchanted_huge_mushroom_1", "ratio": 5120, "npc_cost": 51200}
     ],
     "Cocoa": [
-      {"harvested": 1360000, "sale_crop": "enchanted_cookie", "ratio": 20480, "add_cost": 160},
-      {"crop": "Mushrooms" ,"harvested": 21320, "sale_crop": "enchanted_huge_mushroom_1", "ratio": 5120, "add_cost": 0}
+      {"harvested": 1430000, "sale_crop": "enchanted_cookie", "ratio": 20480, "add_cost": 160, "npc_cost": 61500},
+      {"crop": "Mushrooms" ,"harvested": 23600, "sale_crop": "enchanted_huge_mushroom_1", "ratio": 5120, "npc_cost": 51200}
     ],
     "Sugar": [
-      {"harvested": 950000, "sale_crop": "enchanted_sugar_cane", "ratio": 25600, "add_cost": 0},
-      {"crop": "Mushrooms" ,"harvested": 42860, "sale_crop": "enchanted_huge_mushroom_1", "ratio": 5120, "add_cost": 0}
+      {"harvested": 1015000, "sale_crop": "enchanted_sugar_cane", "ratio": 25600, "npc_cost": 102400},
+      {"crop": "Mushrooms" ,"harvested": 47120, "sale_crop": "enchanted_huge_mushroom_1", "ratio": 5120, "npc_cost": 51200}
     ],
     "Netherwart": [
-      {"harvested": 1225000, "sale_crop": "mutant_nether_stalk", "ratio": 25600, "add_cost": 0},
-      {"crop": "Mushrooms" ,"harvested": 21840, "sale_crop": "enchanted_huge_mushroom_1", "ratio": 5120, "add_cost": 0}
+      {"harvested": 1274000, "sale_crop": "mutant_nether_stalk", "ratio": 25600, "npc_cost": 102400},
+      {"crop": "Mushrooms" ,"harvested": 23700, "sale_crop": "enchanted_huge_mushroom_1", "ratio": 5120, "npc_cost": 51200}
     ],
     "Cactus": [
-      {"harvested": 884000, "sale_crop": "enchanted_cactus", "ratio": 25600, "add_cost": 0},
-      {"crop": "Mushrooms" ,"harvested": 41915, "sale_crop": "enchanted_huge_mushroom_1", "ratio": 5120, "add_cost": 0}
+      {"harvested": 921900, "sale_crop": "enchanted_cactus", "ratio": 25600, "npc_cost": 102400},
+      {"crop": "Mushrooms" ,"harvested": 46670, "sale_crop": "enchanted_huge_mushroom_1", "ratio": 5120, "npc_cost": 51200}
     ],
     "Mushroom": [
-      {"crop": "Red" ,"harvested": 233000, "sale_crop": "enchanted_huge_mushroom_2", "ratio": 5120, "add_cost": 0},
-      {"crop": "Brown", "harvested": 233000, "sale_crop": "enchanted_huge_mushroom_1", "ratio": 5120, "add_cost": 0}
+      {"crop": "Red" ,"harvested": 248000, "sale_crop": "enchanted_huge_mushroom_2", "ratio": 5120, "npc_cost": 51200},
+      {"crop": "Brown", "harvested": 248000, "sale_crop": "enchanted_huge_mushroom_1", "ratio": 5120, "npc_cost": 51200}
     ]
   },
 
@@ -385,7 +405,7 @@
     "mutant_nether_stalk": {"high": 103000},
     "enchanted_baked_potato": {"high": 78000},
     "enchanted_melon_block": {"high": 52000},
-    "polished_pumpkin": {"high": 258000},
+    "polished_pumpkin": {"high": 260000},
     "enchanted_cactus": {"high": 150000},
     "enchanted_golden_carrot": {"high": 75000},
     "enchanted_cookie": {"high": 93000},
@@ -400,10 +420,16 @@
     "glacite_amalgamation": {"low": 1900000, "high": 2800000},
     "skeleton_key": {"high": 45000000},
     "enchanted_gold": {"high": 850},
+    "enchanted_coal": {"low": 1100},
 
     "very_crude_gabagool": {"low": 98000},
     "capsaicin_eyedrops_no_charges": {"high": 1900000},
-    "inferno_vertex": {"high": 6500000},
-    "inferno_apex": {"high": 175000000}
+    "inferno_vertex": {"low": 5100000, "high": 6500000},
+    "inferno_apex": {"high": 150000000},
+    "essence_crimson": {"low": 1600, "high": 1950},
+    "enchantment_mana_vampire_5": {"low": 600000},
+    "enchantment_ferocious_mana_5": {"low": 250000},
+    "enchantment_strong_mana_5": {"low": 1000000},
+    "enchantment_hardened_mana_5": {"low": 250000}
   }
 }
