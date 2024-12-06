@@ -7,6 +7,7 @@ let currentInterval;
 let lsPrefix = 'hp_baz_';
 
 const capitalize = word => word.slice(0, 1).toUpperCase() + word.slice(1);
+const snakeToFlu = word => word.split('_').map(capitalize).join(' ');
 
 function updateStatus(text) {
     const ctrl = document.getElementById('cStatus');
@@ -14,14 +15,14 @@ function updateStatus(text) {
     ctrl.innerHTML = text;
 }
 
-function formatNumber(num, maximumFractionDigits=2) {
+function formatNumber(num, maximumFractionDigits=2, short_thousands = true) {
     let postfix = '';
     const lang = (navigator.language || navigator.userLanguage).slice(0, 2);
     // if (num > 10e6) {
     //     num /= 1e6;
     //     postfix = 'M';
     // } else 
-    if (num > 10000) { 
+    if (short_thousands && num > 10000) { 
         num/= 1000; 
         postfix='k'; 
     }
@@ -34,6 +35,42 @@ function getAlertColors(product, buy_price, sell_price) {
     const color_buy = color_map[buy_price <= low ? 'r' : (buy_price >= high ? 'g' : 'd')];
     const color_sell = color_map[sell_price >= high ? 'r' : (sell_price <= low ? 'g' : 'd')];
     return {color_buy, color_sell};
+}
+
+function updateEstimation() {
+    let tableData = "";
+    const estimation = [];
+    for (let [contest, data] of Object.entries(config['Estimation'] ?? {})) {
+        let income = 0;
+        const crops = [];
+        for (let {crop, harvested, sale_crop, ratio, npc_cost, add_cost} of data) {
+            const price = Math.max(prices.products[sale_crop]?.sell_price ?? 0, npc_cost ?? 0);
+            const crop_income = harvested / ratio * (price - (add_cost ?? 0));
+            income += crop_income;
+            crops.push({crop, harvested, sale_crop, price, crop_income});
+        }
+        estimation.push({income, contest, crops});
+    }
+    estimation.sort((a, b) => b.income - a.income);
+    
+    for (let {income, contest, crops} of estimation) {
+        let firstLine = true;
+        for (let {crop, harvested, sale_crop, price, crop_income} of crops) {
+            tableData += '<tr>';
+            if (firstLine) {
+                tableData += `<th scope="row" rowspan="${crops.length}" class="text-start">${contest}</th>`+
+                             `<td rowspan="${crops.length}">${formatNumber(income, 0)}</td>`;
+            }
+            tableData += `<td>${crop}</td>
+                          <td>${formatNumber(harvested, 0, false)}</td>
+                          <td>${snakeToFlu(sale_crop)}</td>
+                          <td>${formatNumber(price, 1)}</td>
+                          <td>${formatNumber(crop_income, 1)}</td>`;
+            tableData += '</tr>\n';
+            firstLine = false;
+        }
+    }
+    document.getElementById('tEstimation').innerHTML = tableData;
 }
 
 function drawMarket() {
@@ -52,7 +89,7 @@ function drawMarket() {
             if (text === '') text = '&nbsp;'
             tableData += `<tr><th colspan="8" class="text-center">${text}</td></tr>`;
         } else {
-            const product = crop.split('_').map(capitalize).join(' ');
+            const product = snakeToFlu(crop);
             const marketCrop = prices.products[crop];
             tableData += `<tr><th scope="row" class="text-start">${product}</th>`
             if (!marketCrop) 
@@ -68,7 +105,7 @@ function drawMarket() {
                     <td>${formatNumber(marketCrop.buy_moving_week, 0)}</td></tr>\n`
             }
         }
-    document.getElementById('tCrops').innerHTML = tableData;
+    document.getElementById('tBazaar').innerHTML = tableData;
 }
 
 function marketSchedule(error) {
@@ -86,6 +123,7 @@ function updateMarket(market) {
     const lang = navigator.language || navigator.userLanguage;
     updateStatus('Last updated: ' + new Date(market.lastUpdated).toLocaleString(lang) + ` (${market.lastUpdated})`);
     localStorage?.setItem?.(lsPrefix + 'prices', JSON.stringify(prices));
+    updateEstimation();
     drawMarket();
 }
 
@@ -109,13 +147,18 @@ function updateConfig(response) {
     for (let page of pages) {
         const isActive = page.name === selectedMenu;
         const active = isActive ? ' active': '';
-        menuTemp += `<li class="nav-item" role="presentation"><button class="nav-link${active}" data-bs-toggle="pill"` + 
-                    ` type="button" aria-selected="${isActive}">${page.name}</button></li>\n`;
-        if ((page.type ?? 'bazaar') === 'bazaar') page.items.forEach(config.goods.add, config.goods);
+        const pageType = page.type ?? 'bazaar';
+        menuTemp += `<li class="nav-item" role="presentation">`+
+            `<button class="nav-link${active}" data-bs-toggle="pill" type="button" aria-selected="${isActive}"` + 
+            `role="tab" data-bs-target="#pills-${pageType}" aria-controls="pills-${pageType}">${page.name}</button></li>\n`;
+        if (pageType === 'bazaar') page.items.forEach(config.goods.add, config.goods);
     }
 
     document.getElementById('nMarketMenu').innerHTML = menuTemp;
     downloadMarket();
+    if (selectedMenu === 'Estimation') {
+        // тут как-то надо выбрать таб...
+    }   
 }
 
 function navClick(item) {

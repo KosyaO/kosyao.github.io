@@ -18,7 +18,7 @@
             "program": "${workspaceFolder}\\js\\gen_pages.mjs"
         },
         {
-            "name": "Live Server Debug (auc)",
+            "name": "Live Debug (auc)",
             "port": 9222,
             "request": "launch",
             "type": "chrome",
@@ -28,7 +28,7 @@
             "postDebugTask": "StopServer"
         },
         {
-            "name": "Live Server Debug (estimation)",
+            "name": "Live Debug (estimation)",
             "port": 9222,
             "request": "launch",
             "type": "chrome",
@@ -38,7 +38,7 @@
             "postDebugTask": "StopServer"
         },
         {
-            "name": "Live Server Debug (bazaar)",
+            "name": "Live Debug (bazaar)",
             "port": 9222,
             "request": "launch",
             "type": "chrome",
