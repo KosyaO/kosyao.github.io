@@ -379,7 +379,7 @@ export function auctionFilter(data, filter) {
                 const item_name = item['item_name'];
                 let conditions;
                 for (let search_name in filter) {
-                    if (item_name.includes(search_name)) {
+                    if (item_name.toLowerCase().includes(search_name.toLowerCase())) {
                         conditions = filter[search_name];
                         break;
                     }
@@ -444,7 +444,7 @@ export function analyzeData(data, filter) {
             for (let item of page.answer['auctions']) {
                 const item_name = item['item_name'];
                 for (let search_name in filter) {
-                    if (item_name.includes(search_name)) {
+                    if (item_name.toLowerCase().includes(search_name.toLowerCase())) {
                         const conditions = filter[search_name];
                         const maxPrice = conditions.max_price;
                         let topBid = item['highest_bid_amount'];
@@ -482,7 +482,7 @@ export function calculatePrices(data, bazaar, filter) {
             for (let item of page.answer['auctions']) {
                 const item_name = item['item_name'];
                 const item_lore = item['item_lore'];
-                if (!item_name.includes(filter.item_name)) continue;
+                if (!item_name.toLowerCase().includes(filter.item_name.toLowerCase())) continue;
 
                 const new_item = { item_name, bin: item.bin, price_entries: {}, item_lore};
                 let topBid = item['highest_bid_amount'];
