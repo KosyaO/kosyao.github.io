@@ -61,7 +61,7 @@ function updateEstimation() {
                 tableData += `<th scope="row" rowspan="${crops.length}" class="text-start">${contest}</th>`+
                              `<td rowspan="${crops.length}">${formatNumber(income, 0)}</td>`;
             }
-            tableData += `<td>${crop}</td>
+            tableData += `<td>${crop ?? contest}</td>
                           <td>${formatNumber(harvested, 0, false)}</td>
                           <td>${snakeToFlu(sale_crop)}</td>
                           <td>${formatNumber(price, 1)}</td>
@@ -157,7 +157,7 @@ function updateConfig(response) {
     document.getElementById('nMarketMenu').innerHTML = menuTemp;
     downloadMarket();
     if (selectedMenu === 'Estimation') {
-        // тут как-то надо выбрать таб...
+        // just select a tab somehow...
     }   
 }
 
