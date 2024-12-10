@@ -21,7 +21,7 @@ export const real_templates = {
     },
     terminator: {
         item_name: 'Terminator',
-        base_price: 599000000,
+        base_price: 560000000,
         base_tier: "LEGENDARY",
         essence: { name: 'Dragon Essence', code: 'essence_dragon', count: [0, 400, 600, 900, 1400, 2150] }
     },
