@@ -10,7 +10,7 @@ export const prices_filter = {
     'Dark Claymore': {}
 };
 
-const roman_multipliers = { 'I': 1, 'II': 2, 'III': 4, 'IV': 8, 'V': 16, 'VI': 16, 'VII': 32, 'VIII': 64, 'IX': 128, 'X': 256 };
+const roman_multipliers = { 'I': 1, 'II': 2, 'III': 4, 'IV': 8, 'V': 16, 'VI': 32, 'VII': 64, 'VIII': 128, 'IX': 256, 'X': 512 };
 
 export const real_templates = {
     dark_claymore: {
