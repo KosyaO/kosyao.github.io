@@ -157,7 +157,8 @@ function updateConfig(response) {
     document.getElementById('nMarketMenu').innerHTML = menuTemp;
     downloadMarket();
     if (selectedMenu === 'Estimation') {
-        // just select a tab somehow...
+        document.getElementById('pills-bazaar').classList.remove('show', 'active');
+        document.getElementById('pills-estimation').classList.add('show', 'active');
     }   
 }
 
