@@ -44,10 +44,12 @@ function updateEstimation() {
         let income = 0;
         const crops = [];
         for (let {crop, harvested, sale_crop, ratio, npc_cost, add_cost} of data) {
-            const price = Math.max(prices.products[sale_crop]?.sell_price ?? 0, npc_cost ?? 0);
+            const marketCrop = prices.products[sale_crop] ?? {};
+            const price = Math.max(marketCrop.buy_price ?? 0, npc_cost ?? 0);
+            const {color_buy} = getAlertColors(sale_crop, marketCrop.buy_price, marketCrop.sell_price);
             const crop_income = harvested / ratio * (price - (add_cost ?? 0));
             income += crop_income;
-            crops.push({crop, harvested, sale_crop, price, crop_income});
+            crops.push({crop, harvested, sale_crop, price, crop_income, color_buy});
         }
         estimation.push({income, contest, crops});
     }
@@ -55,7 +57,7 @@ function updateEstimation() {
     
     for (let {income, contest, crops} of estimation) {
         let firstLine = true;
-        for (let {crop, harvested, sale_crop, price, crop_income} of crops) {
+        for (let {crop, harvested, sale_crop, price, crop_income, color_buy} of crops) {
             tableData += '<tr>';
             if (firstLine) {
                 tableData += `<th scope="row" rowspan="${crops.length}" class="text-start">${contest}</th>`+
@@ -64,7 +66,7 @@ function updateEstimation() {
             tableData += `<td>${crop ?? contest}</td>
                           <td>${formatNumber(harvested, 0, false)}</td>
                           <td>${snakeToFlu(sale_crop)}</td>
-                          <td>${formatNumber(price, 1)}</td>
+                          <td${color_buy}>${formatNumber(price, 1)}</td>
                           <td>${formatNumber(crop_income, 1)}</td>`;
             tableData += '</tr>\n';
             firstLine = false;
@@ -188,14 +190,16 @@ function init() {
     selectedMenu = localStorage?.getItem?.(lsPrefix + 'selectedMenu');
     const oldStr = localStorage?.getItem?.(lsPrefix + 'prices');
     if (oldStr) prices = JSON.parse(oldStr);
-    const cfgStr = localStorage?.getItem?.(lsPrefix + 'config_new');
+    const cfgStr = null; // localStorage?.getItem?.(lsPrefix + 'config_new');
     if (cfgStr !== null) {
         updateConfig(JSON.parse(cfgStr));
     }
-    else fetch('json/bazaar_monitored_new.json').then(res => res.json().then(res => {
-        localStorage?.setItem?.(lsPrefix + 'config_new', JSON.stringify(res));
-        updateConfig(res);
-    }))
+    else {
+        fetch('json/bazaar_monitored_new.json').then(res => res.json().then(res => {
+            localStorage?.setItem?.(lsPrefix + 'config_new', JSON.stringify(res));
+            updateConfig(res);
+        }));
+    }
 }
 
 init();

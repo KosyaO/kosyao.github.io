@@ -3,7 +3,7 @@
       "type": "bazaar",
       "items": [
         "enchanted_seeds",
-        "enchanted_hay_block",
+        "enchanted_wheat",
         "enchanted_carrot",
         "enchanted_potato",
         "enchanted_melon",
@@ -16,6 +16,7 @@
         "enchanted_cactus_green",
         "-",
         "box_of_seeds",
+        "enchanted_hay_bale",
         "enchanted_melon_block",
         "enchanted_golden_carrot",
         "enchanted_cookie",
@@ -351,7 +352,10 @@
     "moogma_pelt",
     "flaming_heart",
     "lump_of_magma",
-    "cup_of_blood"
+    "cup_of_blood",
+    "heavy_pearl",
+    "kuudra_teeth",
+    "eccentric_painting"
   ],
 
   "Estimation": {
@@ -365,7 +369,7 @@
       {"crop": "Mushrooms" ,"harvested": 23700, "sale_crop": "enchanted_huge_mushroom_1", "ratio": 5120, "npc_cost": 51200}
     ],
     "Potato": [
-      {"harvested": 1542000, "sale_crop": "enchanted_baked_potato", "ratio": 25600, "npc_cost": 76800},
+      {"harvested": 1542000, "sale_crop": "hot_potato_book", "ratio": 25600, "add_cost": 12,"npc_cost": 76800},
       {"crop": "Mushrooms" ,"harvested": 24000, "sale_crop": "enchanted_huge_mushroom_1", "ratio": 5120, "npc_cost": 51200}
     ],
     "Melon": [
@@ -381,7 +385,7 @@
       {"crop": "Mushrooms" ,"harvested": 23600, "sale_crop": "enchanted_huge_mushroom_1", "ratio": 5120, "npc_cost": 51200}
     ],
     "Sugar": [
-      {"harvested": 1015000, "sale_crop": "enchanted_sugar_cane", "ratio": 25600, "npc_cost": 102400},
+      {"harvested": 1015000, "sale_crop": "enchanted_sugar", "ratio": 160, "npc_cost": 640},
       {"crop": "Mushrooms" ,"harvested": 47120, "sale_crop": "enchanted_huge_mushroom_1", "ratio": 5120, "npc_cost": 51200}
     ],
     "Netherwart": [
@@ -389,7 +393,7 @@
       {"crop": "Mushrooms" ,"harvested": 23700, "sale_crop": "enchanted_huge_mushroom_1", "ratio": 5120, "npc_cost": 51200}
     ],
     "Cactus": [
-      {"harvested": 921900, "sale_crop": "enchanted_cactus", "ratio": 25600, "npc_cost": 102400},
+      {"harvested": 921900, "sale_crop": "enchanted_cactus_green", "ratio": 160, "npc_cost": 640},
       {"crop": "Mushrooms" ,"harvested": 46670, "sale_crop": "enchanted_huge_mushroom_1", "ratio": 5120, "npc_cost": 51200}
     ],
     "Mushroom": [
@@ -402,8 +406,10 @@
     "enchanted_compost": {"high": 2950000},
     "enchanted_hay_block": {"high": 8000},
     "enchanted_sugar_cane": {"high": 105000},
+    "enchanted_sugar": {"high": 800},
     "mutant_nether_stalk": {"high": 103000},
     "enchanted_baked_potato": {"high": 78000},
+    "hot_potato_book": {"high": 90000},
     "enchanted_melon_block": {"high": 52000},
     "polished_pumpkin": {"high": 260000},
     "enchanted_cactus": {"high": 150000},
