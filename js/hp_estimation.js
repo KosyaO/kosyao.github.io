@@ -40,9 +40,15 @@ async function auctionSearch(filter) {
         return;
     }
     searchProcessed = true;
+    const outdatedCtrl = document.getElementById('pOutdated');
     try {
         const need_update = Date.now() - bazaarData.time_updated > 30000;
         if (need_update) {
+            if (auctionData.time_updated > 0 && bazaarPrices.last_updated > 0) {
+                outdatedCtrl.classList.remove('d-none');
+                fillTable(calculatePrices(auctionData, bazaarPrices, filter));
+            }
+
             setStatus('Downloading auction...');
             auctionData = await auctionDownload(state => 
                 setStatus(`Downloading auction (${state.loaded}/${state.total ?? '?'} pages loaded)...`)
@@ -54,6 +60,7 @@ async function auctionSearch(filter) {
             bazaarUpdate(goods, bazaarData, bazaarPrices);
         }
         setStatus('Processing data...');
+        outdatedCtrl.classList.add('d-none');
 
         const filtered = calculatePrices(auctionData, bazaarPrices, filter);
         fillTable(filtered);

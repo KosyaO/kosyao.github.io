@@ -50,15 +50,22 @@ async function auctionSearch(filter) {
         return;
     }
     searchProcessed = true;
+    const outdatedCtrl = document.getElementById('pOutdated');
     try {
         const need_update = Date.now() - auctionData.time_updated > 30000;
         if (need_update) {
+            if (auctionData.time_updated > 0) {
+                outdatedCtrl.classList.remove('d-none');
+                fillTable(auctionFilter(auctionData, filter));
+            }
+
             setStatus('Downloading data...');
             auctionData = await auctionDownload(state => 
                 setStatus(`Downloading auction (${state.loaded}/${state.total ?? '?'} pages loaded)...`)
             );
         }
         setStatus('Processing data...');
+        outdatedCtrl.classList.add('d-none');
         const filtered = auctionFilter(auctionData, filter);
         const {passed_total, found_total} = fillTable(filtered);
         const load_time = need_update ? auctionData.load_time/1000 + ' sec' : 'cache';
