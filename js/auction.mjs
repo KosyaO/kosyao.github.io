@@ -172,6 +172,13 @@ export function generate_armor_attributes(lore_entries = [], attribute_sort = fa
 }
 
 export const templates = {
+    party_equip: {
+        'Party Cloak': {},
+        'Party Gloves': {},
+        'Party Top Hat': {},
+        'Party Necklace': {},
+        'Party Belt': {}
+    },
     kuudra_equip: {
         'Implosion Belt': {'lore_entries': ['Mana Regen', 'Mana Pool']},
         'Molten Cloak': {'lore_entries': ['Mana Pool', 'Mana Regen']},
