@@ -204,14 +204,12 @@
         "enchanted_golden_carrot",
         "enchanted_cookie",
         "box_of_seeds",
-        "enchanted_hay_bale",
         "enchantment_replenish_1",
         "enchantment_green_thumb_1",
         "enchantment_green_thumb_2",
         "- forge",
         "enchanted_umber",
         "enchanted_tungsten",
-        "enchanted_mycelium",
         "glacite_amalgamation",
         "skeleton_key",
         "enchanted_gold",
@@ -356,7 +354,9 @@
     "cup_of_blood",
     "heavy_pearl",
     "kuudra_teeth",
-    "eccentric_painting"
+    "eccentric_painting",
+    "supreme_chocolate_bar",
+    "pet_item_chocolate_syringe"
   ],
 
   "Estimation": {
