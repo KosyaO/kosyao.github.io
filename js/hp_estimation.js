@@ -78,6 +78,10 @@ function searchBtn() {
     auctionSearch(filter).then(()=> console.log('Search completed'));
 }
 
+function reloadConfig() {
+
+}
+
 function init() {
     const ctrl = document.getElementById('searchTemplate');
     let options = '';
@@ -88,6 +92,7 @@ function init() {
 
     const handlers = {
         'click-search': searchBtn,
+        'click-reloadcfg': reloadConfig
     }
     
     for (let [kind, handler] of Object.entries(handlers)) {

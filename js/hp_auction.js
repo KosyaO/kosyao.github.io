@@ -153,6 +153,10 @@ function optionChanged(element) {
     if (element.target.id !== 'attributeSearch') armorChanged(element);
 }
 
+function reloadConfig() {
+
+}
+
 function init() {
     const handlers = {
         'click-search': searchBtn,
@@ -160,7 +164,8 @@ function init() {
         'change-armor': armorChanged,
         'keydown-name': namePress,
         'change-template': templateSelect,
-        'change-option': optionChanged
+        'change-option': optionChanged,
+        'click-reloadcfg': reloadConfig
     }
     
     for (let [kind, handler] of Object.entries(handlers)) {
