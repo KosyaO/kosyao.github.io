@@ -5,10 +5,16 @@ let searchProcessed = false;
 let auctionData  = { time_updated: 0 };
 let bazaarData   = { time_updated: 0 };
 let bazaarPrices = { last_updated: 0, products: {} };
+let tooltipList;
 
 function setStatus(text) {
     const status = document.getElementById('cStatus'); 
     status.innerHTML = text;
+}
+
+function initTooltips() {
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 }
 
 function fillTable(filtered, max_items = 999) {
@@ -25,13 +31,16 @@ function fillTable(filtered, max_items = 999) {
         const enchants_price = intl.format(item.ench_price/1e6) + 'M';
         const star_price = intl.format(item.star_price/1e6) + 'M';
         const scrolls_price = intl.format(item.scrolls_price/1e6) + 'M';
-        tableData += `<tr class="text-end"><th scope="row" class="text-start">${item_name}</th>
-            <td>${bin}</td><td>${top_bid}</td><td>${real_price}</td><td class="${profit_color}">${profit}</td>
-            <td>${enchants_price}</td><td>${star_price}</td><td>${scrolls_price}</td></tr>`;
+        const entries = Object.entries(item.price_entries).sort((a, b) => b[1] - a[1]);
+        const tooltip = entries.map(elem => `<b>${elem[0]}</b>: ${intl.format(elem[1]/1e6)}M`).join('<br/>');
+        tableData += `<tr class="text-end"><th scope="row" class="text-start">${item_name}</th><td>${bin}</td><td>${top_bid}</td>
+            <td data-bs-toggle="tooltip" data-bs-html="true" data-bs-custom-class="entries-tooltip" data-bs-title="${tooltip}">${real_price}</td>
+            <td class="${profit_color}">${profit}</td><td>${enchants_price}</td><td>${star_price}</td><td>${scrolls_price}</td></tr>`;
         if (++printed >= max_items) break;
     }
     document.getElementById('tResults').innerHTML = tableData;
-    return printed
+    initTooltips();
+    return printed;
 }
 
 async function auctionSearch(filter) {
@@ -104,4 +113,5 @@ function init() {
 }
 
 init();
+// initTooltips();
 

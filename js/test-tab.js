@@ -1,10 +1,17 @@
+var tabTrigger;
+var tooltipList;
+
 function selectTab() {
-    const triggerEl = document.querySelector('#myTab button[data-bs-target="#settings"]');
-    const tabTrigger = new bootstrap.Tab(triggerEl);
     tabTrigger.show(); 
 }
 
+function initTooltips() {
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+}
+
 function init() {
+    // form nav section
     let menuTemp = '';
     for (let page of ['home', 'profile', 'messages', 'settings', 'jop']) {
         const isActive = page === 'home';
@@ -15,9 +22,14 @@ function init() {
             `role="tab" data-bs-target="#${name}" aria-controls="${name}">${page}</button></li>\n`;
     }
     document.getElementById('myTab').innerHTML = menuTemp;
-    selectTab();
+    // init tab trigger
+    const triggerEl = document.querySelector('#myTab button[data-bs-target="#settings"]');
+    tabTrigger = new bootstrap.Tab(triggerEl);
+
+    // selectTab();
 }
 
 document.getElementById('selBtn').addEventListener('click', selectTab);
 
 init();
+initTooltips();

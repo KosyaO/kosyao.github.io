@@ -7,8 +7,16 @@ function round(float_number, digits = 0) {
 export const prices_filter = {
     "Artifact of Control": { buy_cheaper: 2000000000, count: 3 },
     "Spirit Mask": { buy_cheaper: 120000000, count: 3 },
-    "Shen's Regalia": {},
-    "Hegemony": {}
+    "Shen": {},
+    "Hegemony": {},
+    // "Midas' Sword": {},
+    "Pandora": {},
+    "Sirius' Personal": {},
+    "Magic 8": {},
+    "Nether Art": {},
+    "Wither": { category: "accessories" },
+    "Ender": { category: "accessories" },
+    "Plasma Nucleus": {}
 };
 
 const roman_multipliers = { 'I': 1, 'II': 2, 'III': 4, 'IV': 8, 'V': 16, 'VI': 32, 'VII': 64, 'VIII': 128, 'IX': 256, 'X': 512 };
@@ -407,30 +415,41 @@ export function auctionFilter(data, filter) {
     return {counter, attribute_sort: filter.attribute_sort, result};
 }
 
-export function analyzeData(data, filter) {
-    const prices = {};
+export function analyzeData(data, filter, prices) {
+    const time_updated = data.time_updated;
     iterateAuction(data, item => {
         const item_name = item['item_name'];
         for (let search_name in filter) {
             if (item_name.toLowerCase().includes(search_name.toLowerCase())) {
                 const conditions = filter[search_name];
                 const maxPrice = conditions.max_price;
+                const category = conditions.category;
                 let topBid = item['highest_bid_amount'];
                 if (topBid === 0) topBid = item['starting_bid'];
                 if (maxPrice !== undefined && topBid > maxPrice) continue;
+                if (category !== undefined && item.category !== category) continue;
                 item.top_bid = topBid;
-                let price_item = prices[search_name];
-                if (price_item === undefined) {
-                    price_item = { items: [] };
-                    prices[search_name] = price_item;
-                }
-                price_item.items.push(item);
+                let price_item = prices.items[search_name];
+                if (price_item === undefined || (price_item.time_updated ?? 0) < time_updated) {
+                    price_item = { entries: [], time_updated };
+                    prices.items[search_name] = price_item;
+                } 
+                price_item.entries.push(item);
                 break;
             }
         }
     });
     
-    for (let price_item of Object.values(prices)) price_item.items.sort((a, b) => a.top_bid - b.top_bid);
+    for (let [item_name, price_item] of Object.entries(prices.items)) {
+        price_item.entries.sort((a, b) => a.top_bid - b.top_bid);
+        const summary = { time_updated: price_item.time_updated };
+        let idx = 0;
+        for (let num of [1, 2, 3, 4, 5]) {
+            while (idx < price_item.entries.length && !price_item.entries[idx].bin) idx++;
+            summary['top_' + num] = price_item.entries[idx++]?.top_bid ?? 0;
+        }
+        prices.prices[item_name] = summary;
+    }
     
     return prices;
 }
