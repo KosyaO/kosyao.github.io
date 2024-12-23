@@ -13,4 +13,5 @@
 
 .tooltip-inner {
     max-width: 1000px !important;
+    text-align: left;
 }
