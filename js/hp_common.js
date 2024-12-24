@@ -24,6 +24,15 @@ export function createElement(tagName, classList = [], attributes = {}, text = u
     return newElem;
 }
 
+export function createTooltip(tagName, tooltip, classList = [], text = undefined, customClass = undefined) {
+    return createElement(tagName, classList, {
+        'data-bs-toggle': 'tooltip', 
+        'data-bs-html': true, 
+        'data-bs-custom-class': 'entries-tooltip',
+        'data-bs-title': tooltip
+    }, text);
+}
+
 export function addColumn(row, text, classList = []) {
     row.appendChild(createElement('td', classList, {}, text));
 }

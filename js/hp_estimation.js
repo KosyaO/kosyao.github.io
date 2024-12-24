@@ -1,4 +1,4 @@
-import { setStatus, addHandlers, createElement, addColumn } from './hp_common.js';
+import { setStatus, addHandlers, createElement, createTooltip, addColumn } from './hp_common.js';
 import { auctionDownload, calculatePrices, real_templates, bazaar_items } from './auction.mjs';
 import { bazaarDownload, bazaarUpdate } from './bazaar.mjs'
 
@@ -23,19 +23,14 @@ function fillTable(filtered, max_items = 999) {
 
         addColumn(newRow, item['bin'] ? '' : 'No');
         addColumn(newRow, intl.format(item.top_bid));
-        const tooltipElem = createElement('td', [], {
-            'data-bs-toggle': 'tooltip', 
-            'data-bs-html': true, 
-            'data-bs-custom-class': 'entries-tooltip',
-            'data-bs-title': tooltip
-        }, intl.format(item.real_price/1e6) + 'M');
+        const tooltipElem = createTooltip('td', tooltip, [], intl.format(item.real_price/1e6) + 'M', 'entries-tooltip');
         newRow.appendChild(tooltipElem);
+        tooltipList.push(new bootstrap.Tooltip(tooltipElem));
         addColumn(newRow, intl.format(item.profit/1e6) + 'M', [item.profit > 0? 'table-success': 'table-danger']);
         addColumn(newRow, intl.format(item.ench_price/1e6) + 'M');
         addColumn(newRow, intl.format(item.star_price/1e6) + 'M');
         addColumn(newRow, intl.format(item.scrolls_price/1e6) + 'M');
         tableData.push(newRow);
-        tooltipList.push(new bootstrap.Tooltip(tooltipElem));
         if (++printed >= max_items) break;
     }
     document.getElementById('tResults').replaceChildren(...tableData);
@@ -99,5 +94,3 @@ function init() {
 }
 
 init();
-// initTooltips();
-

@@ -82,27 +82,26 @@ function drawMarket() {
     const tableData = [];
     for (let crop of menuItems) {
         const newRow = createElement('tr');
+        tableData.push(newRow);
         if (crop[0] === '-') {
             let text = crop.slice(1);
             newRow.appendChild(createElement('th', ['text-center'], {'colspan': 8}, text === ''? '-': text));
-        } else {
-            const product = snakeToFlu(crop);
-            const marketCrop = prices.products[crop];
-            newRow.appendChild(createElement('th', ['text-start'], {'scope': 'row'}, product));
-            if (!marketCrop) {
-                newRow.appendChild(createElement('th', ['text-center'], {'colspan': 7}, 'not found in hypixel data'));
-            } else {
-                const {color_buy, color_sell} = getAlertColors(crop, marketCrop.buy_price, marketCrop.sell_price);
-                addColumn(newRow, formatNumber(marketCrop.sell_price), [color_sell]);
-                addColumn(newRow, formatNumber(marketCrop.sell_changes, 1) + ' %');
-                addColumn(newRow, formatNumber(marketCrop.buy_price), [color_buy]);
-                addColumn(newRow, formatNumber(marketCrop.buy_changes, 1) + ' %');
-                addColumn(newRow, formatNumber(marketCrop.spread) + ' %');
-                addColumn(newRow, formatNumber(marketCrop.sell_moving_week, 0));
-                addColumn(newRow, formatNumber(marketCrop.buy_moving_week, 0));
-            }
-        }
-        tableData.push(newRow);
+            continue;
+        } 
+        const marketCrop = prices.products[crop];
+        newRow.appendChild(createElement('th', ['text-start'], {'scope': 'row'}, snakeToFlu(crop)));
+        if (!marketCrop) {
+            newRow.appendChild(createElement('th', ['text-center'], {'colspan': 7}, 'not found in hypixel data'));
+            continue;
+        } 
+        const {color_buy, color_sell} = getAlertColors(crop, marketCrop.buy_price, marketCrop.sell_price);
+        addColumn(newRow, formatNumber(marketCrop.sell_price), [color_sell]);
+        addColumn(newRow, formatNumber(marketCrop.sell_changes, 1) + ' %');
+        addColumn(newRow, formatNumber(marketCrop.buy_price), [color_buy]);
+        addColumn(newRow, formatNumber(marketCrop.buy_changes, 1) + ' %');
+        addColumn(newRow, formatNumber(marketCrop.spread) + ' %');
+        addColumn(newRow, formatNumber(marketCrop.sell_moving_week, 0));
+        addColumn(newRow, formatNumber(marketCrop.buy_moving_week, 0));
     }
     document.getElementById('tBazaar').replaceChildren(...tableData);
 }
