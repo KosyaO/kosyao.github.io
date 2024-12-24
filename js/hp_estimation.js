@@ -1,4 +1,4 @@
-import { addHandlers, createElement } from './hp_common.js';
+import { addHandlers, createElement, addColumn } from './hp_common.js';
 import { auctionDownload, calculatePrices, real_templates, bazaar_items } from './auction.mjs';
 import { bazaarDownload, bazaarUpdate } from './bazaar.mjs'
 
@@ -24,11 +24,10 @@ function fillTable(filtered, max_items = 999) {
         const tooltip = entries.map(elem => `<b>${elem[0]}</b>: ${intl.format(elem[1]/1e6)}M`).join('<br/>');
 
         const newRow = createElement('tr', ['text-end']);
-        const addCol = (value, classList = []) => newRow.appendChild(createElement('td', classList, {}, value));
-
         newRow.appendChild(createElement('th', ['text-start'], {'scope': 'row'}, item['item_name'].slice(0, 30)));
-        addCol(item['bin'] ? '' : 'No');
-        addCol(intl.format(item.top_bid));
+
+        addColumn(newRow, item['bin'] ? '' : 'No');
+        addColumn(newRow, intl.format(item.top_bid));
         const tooltipElem = createElement('td', [], {
             'data-bs-toggle': 'tooltip', 
             'data-bs-html': true, 
@@ -36,10 +35,10 @@ function fillTable(filtered, max_items = 999) {
             'data-bs-title': tooltip
         }, intl.format(item.real_price/1e6) + 'M');
         newRow.appendChild(tooltipElem);
-        addCol(intl.format(item.profit/1e6) + 'M', [item.profit > 0? 'table-success': 'table-danger']);
-        addCol(intl.format(item.ench_price/1e6) + 'M');
-        addCol(intl.format(item.star_price/1e6) + 'M');
-        addCol(intl.format(item.scrolls_price/1e6) + 'M');
+        addColumn(newRow, intl.format(item.profit/1e6) + 'M', [item.profit > 0? 'table-success': 'table-danger']);
+        addColumn(newRow, intl.format(item.ench_price/1e6) + 'M');
+        addColumn(newRow, intl.format(item.star_price/1e6) + 'M');
+        addColumn(newRow, intl.format(item.scrolls_price/1e6) + 'M');
         tableData.push(newRow);
         tooltipList.push(new bootstrap.Tooltip(tooltipElem));
         if (++printed >= max_items) break;
@@ -86,8 +85,7 @@ async function auctionSearch(filter) {
 
 function searchBtn() {
     const template = document.getElementById('searchTemplate').value;
-    const filter = real_templates[template];
-    auctionSearch(filter).then(()=> console.log('Search completed'));
+    auctionSearch(real_templates[template]).then(()=> console.log('Search completed'));
 }
 
 function reloadConfig() {

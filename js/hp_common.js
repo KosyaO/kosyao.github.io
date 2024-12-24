@@ -7,12 +7,20 @@ export function addHandlers(handlers) {
     }
 }
 
+export const escapeHtml = (unsafe) => {
+    return unsafe.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
+}
+
 export function createElement(tagName, classList = [], attributes = {}, text = undefined) { 
     const newElem = document.createElement(tagName);
     for (let cls of classList) if (cls !== '') newElem.classList.add(cls);
     for (let [name, value] of Object.entries(attributes)) newElem.setAttribute(name, value);
     if (text !== undefined) newElem.appendChild(document.createTextNode(text));
     return newElem;
+}
+
+export function addColumn(row, text, classList = []) {
+    row.appendChild(createElement('td', classList, {}, text));
 }
 
 export const loadFromStorage = name => localStorage?.getItem?.(name);

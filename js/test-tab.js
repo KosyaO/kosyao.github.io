@@ -38,8 +38,7 @@ function createMenu(menu) {
             'role': 'tab', 
             'data-bs-target': '#' + target, 
             'aria-controls': target
-        });
-        newBt.appendChild(document.createTextNode(page));
+        }, page);
         newLi.appendChild(newBt);
         elements.push(newLi);
     }
