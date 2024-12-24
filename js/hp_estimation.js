@@ -1,4 +1,4 @@
-import { addHandlers } from './hp_common.js';
+import { addHandlers, createElement } from './hp_common.js';
 import { auctionDownload, calculatePrices, real_templates, bazaar_items } from './auction.mjs';
 import { bazaarDownload, bazaarUpdate } from './bazaar.mjs'
 
@@ -20,26 +20,33 @@ function initTooltips() {
 
 function fillTable(filtered, max_items = 999) {
     const intl = new Intl.NumberFormat('en',{minimumFractionDigits: 1, maximumFractionDigits: 1});
-    let tableData = "";
+    let tableData = [];
     let printed = 0;
     for (let item of filtered) {
-        const item_name = item['item_name'].slice(0, 30);
-        const bin = item['bin'] ? '' : 'No';
-        const top_bid = intl.format(item.top_bid);
-        const real_price = intl.format(item.real_price/1e6) + 'M';
-        const profit = intl.format(item.profit/1e6) + 'M';
-        const profit_color = item.profit > 0? 'table-success': 'table-danger';
-        const enchants_price = intl.format(item.ench_price/1e6) + 'M';
-        const star_price = intl.format(item.star_price/1e6) + 'M';
-        const scrolls_price = intl.format(item.scrolls_price/1e6) + 'M';
         const entries = Object.entries(item.price_entries).sort((a, b) => b[1] - a[1]);
         const tooltip = entries.map(elem => `<b>${elem[0]}</b>: ${intl.format(elem[1]/1e6)}M`).join('<br/>');
-        tableData += `<tr class="text-end"><th scope="row" class="text-start">${item_name}</th><td>${bin}</td><td>${top_bid}</td>
-            <td data-bs-toggle="tooltip" data-bs-html="true" data-bs-custom-class="entries-tooltip" data-bs-title="${tooltip}">${real_price}</td>
-            <td class="${profit_color}">${profit}</td><td>${enchants_price}</td><td>${star_price}</td><td>${scrolls_price}</td></tr>`;
+
+        const trEl = createElement('tr', ['text-end']);
+        const addTd = (value, classList = []) => trEl.appendChild(createElement('td', classList, {}, value));
+
+        trEl.appendChild(createElement('th', ['text-start'], {'scope': 'row'}, item['item_name'].slice(0, 30)));
+        addTd(item['bin'] ? '' : 'No');
+        addTd(intl.format(item.top_bid));
+        const tooltipElem = createElement('td', [], {
+            'data-bs-toggle': 'tooltip', 
+            'data-bs-html': true, 
+            'data-bs-custom-class': 'entries-tooltip',
+            'data-bs-title': tooltip
+        }, intl.format(item.real_price/1e6) + 'M');
+        trEl.appendChild(tooltipElem);
+        addTd(intl.format(item.profit/1e6) + 'M', [item.profit > 0? 'table-success': 'table-danger']);
+        addTd(intl.format(item.ench_price/1e6) + 'M');
+        addTd(intl.format(item.star_price/1e6) + 'M');
+        addTd(intl.format(item.scrolls_price/1e6) + 'M');
+        tableData.push(trEl);
         if (++printed >= max_items) break;
     }
-    document.getElementById('tResults').innerHTML = tableData;
+    document.getElementById('tResults').replaceChildren(...tableData);
     initTooltips();
     return printed;
 }
@@ -98,11 +105,9 @@ function init() {
         'click-reloadcfg': reloadConfig
     });
 
-    let options = '';
-    for (let [item_code, item_data] of Object.entries(real_templates)) {
-        options += `<option value="${item_code}">${item_data.item_name}</option>\n`
-    }
-    document.getElementById('searchTemplate').innerHTML = options;
+    const options = Object.keys(real_templates).map(item_code => 
+        createElement('option', [], {'value': item_code}, real_templates[item_code].item_name));
+    document.getElementById('searchTemplate').replaceChildren(...options);
 }
 
 init();
