@@ -1,4 +1,4 @@
-import { addHandlers, loadFromStorage, saveToStorage, createElement, addColumn } from './hp_common.js';
+import { setStatus, addHandlers, loadFromStorage, saveToStorage, createElement, addColumn } from './hp_common.js';
 import { bazaarUpdate } from './bazaar.mjs';
 
 let config = {};
@@ -12,12 +12,6 @@ const snakeToFlu = word => word.split('_').map(capitalize).join(' ');
 
 const lang = (navigator.language || navigator.userLanguage);
 const formatter = [0, 1, 2].map(num => new Intl.NumberFormat(lang.slice(0, 2), {maximumFractionDigits: num, minimumFractionDigits: num}));
-
-function updateStatus(text) {
-    const ctrl = document.getElementById('cStatus');
-    text = text.replaceAll('\n','<br>').replaceAll(' ', '&nbsp;');
-    ctrl.innerHTML = text;
-}
 
 function formatNumber(num, maximumFractionDigits=2, short_thousands = true) {
     let postfix = '';
@@ -85,7 +79,7 @@ function drawMarket() {
         }
     if (menuItems === undefined) return;
 
-    const elements = [];
+    const tableData = [];
     for (let crop of menuItems) {
         const newRow = createElement('tr');
         if (crop[0] === '-') {
@@ -108,14 +102,14 @@ function drawMarket() {
                 addColumn(newRow, formatNumber(marketCrop.buy_moving_week, 0));
             }
         }
-        elements.push(newRow);
+        tableData.push(newRow);
     }
-    document.getElementById('tBazaar').replaceChildren(...elements);
+    document.getElementById('tBazaar').replaceChildren(...tableData);
 }
 
 function marketSchedule(error) {
     const updatedUnsuccessfully = error !== undefined;
-    if (updatedUnsuccessfully) updateStatus(error.message);
+    if (updatedUnsuccessfully) setStatus(error.message);
     if (currentInterval) clearInterval(currentInterval);
     currentInterval = setInterval(downloadMarket, updatedUnsuccessfully? 20000: 65000 );
 }
@@ -125,7 +119,7 @@ function updateMarket(market) {
     marketSchedule();
     bazaarUpdate(config.goods, market, prices);
 
-    updateStatus('Last updated: ' + new Date(market.lastUpdated).toLocaleString(lang) + ` (${market.lastUpdated})`);
+    setStatus('Last updated: ' + new Date(market.lastUpdated).toLocaleString(lang) + ` (${market.lastUpdated})`);
     saveToStorage(lsPrefix + 'prices', JSON.stringify(prices));
     updateEstimation();
     drawMarket();

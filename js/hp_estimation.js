@@ -1,4 +1,4 @@
-import { addHandlers, createElement, addColumn } from './hp_common.js';
+import { setStatus, addHandlers, createElement, addColumn } from './hp_common.js';
 import { auctionDownload, calculatePrices, real_templates, bazaar_items } from './auction.mjs';
 import { bazaarDownload, bazaarUpdate } from './bazaar.mjs'
 
@@ -7,11 +7,6 @@ let auctionData  = { time_updated: 0 };
 let bazaarData   = { time_updated: 0 };
 let bazaarPrices = { last_updated: 0, products: {} };
 let tooltipList = [];
-
-function setStatus(text) {
-    const status = document.getElementById('cStatus'); 
-    status.replaceChildren(document.createTextNode(text));
-}
 
 function fillTable(filtered, max_items = 999) {
     const intl = new Intl.NumberFormat('en',{minimumFractionDigits: 1, maximumFractionDigits: 1});

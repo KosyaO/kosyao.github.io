@@ -1,3 +1,8 @@
+export function setStatus(text) {
+    const status = document.getElementById('cStatus'); 
+    status.replaceChildren(document.createTextNode(text));
+}
+
 export function addHandlers(handlers) {
     for (let [kind, handler] of Object.entries(handlers)) {
         const elements = document.querySelectorAll(`*[evnt-${kind}]`);

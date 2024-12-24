@@ -1,4 +1,4 @@
-import { addHandlers } from './hp_common.js';
+import { setStatus, addHandlers, createElement, addColumn } from './hp_common.js';
 import { auctionDownload, auctionFilter, translate_attribute_name, 
     generate_armor_template, generate_piece_template, templates } from './auction.mjs';
 
@@ -14,7 +14,6 @@ function fillTable(filtered, max_items = 999) {
         passed_total += passed;
     }
     
-    let tableData = "";
     const ctrl = document.getElementById('perOneCol');
     
     if (filtered.attribute_sort === true) {
@@ -26,24 +25,19 @@ function fillTable(filtered, max_items = 999) {
     }
     const intl = new Intl.NumberFormat('en',{minimumFractionDigits: 1, maximumFractionDigits: 1});
     let printed = 0;
+    let tableData = [];
     for (let item of filtered.result) {
-        const item_name = item['item_name'].slice(0, 30);
-        const top_bid = intl.format(item.top_bid);
-        const per_one = intl.format(item.price_one);
-        const item_lore = item.attributes.map(elem => elem.replace('✖', '').trim()).join(', ');
-        const bin = item['bin'] ? '' : 'No';
-        tableData += `<tr><th scope="row">${item_name}</th><td class="text-end">${top_bid}</td>
-          <td class="text-end${filtered.attribute_sort? "": " d-none"}">${per_one}</td>
-          <td>${bin}</td><td>${item_lore}</td></tr>`;
+        const newRow = createElement('tr');
+        newRow.appendChild(createElement('th', [], {'scope': 'row'}, item['item_name'].slice(0, 30)));
+        addColumn(newRow, intl.format(item.top_bid), ['text-end']);
+        addColumn(newRow, intl.format(item.price_one), ['text-end', filtered.attribute_sort? '': 'd-none']);
+        addColumn(newRow, item['bin'] ? '' : 'No');
+        addColumn(newRow, item.attributes.map(elem => elem.replace('✖', '').trim()).join(', '));
+        tableData.push(newRow);
         if (++printed >= max_items) break;
     }
-    document.getElementById('tResults').innerHTML = tableData;
+    document.getElementById('tResults').replaceChildren(...tableData);
     return {passed_total, found_total};
-}
-
-function setStatus(text) {
-    const status = document.getElementById('cStatus'); 
-    status.innerHTML = text;
 }
 
 async function auctionSearch(filter) {
@@ -173,4 +167,3 @@ function init() {
 }
 
 init();
-
