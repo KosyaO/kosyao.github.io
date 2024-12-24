@@ -1,3 +1,4 @@
+import { addHandlers } from './hp_common.js';
 import { auctionDownload, calculatePrices, real_templates, bazaar_items } from './auction.mjs';
 import { bazaarDownload, bazaarUpdate } from './bazaar.mjs'
 
@@ -89,15 +90,6 @@ function searchBtn() {
 
 function reloadConfig() {
 
-}
-
-function addHandlers(handlers) {
-    for (let [kind, handler] of Object.entries(handlers)) {
-        const elements = document.querySelectorAll(`*[evnt-${kind}]`);
-        console.log(kind, elements);
-        const [eventType] = kind.split('-',1);
-        elements.forEach(element => element.addEventListener(eventType, handler));
-    }
 }
 
 function init() {

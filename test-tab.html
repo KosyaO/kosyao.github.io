@@ -16,27 +16,32 @@
 <body>
     <div id="cStatus" class="container-fluid border rounded">&nbsp;</div>
 
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <ul class="nav nav-pills" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
-          <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Home</button>
+          <button class="nav-link active" data-bs-toggle="pill" type="button" aria-selected="true"
+          role="tab" data-bs-target="#home" aria-controls="home" >Home</button>
         </li>
         <li class="nav-item" role="presentation">
-          <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Profile</button>
+          <button class="nav-link" data-bs-toggle="pill" type="button" aria-selected="false"
+          role="tab" data-bs-target="#profile" aria-controls="home">Profile</button>
         </li>
         <li class="nav-item" role="presentation">
-          <button class="nav-link" id="messages-tab" data-bs-toggle="tab" data-bs-target="#messages" type="button" role="tab" aria-controls="messages" aria-selected="false">Messages</button>
+          <button class="nav-link" data-bs-toggle="pill" type="button" aria-selected="false"
+          role="tab" data-bs-target="#messages" aria-controls="home">Messages</button>
         </li>
         <li class="nav-item" role="presentation">
-          <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false">Settings</button>
+          <button class="nav-link" data-bs-toggle="pill" type="button" aria-selected="false"
+          role="tab" data-bs-target="#settings" aria-controls="settings">Settings</button>
         </li>
       </ul>
       
       <div class="tab-content">
-        <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-            <p class="border rounded" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="<b>Recombobulator 3000</b>: 123456789.0">...any menu</p>
+        <div class="tab-pane active" id="home" role="tabpanel" tabindex="0">
+            <p class="border rounded" data-bs-toggle="tooltip" data-bs-html="true" 
+            data-bs-title="<b>Recombobulator 3000</b>: 123456789.0">...any menu</p>
             <button id="selBtn" class="button" type="button">Clicks</button>
         </div>
-        <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab" tabindex="0">...settings</div>
+        <div class="tab-pane" id="settings" role="tabpanel" tabindex="1">...settings</div>
       </div>
 </body>
 </html>

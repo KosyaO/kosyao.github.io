@@ -1,3 +1,4 @@
+import { addHandlers, loadFromStorage, saveToStorage } from './hp_common.js';
 import { bazaarUpdate } from './bazaar.mjs';
 
 let config = {};
@@ -124,7 +125,7 @@ function updateMarket(market) {
 
     const lang = navigator.language || navigator.userLanguage;
     updateStatus('Last updated: ' + new Date(market.lastUpdated).toLocaleString(lang) + ` (${market.lastUpdated})`);
-    localStorage?.setItem?.(lsPrefix + 'prices', JSON.stringify(prices));
+    saveToStorage(lsPrefix + 'prices', JSON.stringify(prices));
     updateEstimation();
     drawMarket();
 }
@@ -166,25 +167,12 @@ function updateConfig(response) {
 
 function navClick(item) {
     selectedMenu = item.delegateTarget.textContent;
-    localStorage?.setItem?.(lsPrefix + 'selectedMenu', selectedMenu);
+    saveToStorage(lsPrefix + 'selectedMenu', selectedMenu);
     drawMarket();
 }
 
 function reloadConfig() {
-    fetch('json/bazaar_monitored_new.json').then(res => res.json().then(res => {
-        localStorage?.setItem?.(lsPrefix + 'config', JSON.stringify(res));
-        updateConfig(res);
-    }));
-}
-
-
-function addHandlers(handlers) {
-    for (let [kind, handler] of Object.entries(handlers)) {
-        const elements = document.querySelectorAll(`*[evnt-${kind}]`);
-        console.log(kind, elements);
-        const [eventType] = kind.split('-',1);
-        elements.forEach(element => element.addEventListener(eventType, handler));
-    }
+    fetch('json/bazaar_monitored_new.json').then(res => res.json().then(res => updateConfig(res)));
 }
 
 function init() {
@@ -193,16 +181,10 @@ function init() {
         'click-reloadcfg': reloadConfig
     });
 
-    selectedMenu = localStorage?.getItem?.(lsPrefix + 'selectedMenu');
-    const oldStr = localStorage?.getItem?.(lsPrefix + 'prices');
+    selectedMenu = loadFromStorage(lsPrefix + 'selectedMenu');
+    const oldStr = loadFromStorage(lsPrefix + 'prices');
     if (oldStr) prices = JSON.parse(oldStr);
-    const cfgStr = localStorage?.getItem?.(lsPrefix + 'config');
-    if (cfgStr !== null) {
-        updateConfig(JSON.parse(cfgStr));
-    }
-    else {
-        reloadConfig();
-    }
+    reloadConfig();
 }
 
 init();

@@ -1,5 +1,7 @@
+import { addHandlers } from './hp_common.js';
 import { auctionDownload, auctionFilter, translate_attribute_name, 
     generate_armor_template, generate_piece_template, templates } from './auction.mjs';
+
 
 let searchProcessed = false;
 let auctionData = { time_updated: 0 };
@@ -156,15 +158,6 @@ function optionChanged(element) {
 
 function reloadConfig() {
 
-}
-
-function addHandlers(handlers) {
-    for (let [kind, handler] of Object.entries(handlers)) {
-        const elements = document.querySelectorAll(`*[evnt-${kind}]`);
-        console.log(kind, elements);
-        const [eventType] = kind.split('-',1);
-        elements.forEach(element => element.addEventListener(eventType, handler));
-    }
 }
 
 function init() {
