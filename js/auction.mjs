@@ -121,7 +121,10 @@ const auxiliary_items = [
     'shadow_warp_scroll', 
     'implosion_scroll',
     recomb_item,
-    'golden_fragment'
+    'golden_fragment',
+    'essence_wither',
+    'essence_dragon',
+    'essence_gold'
 ];
 
 export const bazaar_items = Object.values(enchants_one).concat(Object.values(enchants_exact)).concat(stars.names).concat(auxiliary_items);
