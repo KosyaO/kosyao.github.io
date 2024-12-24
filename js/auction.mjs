@@ -4,7 +4,7 @@ function round(float_number, digits = 0) {
     return parseFloat(float_number.toFixed(digits));
 }
 
-export const prices_filter = {
+export const ah_prices_filter = {
     "Artifact of Control": { buy_cheaper: 2000000000, count: 3 },
     "Spirit Mask": { buy_cheaper: 120000000, count: 3 },
     "Shen": {},
@@ -16,7 +16,13 @@ export const prices_filter = {
     "Nether Art": {},
     "Wither": { category: "accessories" },
     "Ender": { category: "accessories" },
-    "Plasma Nucleus": {}
+    "Plasma Nucleus": {},
+    "Pocket Sack-in-a-Sack": {},
+    "Ultimate Carrot Candy Upgrade": {},
+    "God Potion": {},
+    "Jumbo Backpack Upgrade": {},
+    "Autopet Rules 2-Pack": {},
+    "Discrite": {}
 };
 
 const roman_multipliers = { 'I': 1, 'II': 2, 'III': 4, 'IV': 8, 'V': 16, 'VI': 32, 'VII': 64, 'VIII': 128, 'IX': 256, 'X': 512 };
@@ -424,10 +430,12 @@ export function analyzeData(data, filter, prices) {
                 const conditions = filter[search_name];
                 const maxPrice = conditions.max_price;
                 const category = conditions.category;
+                const tier = conditions.tier;
                 let topBid = item['highest_bid_amount'];
                 if (topBid === 0) topBid = item['starting_bid'];
                 if (maxPrice !== undefined && topBid > maxPrice) continue;
                 if (category !== undefined && item.category !== category) continue;
+                if (tier !== undefined && item.tier !== tier) continue;
                 item.top_bid = topBid;
                 let price_item = prices.items[search_name];
                 if (price_item === undefined || (price_item.time_updated ?? 0) < time_updated) {

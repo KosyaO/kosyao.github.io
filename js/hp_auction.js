@@ -158,8 +158,17 @@ function reloadConfig() {
 
 }
 
+function addHandlers(handlers) {
+    for (let [kind, handler] of Object.entries(handlers)) {
+        const elements = document.querySelectorAll(`*[evnt-${kind}]`);
+        console.log(kind, elements);
+        const [eventType] = kind.split('-',1);
+        elements.forEach(element => element.addEventListener(eventType, handler));
+    }
+}
+
 function init() {
-    const handlers = {
+    addHandlers({
         'click-search': searchBtn,
         'click-clear': clearBtn,
         'change-armor': armorChanged,
@@ -167,14 +176,7 @@ function init() {
         'change-template': templateSelect,
         'change-option': optionChanged,
         'click-reloadcfg': reloadConfig
-    }
-    
-    for (let [kind, handler] of Object.entries(handlers)) {
-        const elements = document.querySelectorAll(`*[evnt-${kind}]`);
-        console.log(kind, elements);
-        const [eventType] = kind.split('-',1);
-        elements.forEach(element => element.addEventListener(eventType, handler));
-    }
+    });
 }
 
 init();

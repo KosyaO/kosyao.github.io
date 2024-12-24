@@ -178,22 +178,20 @@ function reloadConfig() {
 }
 
 
-function addHandlers() {
-    const handlers = {
-        'click-navigation': navClick,
-        'click-reloadcfg': reloadConfig
-    };
-    
+function addHandlers(handlers) {
     for (let [kind, handler] of Object.entries(handlers)) {
         const elements = document.querySelectorAll(`*[evnt-${kind}]`);
-        console.log(elements);
+        console.log(kind, elements);
         const [eventType] = kind.split('-',1);
         elements.forEach(element => element.addEventListener(eventType, handler));
     }
 }
 
 function init() {
-    addHandlers();
+    addHandlers({
+        'click-navigation': navClick,
+        'click-reloadcfg': reloadConfig
+    });
 
     selectedMenu = localStorage?.getItem?.(lsPrefix + 'selectedMenu');
     const oldStr = localStorage?.getItem?.(lsPrefix + 'prices');

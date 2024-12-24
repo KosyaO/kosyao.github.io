@@ -91,25 +91,26 @@ function reloadConfig() {
 
 }
 
-function init() {
-    const ctrl = document.getElementById('searchTemplate');
-    let options = '';
-    for (let [item_code, item_data] of Object.entries(real_templates)) {
-        options += `<option value="${item_code}">${item_data.item_name}</option>\n`
-    }
-    ctrl.innerHTML = options;
-
-    const handlers = {
-        'click-search': searchBtn,
-        'click-reloadcfg': reloadConfig
-    }
-    
+function addHandlers(handlers) {
     for (let [kind, handler] of Object.entries(handlers)) {
         const elements = document.querySelectorAll(`*[evnt-${kind}]`);
         console.log(kind, elements);
         const [eventType] = kind.split('-',1);
         elements.forEach(element => element.addEventListener(eventType, handler));
     }
+}
+
+function init() {
+    addHandlers({
+        'click-search': searchBtn,
+        'click-reloadcfg': reloadConfig
+    });
+
+    let options = '';
+    for (let [item_code, item_data] of Object.entries(real_templates)) {
+        options += `<option value="${item_code}">${item_data.item_name}</option>\n`
+    }
+    document.getElementById('searchTemplate').innerHTML = options;
 }
 
 init();
