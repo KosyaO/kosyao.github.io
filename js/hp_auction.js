@@ -1,7 +1,6 @@
-import { setStatus, addHandlers, createElement, addColumn } from './hp_common.js';
+import { formatNumber, setStatus, addHandlers, createElement, addColumn } from './hp_common.js';
 import { auctionDownload, auctionFilter, translate_attribute_name, 
     generate_armor_template, generate_piece_template, templates } from './auction.mjs';
-
 
 let searchProcessed = false;
 let auctionData = { time_updated: 0 };
@@ -23,14 +22,14 @@ function fillTable(filtered, max_items = 999) {
         filtered.result.sort((a, b) => a.top_bid - b.top_bid);
         ctrl.classList.add('d-none');
     }
-    const intl = new Intl.NumberFormat('en',{minimumFractionDigits: 1, maximumFractionDigits: 1});
+    
     let printed = 0;
     let tableData = [];
     for (let item of filtered.result) {
         const newRow = createElement('tr');
         newRow.appendChild(createElement('th', [], {'scope': 'row'}, item['item_name'].slice(0, 30)));
-        addColumn(newRow, intl.format(item.top_bid), ['text-end']);
-        addColumn(newRow, intl.format(item.price_one), ['text-end', filtered.attribute_sort? '': 'd-none']);
+        addColumn(newRow, formatNumber(item.top_bid), ['text-end']);
+        addColumn(newRow, formatNumber(item.price_one), ['text-end', filtered.attribute_sort? '': 'd-none']);
         addColumn(newRow, item['bin'] ? '' : 'No');
         addColumn(newRow, item.attributes.map(elem => elem.replace('✖', '').trim()).join(', '));
         tableData.push(newRow);

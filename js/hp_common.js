@@ -1,3 +1,10 @@
+const lang = (navigator.language || navigator.userLanguage);
+const intl = new Intl.NumberFormat(lang,{minimumFractionDigits: 1, maximumFractionDigits: 1});
+
+export function formatNumber(number) {
+    return intl.format(number);
+}
+
 export function setStatus(text) {
     const status = document.getElementById('cStatus'); 
     status.replaceChildren(document.createTextNode(text));

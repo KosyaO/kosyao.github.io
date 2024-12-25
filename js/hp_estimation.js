@@ -1,4 +1,4 @@
-import { setStatus, addHandlers, createElement, createTooltip, addColumn } from './hp_common.js';
+import { formatNumber, setStatus, addHandlers, createElement, createTooltip, addColumn } from './hp_common.js';
 import { auctionDownload, calculatePrices, real_templates, bazaar_items } from './auction.mjs';
 import { bazaarDownload, bazaarUpdate } from './bazaar.mjs'
 
@@ -9,27 +9,26 @@ let bazaarPrices = { last_updated: 0, products: {} };
 let tooltipList = [];
 
 function fillTable(filtered, max_items = 999) {
-    const intl = new Intl.NumberFormat('en',{minimumFractionDigits: 1, maximumFractionDigits: 1});
     let tableData = [];
     let printed = 0;
     tooltipList.forEach(tooltip => tooltip.hide());
     tooltipList.length = 0;
     for (let item of filtered) {
         const entries = Object.entries(item.price_entries).sort((a, b) => b[1] - a[1]);
-        const tooltip = entries.map(elem => `<b>${elem[0]}</b>: ${intl.format(elem[1]/1e6)}M`).join('<br/>');
+        const tooltip = entries.map(elem => `<b>${elem[0]}</b>: ${formatNumber(elem[1]/1e6)}M`).join('<br/>');
 
         const newRow = createElement('tr', ['text-end']);
         newRow.appendChild(createElement('th', ['text-start'], {'scope': 'row'}, item['item_name'].slice(0, 30)));
 
         addColumn(newRow, item['bin'] ? '' : 'No');
-        addColumn(newRow, intl.format(item.top_bid));
-        const tooltipElem = createTooltip('td', tooltip, [], intl.format(item.real_price/1e6) + 'M', 'entries-tooltip');
+        addColumn(newRow, formatNumber(item.top_bid));
+        const tooltipElem = createTooltip('td', tooltip, [], formatNumber(item.real_price/1e6) + 'M', 'entries-tooltip');
         newRow.appendChild(tooltipElem);
         tooltipList.push(new bootstrap.Tooltip(tooltipElem));
-        addColumn(newRow, intl.format(item.profit/1e6) + 'M', [item.profit > 0? 'table-success': 'table-danger']);
-        addColumn(newRow, intl.format(item.ench_price/1e6) + 'M');
-        addColumn(newRow, intl.format(item.star_price/1e6) + 'M');
-        addColumn(newRow, intl.format(item.scrolls_price/1e6) + 'M');
+        addColumn(newRow, formatNumber(item.profit/1e6) + 'M', [item.profit > 0? 'table-success': 'table-danger']);
+        addColumn(newRow, formatNumber(item.ench_price/1e6) + 'M');
+        addColumn(newRow, formatNumber(item.star_price/1e6) + 'M');
+        addColumn(newRow, formatNumber(item.scrolls_price/1e6) + 'M');
         tableData.push(newRow);
         if (++printed >= max_items) break;
     }
