@@ -9,10 +9,9 @@
     <script src="js/color-modes.js"></script>
   </head>
   <body>
-    <div class="container-fluid border rounded text-center"><table class="container-fluid" style="min-height: 100px"><tbody><tr>
-        <td id="noSuchPage" class="align-middle">Oops, this page doesn't exist. <br>
-          But you probably meant to go here - <a href="/home.html">click</a></td>
-    </tr></tbody></table></div>
+    <div class="border rounded progress-bar" style="min-height: 200px;"><div id="noSuchPage">
+      Oops, this page doesn't exist.<br>But you probably meant to go here - <a href="/index.html">click</a>
+    </div></div>
     <script>
       const autoMsg = {
         en: {prefix: "Oops, this page doesn't exist.<br>But you probably meant to go here", postfix: "click"}, 
@@ -20,12 +19,10 @@
         de: {prefix: "Hoppla, diese Seite existiert nicht.<br>Aber Sie wollten wahrscheinlich hierhin", postfix: "klick"}
       };
       let autoLang = navigator.language || navigator.userLanguage; 
-      autoLang = autoLang.slice(0, 2);
       const autoLink = new URL('/', window.location.href);
-      const autoPart = autoMsg[autoLang] ?? autoMsg.en;
+      const autoPart = autoMsg[autoLang.slice(0, 2)] ?? autoMsg.en;
       const autoText = `${autoPart.prefix} - <a href="${autoLink}">${autoPart.postfix}</a>`
-      function redirectTo() { window.location.assign(autoLink.href); }
-      setTimeout(redirectTo, 2500);
+      setTimeout(() => window.location.assign(autoLink.href), 2500);
       document.getElementById('noSuchPage').innerHTML = autoText;
     </script>
   </body>
