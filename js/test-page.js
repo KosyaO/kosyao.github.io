@@ -1,29 +1,9 @@
 import {createElement, addHandlers, addColumn} from './hp_common.js';
 
-let fadeNext = null;
+let fadeNext;
 let fadePeriod;
 let fadeCollapse;
 let fadeCount = 0;
-
-function createTable(sections_count, elems_count) {
-    const tableData = []
-    while (sections_count-- > 0) {
-        const newRow = createElement('tr', ['table-info'], { 'evnt-click-row': elems_count });
-        tableData.push(newRow);
-        newRow.appendChild(createElement('th', ['text-start'], {}, 'Name ' + elems_count))
-        addColumn(newRow, 'Value 1-' + sections_count);
-        addColumn(newRow, 'Value 2-' + sections_count);
-        for (let i = 0; i < elems_count; i++) {
-            const newRow = createElement('tr', []);
-            tableData.push(newRow);
-            newRow.appendChild(createElement('th', ['text-start'], {}, 'Sub elem ' + i))
-            addColumn(newRow, 'Value1-' + sections_count + '-' + i);
-            addColumn(newRow, 'Value2-' + sections_count + '-' + i);
-        }
-        elems_count++;
-    }
-    document.getElementById('tCollapsable').replaceChildren(...tableData);
-}
 
 function fadeElements() {
     if (fadeCount === 0) return;
@@ -50,8 +30,27 @@ function rowClick(item) {
     setTimeout(fadeElements, fadePeriod);
 }
 
+function createTable(sections_count, elems_count) {
+    const tableData = []
+    while (sections_count-- > 0) {
+        const newRow = createElement('tr', ['table-info'], { 'evnt-click-row': elems_count });
+        tableData.push(newRow);
+        newRow.appendChild(createElement('th', ['text-start'], {}, 'Elements - ' + elems_count))
+        addColumn(newRow, 'Value 1-' + sections_count);
+        addColumn(newRow, 'Value 2-' + sections_count);
+        for (let i = 0; i < elems_count; i++) {
+            const newRow = createElement('tr', []);
+            tableData.push(newRow);
+            newRow.appendChild(createElement('th', ['text-start'], {}, 'Sub elem ' + i))
+            addColumn(newRow, 'Value1-' + sections_count + '-' + i);
+            addColumn(newRow, 'Value2-' + sections_count + '-' + i);
+        }
+        elems_count++;
+    }
+    document.getElementById('tCollapsable').replaceChildren(...tableData);
+}
+
 function init() {
-    // form nav section
     createTable(10, 3);
     addHandlers({'click-row': rowClick});
 }
