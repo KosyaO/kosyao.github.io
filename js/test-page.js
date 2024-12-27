@@ -1,11 +1,11 @@
-import {createElement, addHandlers, addColumn} from './hp_common.js';
+import {createElement, addColumn} from './hp_common.js';
 
 let fadeNext;
 let fadePeriod;
 let fadeCollapse;
 let fadeCount = 0;
 
-function fadeElements() {
+function doCollapse() {
     if (fadeCount === 0) return;
     if (fadeCollapse) {
         fadeNext.classList.add('d-none')
@@ -14,7 +14,7 @@ function fadeElements() {
         fadeNext = fadeNext.nextSibling;
         fadeNext.classList.remove('d-none');
     }
-    if (fadeCount-- > 0) setTimeout(fadeElements, fadePeriod);
+    if (fadeCount-- > 0) setTimeout(doCollapse, fadePeriod);
 }
 
 function rowClick(item) {
@@ -27,7 +27,7 @@ function rowClick(item) {
     if (fadeCollapse) {
         for (let i = 0; i < fadeCount; i++) fadeNext = fadeNext.nextSibling;
     }
-    setTimeout(fadeElements, fadePeriod);
+    setTimeout(doCollapse, fadePeriod);
 }
 
 function createTable(sections_count, elems_count) {
@@ -35,6 +35,7 @@ function createTable(sections_count, elems_count) {
     while (sections_count-- > 0) {
         const newRow = createElement('tr', ['table-info'], { 'evnt-click-row': elems_count });
         tableData.push(newRow);
+        newRow.addEventListener('click', rowClick);
         newRow.appendChild(createElement('th', ['text-start'], {}, 'Elements - ' + elems_count))
         addColumn(newRow, 'Value 1-' + sections_count);
         addColumn(newRow, 'Value 2-' + sections_count);
@@ -52,7 +53,6 @@ function createTable(sections_count, elems_count) {
 
 function init() {
     createTable(10, 3);
-    addHandlers({'click-row': rowClick});
 }
 
 init();
