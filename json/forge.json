@@ -1,0 +1,23 @@
+{
+    "pages": [
+        {
+            "name": "Forge",
+            "elements": [
+                {"id": "skeleton_key"}
+            ]
+        },
+        {
+            "name": "Inferno",
+            "elements": [
+            ]
+        }
+    ],
+    "recipes": {
+        "skeleton_key": {
+            "components": [
+                { "id": "perfect_plate", "count": 1}, 
+                { "id": "bejeweled_handle", "count": 1}
+            ]
+        }
+    }
+}
