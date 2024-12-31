@@ -146,7 +146,7 @@ function updateConfig(response) {
         const target = 'pills-' + (page.type ?? 'bazaar');
         if (target === 'pills-bazaar') page.items.forEach(config.goods.add, config.goods);
         
-        const newLi = createElement('li', ['nav-item'], { 'role': 'presentation'});
+        const newLi = createElement('li', ['nav-item'], { 'role': 'presentation' });
         const newBt = createElement('button', ['nav-link', isActive? 'active': ''], { 
             'type': 'button', 
             'data-bs-toggle': 'pill', 
@@ -174,7 +174,7 @@ function navClick(item) {
 }
 
 function reloadConfig() {
-    fetch('json/bazaar_monitored_new.json').then(res => res.json().then(res => updateConfig(res)));
+    fetch('json/bazaar_monitored_new.json').then(res => res.json().then(updateConfig));
 }
 
 function init() {
