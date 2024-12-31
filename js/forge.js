@@ -1,4 +1,4 @@
-import { setStatus, addHandlers, loadFromStorage, createElement } from './hp_common.js';
+import { setStatus, addHandlers, loadFromStorage, saveToStorage, createElement } from './hp_common.js';
 let config;
 let selectedMenu;
 
@@ -12,7 +12,7 @@ function updateConfig(response) {
     }
     const elements = [];
     for (const page of config.pages) {
-        const newRow = createElement('ul', ["nav-item"], { role: "presentation" });
+        const newRow = createElement('li', ["nav-item"], { role: "presentation" });
         elements.push(newRow);
         const isActive = selectedMenu === page.name;
         const newBtn = createElement('button', ['nav-link', isActive? 'active' : ''], {
@@ -22,7 +22,7 @@ function updateConfig(response) {
         }, page.name);
         newRow.appendChild(newBtn);
     }
-    // document.getElementById('nForgeMenu').replaceChildren(...elements);
+    document.getElementById('nForgeMenu').replaceChildren(...elements);
 }
 
 function ShowStats() {
