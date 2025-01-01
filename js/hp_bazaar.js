@@ -1,5 +1,5 @@
 import { setStatus, addHandlers, loadFromStorage, saveToStorage, createElement, addColumn } from './hp_common.js';
-import { bazaarUpdate } from './bazaar.mjs';
+import { bazaarUpdate, bazaarDownload } from './bazaar.mjs';
 
 let config = {};
 let prices = { last_updated: 0, products: {} };
@@ -118,15 +118,14 @@ function updateMarket(market) {
     marketSchedule();
     bazaarUpdate(config.goods, market, prices);
 
-    setStatus('Last updated: ' + new Date(market.lastUpdated).toLocaleString(lang) + ` (${market.lastUpdated})`);
+    setStatus('Last updated: ' + new Date(market.lastUpdated).toLocaleString(lang) + ` (load time: ${market.load_time/1000} sec)`);
     saveToStorage(lsPrefix + 'prices', JSON.stringify(prices));
     updateEstimation();
     drawMarket();
 }
 
 function downloadMarket() {
-    const download = fetch('https://api.hypixel.net/skyblock/bazaar');
-    download.catch(marketSchedule).then(res => res?.json().then(res => updateMarket(res)).catch(marketSchedule));
+    bazaarDownload().catch(marketSchedule).then(updateMarket);
 }
 
 function updateConfig(response) {
