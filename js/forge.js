@@ -1,4 +1,5 @@
-import { setStatus, addHandlers, loadFromStorage, saveToStorage, createElement, addColumn } from './hp_common.js';
+import { setStatus, addHandlers, loadFromStorage, saveToStorage, 
+    createElement, addColumn, formatNumber } from './hp_common.js';
 import { bazaarDownload, bazaarUpdate} from './bazaar.mjs'
 let config;
 let prices = { last_updated: 0, products: {} };
@@ -54,17 +55,17 @@ function updateCraft() {
 
 function drawElem(elem) {
     const recipe = config.recipes[elem.getAttribute('hypixel-id')] ?? {};
-    elem.childNodes[3].textContent = recipe.sell_price;
-    elem.childNodes[4].textContent = recipe.buy_price;
-    elem.childNodes[7].textContent = recipe.craft_price;
-    elem.childNodes[8].textContent = recipe.craft_time / 3600;
+    elem.childNodes[3].textContent = formatNumber(recipe.sell_price);
+    elem.childNodes[4].textContent = formatNumber(recipe.buy_price);
+    elem.childNodes[7].textContent = formatNumber(recipe.craft_price);
+    elem.childNodes[8].textContent = formatNumber(recipe.craft_time / 3600);
     for (const component of recipe.components) {
         elem = elem.nextSibling;
-        elem.childNodes[3].textContent = component.sell_price;
-        elem.childNodes[4].textContent = component.buy_price;
-        elem.childNodes[5].textContent = component.craft_price;
-        elem.childNodes[8].textContent = component.craft_time / 3600;
-        elem.childNodes[9].textContent = component.percent;
+        elem.childNodes[3].textContent = formatNumber(component.sell_price);
+        elem.childNodes[4].textContent = formatNumber(component.buy_price);
+        elem.childNodes[5].textContent = formatNumber(component.craft_price);
+        elem.childNodes[8].textContent = formatNumber((component.craft_time ?? 0)/ 3600);
+        elem.childNodes[9].textContent = formatNumber(component.percent);
     }
 }
 
