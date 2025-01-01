@@ -3,7 +3,8 @@
         {
             "name": "Forge",
             "elements": [
-                {"id": "skeleton_key"}
+                {"id": "skeleton_key"},
+                {"id": "bejeweled_handle"}
             ]
         },
         {
@@ -14,9 +15,18 @@
     ],
     "recipes": {
         "skeleton_key": {
+            "craft_time": 1800,
+            "count": 1,
             "components": [
                 { "id": "perfect_plate", "count": 1}, 
                 { "id": "bejeweled_handle", "count": 1}
+            ]
+        },
+        "bejeweled_handle": {
+            "craft_time": 30,
+            "count": 1,
+            "components": [
+                {"id": "glacite_jewel", "count": 3}
             ]
         }
     }
