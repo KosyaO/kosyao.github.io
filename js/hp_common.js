@@ -2,7 +2,7 @@ const lang = (navigator.language || navigator.userLanguage);
 const intl = new Intl.NumberFormat(lang,{minimumFractionDigits: 1, maximumFractionDigits: 1});
 
 export function formatNumber(number) {
-    return intl.format(number);
+    return number === undefined ? '' : intl.format(number);
 }
 
 export function setStatus(text) {

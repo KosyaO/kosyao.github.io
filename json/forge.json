@@ -4,12 +4,15 @@
             "name": "Forge",
             "elements": [
                 {"id": "skeleton_key"},
+                {"id": "bejeweled_handle"},
+                {"id": "umber_key"},
                 {"id": "bejeweled_handle"}
             ]
         },
         {
             "name": "Inferno",
             "elements": [
+                {"id": "bejeweled_handle"}
             ]
         }
     ],
@@ -27,6 +30,14 @@
             "count": 1,
             "components": [
                 {"id": "glacite_jewel", "count": 3}
+            ]
+        },
+        "umber_key": {
+            "craft_time": 1800,
+            "count": 1,
+            "components": [
+                { "id": "enchanted_umber", "count": 192}, 
+                { "id": "bejeweled_handle", "count": 1}
             ]
         }
     }

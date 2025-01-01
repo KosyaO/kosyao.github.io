@@ -1,4 +1,5 @@
-import { setStatus, addHandlers, loadFromStorage, saveToStorage, createElement, addColumn } from './hp_common.js';
+import { setStatus, addHandlers, loadFromStorage, saveToStorage, 
+    createElement, addColumn, formatNumber } from './hp_common.js';
 import { bazaarDownload, bazaarUpdate} from './bazaar.mjs'
 let config;
 let prices = { last_updated: 0, products: {} };
@@ -12,39 +13,27 @@ function calcRecipe(recipeId) {
     const recipe = config.recipes[recipeId];
     if (recipe.craft_price !== undefined) return;
     recipe.craft_price = 0;
-    recipe.craft_time = 0;
-    recipe.buy_price = prices.products[recipeId].buy_price;
-    recipe.sell_price = prices.products[recipeId].sell_price;
+    recipe.result_craft_time = recipe.craft_time;
+    recipe.buy_price = prices.products[recipeId]?.buy_price;
+    recipe.sell_price = prices.products[recipeId]?.sell_price;
     for (const component of recipe.components) {
-        component.buy_price = prices.products[component.id].buy_price;
-        component.sell_price = prices.products[component.id].sell_price;
-        const compRecipe = config.recipes[component.id];
-        if (compRecipe === undefined) {
-            component.craft_price = component.sell_price;
-        } else {
-            if (compRecipe.craft_price === undefined) {
-                calcRecipe(component.id);
-                component.craft_price = compRecipe.craft_price;
-                component.craft_time = compRecipe.craft_time;
-            }
-        }
+        component.buy_price = prices.products[component.id]?.buy_price;
+        component.sell_price = prices.products[component.id]?.sell_price;
         const source = component.source ?? 'sell';
-        if (source === 'craft') {
-            component.result_price = component.craft_price;
-            component.craft_time = component.count * component.craft_time
-            recipe.craft_time += component.craft_time;
-        } else if (source === 'buy') {
-            component.result_price = component.buy_price;
-        } else if (source === 'sell') {
-            component.result_price = component.sell_price;
-        } else {
-            component.result_price = 0;
+        const compRecipe = config.recipes[component.id];
+        if (compRecipe !== undefined) {
+            if (compRecipe.craft_price === undefined) calcRecipe(component.id);
+            component.craft_price = compRecipe.craft_price;
+            component.craft_time = source === 'craft' ? compRecipe.craft_time * component.count : undefined;
         }
-        recipe.craft_price += component.count * component.result_price;
+
+        component.result_price = (component[source + '_price'] ?? 0) * component.count;
+
+        recipe.craft_price += component.result_price;
+        recipe.result_craft_time += component.craft_time ?? 0;
     }
-    for (const component of recipe.components) {
-        component.percent = 100 * component.result_price * component.count / recipe.craft_price;
-    }
+    for (const component of recipe.components) 
+        component.percent = recipe.craft_price === 0 ? undefined : 100 * component.result_price / recipe.craft_price;
 }
 
 function updateCraft() {
@@ -54,17 +43,18 @@ function updateCraft() {
 
 function drawElem(elem) {
     const recipe = config.recipes[elem.getAttribute('hypixel-id')] ?? {};
-    elem.childNodes[3].textContent = recipe.sell_price;
-    elem.childNodes[4].textContent = recipe.buy_price;
-    elem.childNodes[7].textContent = recipe.craft_price;
-    elem.childNodes[8].textContent = recipe.craft_time / 3600;
+    elem.childNodes[3].textContent = formatNumber(recipe.sell_price);
+    elem.childNodes[4].textContent = formatNumber(recipe.buy_price);
+    elem.childNodes[7].textContent = formatNumber(recipe.craft_price);
+    elem.childNodes[8].textContent = formatNumber(recipe.result_craft_time);
     for (const component of recipe.components) {
         elem = elem.nextSibling;
-        elem.childNodes[3].textContent = component.sell_price;
-        elem.childNodes[4].textContent = component.buy_price;
-        elem.childNodes[5].textContent = component.craft_price;
-        elem.childNodes[8].textContent = component.craft_time / 3600;
-        elem.childNodes[9].textContent = component.percent;
+        elem.childNodes[3].textContent = formatNumber(component.sell_price);
+        elem.childNodes[4].textContent = formatNumber(component.buy_price);
+        elem.childNodes[5].textContent = formatNumber(component.craft_price);
+        elem.childNodes[7].textContent = formatNumber(component.result_price);
+        elem.childNodes[8].textContent = formatNumber(component.craft_time);
+        elem.childNodes[9].textContent = formatNumber(component.percent);
     }
 }
 
@@ -122,7 +112,17 @@ function updateConfig(response) {
     downloadMarket();
 }
 
-function createRow(item_id, count = 1, component_link = undefined) {
+function sourceChange(event) {
+    const row = this.parentElement.parentElement;
+    const [recipe_id, idx] = row.getAttribute('component-link').split(',');
+    const recipe = config.recipes[recipe_id];
+    const component = recipe.components[idx];
+    component.source = this.value;
+    updateCraft();
+    drawPage();
+}
+
+function createRow(item_id, count = 1, component_link = undefined, component = undefined) {
     const item = config.recipes[item_id];
     const header = component_link === undefined;
     const newRow = createElement('tr', [header? 'table-info': ''], header? {"hypixel-id": item_id} : {"component-link": component_link});
@@ -132,7 +132,19 @@ function createRow(item_id, count = 1, component_link = undefined) {
     addColumn(newRow, undefined, ['table-secondary']);
     addColumn(newRow, undefined, ['table-secondary']);
     addColumn(newRow, undefined, ['table-secondary']);
-    addColumn(newRow, header ? undefined : 'craft');
+    const srcCol = createElement('td');
+    if (component) {
+        const select = createElement('select', ['form-select', 'py-0', 'pe-0']);
+        select.appendChild(createElement('option', [], {}, 'sell'));
+        select.appendChild(createElement('option', [], {}, 'buy'));
+        const disabled = config.recipes[component.id] === undefined ? { disabled : '' } : {} ;
+        select.appendChild(createElement('option', [], disabled, 'craft'));
+        select.appendChild(createElement('option', [], {}, 'own'));
+        select.value = component.source ?? 'sell';
+        select.addEventListener('change', sourceChange);
+        srcCol.appendChild(select);
+    }
+    newRow.appendChild(srcCol);
     addColumn(newRow, undefined);
     addColumn(newRow, undefined);
     addColumn(newRow, undefined);
@@ -145,12 +157,15 @@ function formPage() {
         if (element.name === selectedMenu) page = element;
     });
     if (page === undefined) return;
+
     const elements = [];
     for (const element of page.elements) {
         const item = config.recipes[element.id];
         if (item === undefined) continue;
         elements.push(createRow(element.id, item.count));
-        item.components.forEach((component, idx) => elements.push(createRow(component.id, component.count, element.id  + ',' + idx)));
+        item.components.forEach((component, idx) => 
+            elements.push(createRow(component.id, component.count, element.id  + ',' + idx, component))
+        );
     }
     document.getElementById('tForge').replaceChildren(...elements);
 }
@@ -163,6 +178,7 @@ function clickNav(item) {
     selectedMenu = item.delegateTarget.textContent;
     saveToStorage(lsPrefix + 'selected_menu', selectedMenu);
     formPage();
+    drawPage();
 }
 
 function init() {
