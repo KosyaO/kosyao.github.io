@@ -8,15 +8,78 @@ let selectedMenu;
 
 const lsPrefix = 'hp_frg_'
 
-function updateCraft() {
-    
+function calcRecipe(recipeId) {
+    const recipe = config.recipes[recipeId];
+    if (recipe.craft_price !== undefined) return;
+    recipe.craft_price = 0;
+    recipe.craft_time = 0;
+    recipe.buy_price = prices.products[recipeId].buy_price;
+    recipe.sell_price = prices.products[recipeId].sell_price;
+    for (const component of recipe.components) {
+        component.buy_price = prices.products[component.id].buy_price;
+        component.sell_price = prices.products[component.id].sell_price;
+        const compRecipe = config.recipes[component.id];
+        if (compRecipe === undefined) {
+            component.craft_price = component.sell_price;
+        } else {
+            if (compRecipe.craft_price === undefined) {
+                calcRecipe(component.id);
+                component.craft_price = compRecipe.craft_price;
+                component.craft_time = compRecipe.craft_time;
+            }
+        }
+        const source = component.source ?? 'sell';
+        if (source === 'craft') {
+            component.result_price = component.craft_price;
+            component.craft_time = component.count * component.craft_time
+            recipe.craft_time += component.craft_time;
+        } else if (source === 'buy') {
+            component.result_price = component.buy_price;
+        } else if (source === 'sell') {
+            component.result_price = component.sell_price;
+        } else {
+            component.result_price = 0;
+        }
+        recipe.craft_price += component.count * component.result_price;
+    }
+    for (const component of recipe.components) {
+        component.percent = 100 * component.result_price * component.count / recipe.craft_price;
+    }
 }
+
+function updateCraft() {
+    Object.values(config.recipes).forEach(elem => elem.craft_price = undefined);
+    Object.keys(config.recipes).forEach(recipeId => calcRecipe(recipeId));
+}
+
+function drawElem(elem) {
+    const recipe = config.recipes[elem.getAttribute('hypixel-id')] ?? {};
+    elem.childNodes[3].textContent = recipe.sell_price;
+    elem.childNodes[4].textContent = recipe.buy_price;
+    elem.childNodes[7].textContent = recipe.craft_price;
+    elem.childNodes[8].textContent = recipe.craft_time / 3600;
+    for (const component of recipe.components) {
+        elem = elem.nextSibling;
+        elem.childNodes[3].textContent = component.sell_price;
+        elem.childNodes[4].textContent = component.buy_price;
+        elem.childNodes[5].textContent = component.craft_price;
+        elem.childNodes[8].textContent = component.craft_time / 3600;
+        elem.childNodes[9].textContent = component.percent;
+    }
+}
+
+function drawPage() {
+    const recipeElems = document.querySelectorAll(`*[hypixel-id]`);
+    recipeElems.forEach(elem => drawElem(elem));
+}
+
 
 function updateMarket(data) {
     if (!data.success) return marketSchedule({ message: 'Error loading market data' });
     marketSchedule();
     bazaarUpdate(goods, data, prices);
     updateCraft();
+    drawPage();
 }
 
 function downloadMarket() {
@@ -59,9 +122,10 @@ function updateConfig(response) {
     downloadMarket();
 }
 
-function createRow(item_id, count = 1, header = false) {
+function createRow(item_id, count = 1, component_link = undefined) {
     const item = config.recipes[item_id];
-    const newRow = createElement('tr', [header? 'table-info': ''], {"hypixel-id": item_id});
+    const header = component_link === undefined;
+    const newRow = createElement('tr', [header? 'table-info': ''], header? {"hypixel-id": item_id} : {"component-link": component_link});
     newRow.appendChild(createElement('th', ["text-start"], {}, item?.name ?? item_id));
     addColumn(newRow, item?.craft_time);
     addColumn(newRow, count);
@@ -85,13 +149,10 @@ function formPage() {
     for (const element of page.elements) {
         const item = config.recipes[element.id];
         if (item === undefined) continue;
-        elements.push(createRow(element.id, item.count, true));
-        for (const component of item.components) {
-            elements.push(createRow(component.id, component.count));  
-        }
+        elements.push(createRow(element.id, item.count));
+        item.components.forEach((component, idx) => elements.push(createRow(component.id, component.count, element.id  + ',' + idx)));
     }
     document.getElementById('tForge').replaceChildren(...elements);
-
 }
 
 function reloadCfg() {
