@@ -8,6 +8,8 @@ let currentInterval;
 let selectedMenu;
 
 const lsPrefix = 'hp_frg_'
+const collapsetime = 80;
+const collapseState = { itemsCount: 0 };
 
 function calcRecipe(recipeId) {
     const recipe = config.recipes[recipeId];
@@ -122,13 +124,43 @@ function sourceChange(event) {
     drawPage();
 }
 
-function createRow(item_id, count = 1, component_link = undefined, component = undefined) {
-    const item = config.recipes[item_id];
-    const header = component_link === undefined;
-    const newRow = createElement('tr', [header? 'table-info': ''], header? {"hypixel-id": item_id} : {"component-link": component_link});
-    newRow.appendChild(createElement('th', ["text-start"], {}, item?.name ?? item_id));
-    addColumn(newRow, item?.craft_time);
-    addColumn(newRow, count);
+function collapseTick() {
+    if (collapseState.itemsCount === 0) return;
+    if (!collapseState.collapse) {
+        collapseState.item.classList.remove('d-none');
+        collapseState.item = collapseState.item.nextSibling;
+    } else {
+        collapseState.item.classList.add('d-none');
+        collapseState.item = collapseState.item.previousSibling;
+    }
+    if (--collapseState.itemsCount > 0)setTimeout(collapseTick, collapseState.interval);
+}
+
+function rowClick(event) {
+    if (collapseState.itemsCount > 0) return;
+    const item_id = this.getAttribute('hypixel-id');
+    collapseState.itemsCount = config.recipes[item_id].components.length;
+    collapseState.interval = collapsetime / collapseState.itemsCount;
+    collapseState.item = this.nextSibling;
+    collapseState.collapse = !(this.getAttribute('collapsed') === 'true');
+    this.setAttribute('collapsed', collapseState.collapse);
+    if (collapseState.collapse) {
+        for (let i = 0; i < collapseState.itemsCount - 1; i++) {
+            collapseState.item = collapseState.item.nextSibling;
+        }
+    }
+    setTimeout(collapseTick, collapseState.interval);
+}
+
+function createRow(page_elem, component = undefined, index = 0) {
+    const item = config.recipes[page_elem.id];
+    const header = component === undefined;
+    const newRow = createElement('tr', [header? 'table-info': ''], 
+        header? {"hypixel-id": page_elem.id, "collapsed": page_elem.collapsed ?? 'false'} : {"component-link": page_elem.id + ',' + index});
+    if (header) newRow.addEventListener('click', rowClick);
+    newRow.appendChild(createElement('th', ["text-start"], {}, header? (item?.name ?? page_elem.id): component.id));
+    addColumn(newRow, header? item?.craft_time: undefined);
+    addColumn(newRow, header? item.count : component.count);
     addColumn(newRow, undefined, ['table-secondary']);
     addColumn(newRow, undefined, ['table-secondary']);
     addColumn(newRow, undefined, ['table-secondary']);
@@ -162,10 +194,8 @@ function formPage() {
     for (const element of page.elements) {
         const item = config.recipes[element.id];
         if (item === undefined) continue;
-        elements.push(createRow(element.id, item.count));
-        item.components.forEach((component, idx) => 
-            elements.push(createRow(component.id, component.count, element.id  + ',' + idx, component))
-        );
+        elements.push(createRow(element));
+        item.components.forEach((component, idx) => elements.push(createRow(element, component, idx)));
     }
     document.getElementById('tForge').replaceChildren(...elements);
 }
@@ -188,7 +218,7 @@ function init() {
     })
     selectedMenu = loadFromStorage(lsPrefix + "selected_menu");
     reloadCfg();
-    
+
 }
 
 init();
