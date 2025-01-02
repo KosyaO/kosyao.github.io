@@ -54,6 +54,7 @@ function drawElem(elem) {
         elem.childNodes[3].textContent = formatNumber(component.sell_price);
         elem.childNodes[4].textContent = formatNumber(component.buy_price);
         elem.childNodes[5].textContent = formatNumber(component.craft_price);
+        elem.childNodes[6].firstChild.value = component.source ?? 'sell';
         elem.childNodes[7].textContent = formatNumber(component.result_price);
         elem.childNodes[8].textContent = formatNumber(component.craft_time);
         elem.childNodes[9].textContent = formatNumber(component.percent);
@@ -64,7 +65,6 @@ function drawPage() {
     const recipeElems = document.querySelectorAll(`*[hypixel-id]`);
     recipeElems.forEach(elem => drawElem(elem));
 }
-
 
 function updateMarket(data) {
     if (!data.success) return marketSchedule({ message: 'Error loading market data' });
@@ -114,6 +114,10 @@ function updateConfig(response) {
     downloadMarket();
 }
 
+function saveConfig() {
+    saveToStorage(lsPrefix + 'config', JSON.stringify(config));
+}
+
 function sourceChange(event) {
     const row = this.parentElement.parentElement;
     const [recipe_id, idx] = row.getAttribute('component-link').split(',');
@@ -121,6 +125,7 @@ function sourceChange(event) {
     const component = recipe.components[idx];
     component.source = this.value;
     updateCraft();
+    saveConfig();
     drawPage();
 }
 
@@ -144,6 +149,7 @@ function rowClick(event) {
     collapseState.item = this.nextSibling;
     collapseState.collapse = !(this.getAttribute('collapsed') === 'true');
     this.setAttribute('collapsed', collapseState.collapse);
+    saveConfig();
     if (collapseState.collapse) {
         for (let i = 0; i < collapseState.itemsCount - 1; i++) {
             collapseState.item = collapseState.item.nextSibling;
@@ -172,7 +178,6 @@ function createRow(page_elem, component = undefined, index = 0) {
         const disabled = config.recipes[component.id] === undefined ? { disabled : '' } : {} ;
         select.appendChild(createElement('option', [], disabled, 'craft'));
         select.appendChild(createElement('option', [], {}, 'own'));
-        select.value = component.source ?? 'sell';
         select.addEventListener('change', sourceChange);
         srcCol.appendChild(select);
     }
@@ -217,8 +222,9 @@ function init() {
         'click-navigation': clickNav
     })
     selectedMenu = loadFromStorage(lsPrefix + "selected_menu");
+    const conf_str = loadFromStorage(lsPrefix + 'config');
+    if (conf_str) config = JSON.parse(conf_str);
     reloadCfg();
-
 }
 
 init();
