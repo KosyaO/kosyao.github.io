@@ -188,6 +188,7 @@ function init() {
     })
     selectedMenu = loadFromStorage(lsPrefix + "selected_menu");
     reloadCfg();
+    
 }
 
 init();
