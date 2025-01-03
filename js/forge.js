@@ -85,35 +85,6 @@ function marketSchedule(error) {
     currentInterval = setInterval(downloadMarket, updatedUnsuccessfully? 20000: 650000 );
 }
 
-function updateConfig(response) {
-    config = response;
-    // update bazaar goods
-    goods.clear();
-    for (const [recipeId, recipe] of Object.entries(config.recipes)) {
-        goods.add(recipeId);
-        recipe.components.forEach(item => goods.add(item.id));
-    }
-    // form navigation
-    if (config.pages.every(elem => elem.name !== selectedMenu)) {
-        selectedMenu = config.pages.length > 0? config.pages[0].name: '';
-    }
-    const elements = [];
-    for (const page of config.pages) {
-        const newRow = createElement('li', ["nav-item"], { role: "presentation" });
-        elements.push(newRow);
-        const isActive = selectedMenu === page.name;
-        const newBtn = createElement('button', ['nav-link', isActive? 'active' : ''], {
-            "data-bs-toggle": "pill",
-            "type": "button",
-            "aria-selected": isActive
-        }, page.name);
-        newRow.appendChild(newBtn);
-    }
-    document.getElementById('nForgeMenu').replaceChildren(...elements);
-    formPage();
-    downloadMarket();
-}
-
 function saveConfig() {
     saveToStorage(lsPrefix + 'config', JSON.stringify(config));
 }
@@ -203,6 +174,35 @@ function formPage() {
         item.components.forEach((component, idx) => elements.push(createRow(element, component, idx)));
     }
     document.getElementById('tForge').replaceChildren(...elements);
+}
+
+function updateConfig(response) {
+    config = response;
+    // update bazaar goods
+    goods.clear();
+    for (const [recipeId, recipe] of Object.entries(config.recipes)) {
+        goods.add(recipeId);
+        recipe.components.forEach(item => goods.add(item.id));
+    }
+    // form navigation
+    if (config.pages.every(elem => elem.name !== selectedMenu)) {
+        selectedMenu = config.pages.length > 0? config.pages[0].name: '';
+    }
+    const elements = [];
+    for (const page of config.pages) {
+        const newRow = createElement('li', ["nav-item"], { role: "presentation" });
+        elements.push(newRow);
+        const isActive = selectedMenu === page.name;
+        const newBtn = createElement('button', ['nav-link', isActive? 'active' : ''], {
+            "data-bs-toggle": "pill",
+            "type": "button",
+            "aria-selected": isActive
+        }, page.name);
+        newRow.appendChild(newBtn);
+    }
+    document.getElementById('nForgeMenu').replaceChildren(...elements);
+    formPage();
+    downloadMarket();
 }
 
 function reloadCfg() {
