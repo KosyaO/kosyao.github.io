@@ -10,6 +10,8 @@ let selectedMenu;
 const lsPrefix = 'hp_frg_'
 const collapsetime = 80;
 const collapseState = { itemsCount: 0 };
+const capitalize = word => word.slice(0, 1).toUpperCase() + word.slice(1);
+const snakeToFlu = word => word.split('_').map(capitalize).join(' ');
 
 function calcRecipe(recipeId) {
     const recipe = config.recipes[recipeId];
@@ -26,13 +28,13 @@ function calcRecipe(recipeId) {
         if (compRecipe !== undefined) {
             if (compRecipe.craft_price === undefined) calcRecipe(component.id);
             component.craft_price = compRecipe.craft_price;
-            component.craft_time = source === 'craft' ? compRecipe.craft_time * component.count : undefined;
+            component.result_craft_time = source === 'craft' ? compRecipe.craft_time * component.count : undefined;
         }
 
         component.result_price = (component[source + '_price'] ?? 0) * component.count;
 
         recipe.craft_price += component.result_price;
-        recipe.result_craft_time += component.craft_time ?? 0;
+        recipe.result_craft_time += component.result_craft_time ?? 0;
     }
     for (const component of recipe.components) 
         component.percent = recipe.craft_price === 0 ? undefined : 100 * component.result_price / recipe.craft_price;
@@ -43,27 +45,41 @@ function updateCraft() {
     Object.keys(config.recipes).forEach(recipeId => calcRecipe(recipeId));
 }
 
-function drawElem(elem) {
-    const recipe = config.recipes[elem.getAttribute('hypixel-id')] ?? {};
-    elem.childNodes[3].textContent = formatNumber(recipe.sell_price);
-    elem.childNodes[4].textContent = formatNumber(recipe.buy_price);
-    elem.childNodes[7].textContent = formatNumber(recipe.craft_price);
-    elem.childNodes[8].textContent = formatNumber(recipe.result_craft_time);
-    for (const component of recipe.components) {
-        elem = elem.nextSibling;
-        elem.childNodes[3].textContent = formatNumber(component.sell_price);
-        elem.childNodes[4].textContent = formatNumber(component.buy_price);
-        elem.childNodes[5].textContent = formatNumber(component.craft_price);
-        elem.childNodes[6].firstChild.value = component.source ?? 'sell';
-        elem.childNodes[7].textContent = formatNumber(component.result_price);
-        elem.childNodes[8].textContent = formatNumber(component.craft_time);
-        elem.childNodes[9].textContent = formatNumber(component.percent);
+function drawElem(elem, attrName) {
+    const recipe = config.recipes[elem.getAttribute(attrName)] ?? {};
+    const page = findPage();
+    if (page.type === 'dashboard') {
+        elem.childNodes[1].textContent = formatNumber(recipe.sell_price);
+        elem.childNodes[2].textContent = formatNumber(recipe.buy_price);
+        elem.childNodes[3].textContent = formatNumber(recipe.craft_price);
+        const profit = recipe.buy_price - recipe.craft_price;
+        const profEl = elem.childNodes[4];
+        profEl.classList.add(profit > 0? 'table-success': 'table-danger');
+        profEl.classList.remove(profit > 0? 'table-danger': 'table-success');
+        profEl.textContent = formatNumber(profit);
+        elem.childNodes[5].textContent = formatNumber(3600 * profit / recipe.craft_time);
+    } else {
+        elem.childNodes[3].textContent = formatNumber(recipe.sell_price);
+        elem.childNodes[4].textContent = formatNumber(recipe.buy_price);
+        elem.childNodes[7].textContent = formatNumber(recipe.craft_price);
+        elem.childNodes[8].textContent = formatNumber(recipe.result_craft_time);
+        for (const component of recipe.components) {
+            elem = elem.nextSibling;
+            elem.childNodes[3].textContent = formatNumber(component.sell_price);
+            elem.childNodes[4].textContent = formatNumber(component.buy_price);
+            elem.childNodes[5].textContent = formatNumber(component.craft_price);
+            elem.childNodes[6].firstChild.value = component.source ?? 'sell';
+            elem.childNodes[7].textContent = formatNumber(component.result_price);
+            elem.childNodes[8].textContent = formatNumber(component.craft_time);
+            elem.childNodes[9].textContent = formatNumber(component.percent);
+        }
     }
 }
 
 function drawPage() {
-    const recipeElems = document.querySelectorAll(`*[hypixel-id]`);
-    recipeElems.forEach(elem => drawElem(elem));
+    const attrName = findPage()?.type === 'dashboard' ? 'dashboard-id' : 'hypixel-id';
+    const recipeElems = document.querySelectorAll(`*[${attrName}]`);
+    recipeElems.forEach(elem => drawElem(elem, attrName));
 }
 
 function updateMarket(data) {
@@ -151,7 +167,7 @@ function createRow(page_elem, component = undefined, index = 0) {
         header? {"hypixel-id": page_elem.id, "collapsed": page_elem.collapsed ?? 'false', "index": page_elem.idx} : 
         {"component-link": page_elem.id + ',' + index});
     if (header) newRow.addEventListener('click', rowClick);
-    newRow.appendChild(createElement('th', ["text-start"], {}, header? (item?.name ?? page_elem.id): component.id));
+    newRow.appendChild(createElement('th', ["text-start"], {}, snakeToFlu(header? (item?.name ?? page_elem.id): component.id)));
     addColumn(newRow, header? item?.craft_time: undefined);
     addColumn(newRow, header? item.count : component.count);
     addColumn(newRow, undefined, ['table-secondary']);
@@ -180,16 +196,29 @@ function formPage() {
     if (page === undefined) return;
 
     const elements = [];
-    page.elements.forEach((element, idx) => {
-        const item = config.recipes[element.id];
-        if (item !== undefined) {
-            element.idx = idx;
-            elements.push(createRow(element));
-            item.components.forEach((component, idx) => elements.push(createRow(element, component, idx)));
+    if (page.type === 'dashboard') {
+        for (const element of page.elements) {
+            const newRow = createElement('tr', [], {"dashboard-id": element.id} );
+            elements.push(newRow);
+            newRow.appendChild(createElement('th', ['text-start'], {}, snakeToFlu(element.id)));
+            addColumn(newRow, undefined, ['table-secondary']);
+            addColumn(newRow, undefined, ['table-secondary']);
+            addColumn(newRow, undefined, ['table-secondary']);
+            addColumn(newRow, undefined, ['table-success']);
+            addColumn(newRow, undefined);
         }
-    });
-
-    document.getElementById('tForge').replaceChildren(...elements);
+        document.getElementById('tDashboard').replaceChildren(...elements);
+    } else {
+        page.elements.forEach((element, idx) => {
+            const item = config.recipes[element.id];
+            if (item !== undefined) {
+                element.idx = idx;
+                elements.push(createRow(element));
+                item.components.forEach((component, idx) => elements.push(createRow(element, component, idx)));
+            }
+        });
+        document.getElementById('tForge').replaceChildren(...elements);
+    }
 }
 
 function updateConfig(response) {
@@ -225,14 +254,22 @@ function updateConfig(response) {
         const newRow = createElement('li', ["nav-item"], { role: "presentation" });
         elements.push(newRow);
         const isActive = selectedMenu === page.name;
+        const target = 'pills-' + (page.type ?? 'forge');
         const newBtn = createElement('button', ['nav-link', isActive? 'active' : ''], {
             "data-bs-toggle": "pill",
             "type": "button",
-            "aria-selected": isActive
+            "aria-selected": isActive,
+            "role": "tab",
+            "data-bs-target": "#" + target,
+            "aria-controls": target
         }, page.name);
         newRow.appendChild(newBtn);
     }
     document.getElementById('nForgeMenu').replaceChildren(...elements);
+    if (findPage()?.type === 'dashboard') {
+        document.getElementById('pills-forge').classList.remove('show', 'active');
+        document.getElementById('pills-dashboard').classList.add('show', 'active');
+    }
     formPage();
     downloadMarket();
 }

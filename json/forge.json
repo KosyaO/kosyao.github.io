@@ -4,15 +4,28 @@
             "name": "Forge",
             "elements": [
                 {"id": "skeleton_key"},
+                {"id": "perfect_plate"},
+                {"id": "tungsten_plate"},
+                {"id": "umber_plate"},
+                {"id": "mithril_plate"},
+                {"id": "glacite_amalgamation"},
+                {"id": "refined_umber"},
+                {"id": "refined_tungsten"},
                 {"id": "bejeweled_handle"},
-                {"id": "umber_key"},
-                {"id": "bejeweled_handle"}
+                {"id": "umber_key"}
             ]
         },
         {
             "name": "Inferno",
             "elements": [
                 {"id": "bejeweled_handle"}
+            ]
+        },
+        {
+            "name": "Dashboard",
+            "type": "dashboard",
+            "elements": [
+                {"id": "skeleton_key"}
             ]
         }
     ],
@@ -38,6 +51,56 @@
             "components": [
                 { "id": "enchanted_umber", "count": 192}, 
                 { "id": "bejeweled_handle", "count": 1}
+            ]
+        },
+        "perfect_plate": {
+            "craft_time": 1800,
+            "count": 1,
+            "components": [
+                { "id": "tungsten_plate", "count": 1}, 
+                { "id": "umber_plate", "count": 1},
+                { "id": "mithril_plate", "count": 1}
+            ]
+        },
+        "umber_plate": {
+            "craft_time": 10800,
+            "count": 1,
+            "components": [
+                { "id": "glacite_amalgamation", "count": 1}, 
+                { "id": "refined_umber", "count": 4}
+            ]
+        },
+        "tungsten_plate": {
+            "craft_time": 10800,
+            "count": 1,
+            "components": [
+                { "id": "glacite_amalgamation", "count": 1}, 
+                { "id": "refined_tungsten", "count": 4}
+            ]
+        },
+        "glacite_amalgamation": {
+            "craft_time": 14400,
+            "count": 1,
+            "components": [
+                { "id": "enchanted_glacite", "count": 256}, 
+                { "id": "fine_onyx_gem", "count": 4},
+                { "id": "fine_citrine_gem", "count": 4},
+                { "id": "fine_peridot_gem", "count": 4},
+                { "id": "fine_aquamarine_gem", "count": 4}
+            ]
+        },
+        "refined_umber": {
+            "craft_time": 1800,
+            "count": 1,
+            "components": [
+                { "id": "enchanted_umber", "count": 160}
+            ]
+        },
+        "refined_tungsten": {
+            "craft_time": 1800,
+            "count": 1,
+            "components": [
+                { "id": "enchanted_tungsten", "count": 160}
             ]
         }
     }
