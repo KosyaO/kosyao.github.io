@@ -28,7 +28,7 @@ function calcRecipe(recipeId) {
         if (compRecipe !== undefined) {
             if (compRecipe.craft_price === undefined) calcRecipe(component.id);
             component.craft_price = compRecipe.craft_price;
-            component.result_craft_time = source === 'craft' ? compRecipe.craft_time * component.count : undefined;
+            component.result_craft_time = source === 'craft' ? compRecipe.result_craft_time * component.count : undefined;
         }
 
         component.result_price = (component[source + '_price'] ?? 0) * component.count;
@@ -62,7 +62,7 @@ function drawElem(elem, attrName) {
         elem.childNodes[3].textContent = formatNumber(recipe.sell_price);
         elem.childNodes[4].textContent = formatNumber(recipe.buy_price);
         elem.childNodes[7].textContent = formatNumber(recipe.craft_price);
-        elem.childNodes[8].textContent = formatNumber(recipe.result_craft_time);
+        elem.childNodes[8].textContent = formatNumber(recipe.result_craft_time === undefined? undefined : recipe.result_craft_time / 3600);
         for (const component of recipe.components) {
             elem = elem.nextSibling;
             elem.childNodes[3].textContent = formatNumber(component.sell_price);
@@ -70,7 +70,7 @@ function drawElem(elem, attrName) {
             elem.childNodes[5].textContent = formatNumber(component.craft_price);
             elem.childNodes[6].firstChild.value = component.source ?? 'sell';
             elem.childNodes[7].textContent = formatNumber(component.result_price);
-            elem.childNodes[8].textContent = formatNumber(component.craft_time);
+            elem.childNodes[8].textContent = formatNumber(component.result_craft_time === undefined? undefined : component.result_craft_time / 3600);
             elem.childNodes[9].textContent = formatNumber(component.percent);
         }
     }
@@ -149,8 +149,7 @@ function rowClick(event) {
     collapseState.item = this.nextSibling;
     collapseState.collapse = !(this.getAttribute('collapsed') === 'true');
     this.setAttribute('collapsed', collapseState.collapse);
-    const page = findPage();
-    if (page !== undefined) page.elements[idx].collapsed = collapseState.collapse;
+    findPage().elements[idx].collapsed = collapseState.collapse;
     saveConfig();
     if (collapseState.collapse) {
         for (let i = 0; i < collapseState.itemsCount - 1; i++) {
@@ -168,7 +167,7 @@ function createRow(page_elem, component = undefined, index = 0) {
         {"component-link": page_elem.id + ',' + index});
     if (header) newRow.addEventListener('click', rowClick);
     newRow.appendChild(createElement('th', ["text-start"], {}, snakeToFlu(header? (item?.name ?? page_elem.id): component.id)));
-    addColumn(newRow, header? item?.craft_time: undefined);
+    addColumn(newRow, header? formatNumber(item?.craft_time / 3600) : undefined);
     addColumn(newRow, header? item.count : component.count);
     addColumn(newRow, undefined, ['table-secondary']);
     addColumn(newRow, undefined, ['table-secondary']);

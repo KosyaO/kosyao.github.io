@@ -90,14 +90,14 @@
             ]
         },
         "refined_umber": {
-            "craft_time": 1800,
+            "craft_time": 3600,
             "count": 1,
             "components": [
                 { "id": "enchanted_umber", "count": 160}
             ]
         },
         "refined_tungsten": {
-            "craft_time": 1800,
+            "craft_time": 3600,
             "count": 1,
             "components": [
                 { "id": "enchanted_tungsten", "count": 160}
