@@ -109,17 +109,32 @@ function collapseTick() {
         collapseState.item.classList.add('d-none');
         collapseState.item = collapseState.item.previousSibling;
     }
-    if (--collapseState.itemsCount > 0)setTimeout(collapseTick, collapseState.interval);
+    if (--collapseState.itemsCount > 0) setTimeout(collapseTick, collapseState.interval);
+}
+
+function findPage(menuName = selectedMenu) {
+    for (let page of config.pages) {
+        if (page.name === menuName) return page;     
+    }
+}
+
+function findElement(searchElement, page) {
+    for (let element of page.elements) {
+        if (searchElement.id === element.id) return element;
+    }
 }
 
 function rowClick(event) {
     if (collapseState.itemsCount > 0) return;
     const item_id = this.getAttribute('hypixel-id');
+    const idx = this.getAttribute('index');
     collapseState.itemsCount = config.recipes[item_id].components.length;
     collapseState.interval = collapsetime / collapseState.itemsCount;
     collapseState.item = this.nextSibling;
     collapseState.collapse = !(this.getAttribute('collapsed') === 'true');
     this.setAttribute('collapsed', collapseState.collapse);
+    const page = findPage();
+    if (page !== undefined) page.elements[idx].collapsed = collapseState.collapse;
     saveConfig();
     if (collapseState.collapse) {
         for (let i = 0; i < collapseState.itemsCount - 1; i++) {
@@ -132,8 +147,9 @@ function rowClick(event) {
 function createRow(page_elem, component = undefined, index = 0) {
     const item = config.recipes[page_elem.id];
     const header = component === undefined;
-    const newRow = createElement('tr', [header? 'table-info': ''], 
-        header? {"hypixel-id": page_elem.id, "collapsed": page_elem.collapsed ?? 'false'} : {"component-link": page_elem.id + ',' + index});
+    const newRow = createElement('tr', [header? 'table-info': (page_elem.collapsed ? 'd-none' : '')], 
+        header? {"hypixel-id": page_elem.id, "collapsed": page_elem.collapsed ?? 'false', "index": page_elem.idx} : 
+        {"component-link": page_elem.id + ',' + index});
     if (header) newRow.addEventListener('click', rowClick);
     newRow.appendChild(createElement('th', ["text-start"], {}, header? (item?.name ?? page_elem.id): component.id));
     addColumn(newRow, header? item?.craft_time: undefined);
@@ -160,23 +176,41 @@ function createRow(page_elem, component = undefined, index = 0) {
 }
 
 function formPage() {
-    let page;
-    config.pages.forEach(element => {
-        if (element.name === selectedMenu) page = element;
-    });
+    const page = findPage();
     if (page === undefined) return;
 
     const elements = [];
-    for (const element of page.elements) {
+    page.elements.forEach((element, idx) => {
         const item = config.recipes[element.id];
-        if (item === undefined) continue;
-        elements.push(createRow(element));
-        item.components.forEach((component, idx) => elements.push(createRow(element, component, idx)));
-    }
+        if (item !== undefined) {
+            element.idx = idx;
+            elements.push(createRow(element));
+            item.components.forEach((component, idx) => elements.push(createRow(element, component, idx)));
+        }
+    });
+
     document.getElementById('tForge').replaceChildren(...elements);
 }
 
 function updateConfig(response) {
+    // restore collapsed and source values
+    for (let page of response.pages) {
+        const oldPage = findPage(page.name);
+        if (oldPage !== undefined) {
+            for (let element of page.elements) {
+                const oldElement = findElement(element, oldPage);
+                if (oldElement !== undefined) {
+                    element.collapsed = oldElement.collapsed;
+                }
+            }
+        }
+    }
+    for (const [item_id, recipe] of Object.entries(response.recipes)) {
+        const oldRecipe = config.recipes[item_id];
+        if (oldRecipe !== undefined) {
+            recipe.components.forEach((component, idx) => component.source = oldRecipe.components[idx]?.source);
+        }
+    }
     config = response;
     // update bazaar goods
     goods.clear();
@@ -185,9 +219,7 @@ function updateConfig(response) {
         recipe.components.forEach(item => goods.add(item.id));
     }
     // form navigation
-    if (config.pages.every(elem => elem.name !== selectedMenu)) {
-        selectedMenu = config.pages.length > 0? config.pages[0].name: '';
-    }
+    if (findPage() === undefined) selectedMenu = config.pages.length > 0? config.pages[0].name: '';
     const elements = [];
     for (const page of config.pages) {
         const newRow = createElement('li', ["nav-item"], { role: "presentation" });
