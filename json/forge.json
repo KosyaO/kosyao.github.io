@@ -2,7 +2,7 @@
     "time_multiplier": 0.7,
     "pages": [
         {
-            "name": "Forge",
+            "name": "Glacite Tunnels",
             "elements": [
                 {"id": "skeleton_key"},
                 {"id": "perfect_plate"},
@@ -14,6 +14,16 @@
                 {"id": "refined_tungsten"},
                 {"id": "bejeweled_handle"},
                 {"id": "umber_key"}
+            ]
+        },
+        {
+            "name": "Dwarven mines",
+            "elements": [
+                {"id": "mithril_plate"},
+                {"id": "golden_plate"},
+                {"id": "refined_mithril"},
+                {"id": "refined_diamond"},
+                {"id": "refined_titanium"}
             ]
         },
         {
@@ -31,7 +41,8 @@
             "name": "Dashboard",
             "type": "dashboard",
             "elements": [
-                {"id": "skeleton_key"}
+                {"id": "skeleton_key"},
+                {"id": "mithril_plate"}
             ]
         }
     ],
@@ -151,6 +162,41 @@
                 { "id": "fuel_gabagool", "count": 1 },
                 { "id": "crude_gabagool_distillate", "count": 6 },
                 { "id": "inferno_fuel_block", "count": 2 }
+            ]
+        },
+        "mithril_plate": {
+            "craft_time": 64800,
+            "components": [
+                { "id": "golden_plate", "count": 1 },
+                { "id": "refined_mithril", "count": 5 },
+                { "id": "enchanted_iron_block", "count": 1 },
+                { "id": "refined_titanium", "count": 1 }
+            ]
+        },
+        "golden_plate": {
+            "craft_time": 21600,
+            "components": [
+                { "id": "refined_diamond", "count": 1 },
+                { "id": "glacite_jewel", "count": 5 },
+                { "id": "enchanted_gold_block", "count": 2 }
+            ]
+        },
+        "refined_mithril": {
+            "craft_time": 21600,
+            "components": [
+                { "id": "enchanted_mithril", "count": 160 }
+            ]
+        },
+        "refined_diamond": {
+            "craft_time": 28800,
+            "components": [
+                { "id": "enchanted_diamond_block", "count": 2 }
+            ]
+        },
+        "refined_titanium": {
+            "craft_time": 43200,
+            "components": [
+                { "id": "enchanted_titanium", "count": 16 }
             ]
         }
     }
