@@ -19,7 +19,12 @@
         {
             "name": "Inferno",
             "elements": [
-                {"id": "bejeweled_handle"}
+                {"id": "inferno_fuel_leg"},
+                {"id": "inferno_fuel_reg"},
+                {"id": "hypergolic_gabagool"},
+                {"id": "heavy_gabagool"},
+                {"id": "fuel_gabagool"},
+                {"id": "sulphuric_coal"}
             ]
         },
         {
@@ -102,6 +107,50 @@
             "count": 1,
             "components": [
                 { "id": "enchanted_tungsten", "count": 160}
+            ]
+        },
+        "sulphuric_coal": {
+            "count": 4,
+            "components": [
+                { "id": "enchanted_sulphur", "count": 1 },
+                { "id": "enchanted_coal", "count": 16 }
+            ]
+        },
+        "fuel_gabagool": {
+            "count": 8,
+            "components": [
+                { "id": "very_crude_gabagool", "count": 1 },
+                { "id": "sulphuric_coal", "count": 8 }
+            ]
+        },
+        "heavy_gabagool": {
+            "count": 1,
+            "components": [
+                { "id": "fuel_gabagool", "count": 24 },
+                { "id": "sulphuric_coal", "count": 1 }
+            ]
+        },
+        "hypergolic_gabagool": {
+            "count": 1,
+            "components": [
+                { "id": "heavy_gabagool", "count": 12 },
+                { "id": "sulphuric_coal", "count": 1 }
+            ]
+        },
+        "inferno_fuel_leg": {
+            "count": 1,
+            "components": [
+                { "id": "hypergolic_gabagool", "count": 1 },
+                { "id": "crude_gabagool_distillate", "count": 6 },
+                { "id": "inferno_fuel_block", "count": 2 }
+            ]
+        },
+        "inferno_fuel_reg": {
+            "count": 1,
+            "components": [
+                { "id": "fuel_gabagool", "count": 1 },
+                { "id": "crude_gabagool_distillate", "count": 6 },
+                { "id": "inferno_fuel_block", "count": 2 }
             ]
         }
     }

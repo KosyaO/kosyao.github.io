@@ -14,11 +14,25 @@ const collapseState = { itemsCount: 0 };
 const capitalize = word => word.slice(0, 1).toUpperCase() + word.slice(1);
 const snakeToFlu = word => word.split('_').map(capitalize).join(' ');
 
+
+function findPage(menuName = selectedMenu) {
+    for (let page of config.pages) {
+        if (page.name === menuName) return page;     
+    }
+}
+
+function findElement(searchElement, page) {
+    for (let element of page.elements) {
+        if (searchElement.id === element.id) return element;
+    }
+}
+
 function calcRecipe(recipeId) {
     const recipe = config.recipes[recipeId];
     if (recipe.craft_price !== undefined) return;
     recipe.craft_price = 0;
-    recipe.result_craft_time = recipe.craft_time * (config.time_multiplier ?? 1) / 3600;
+    recipe.result_craft_time = recipe.craft_time;
+    if (recipe.craft_time !== undefined) recipe.result_craft_time *= (config.time_multiplier ?? 1) / 3600;
     recipe.buy_price = prices.products[recipeId]?.buy_price;
     recipe.sell_price = prices.products[recipeId]?.sell_price;
     for (const component of recipe.components) {
@@ -29,16 +43,17 @@ function calcRecipe(recipeId) {
         if (compRecipe !== undefined) {
             if (compRecipe.craft_price === undefined) calcRecipe(component.id);
             component.craft_price = compRecipe.craft_price;
-            component.result_craft_time = source === 'craft' ? compRecipe.result_craft_time * component.count : undefined;
+            component.result_craft_time = (source === 'craft' && compRecipe.result_craft_time !== undefined) ? compRecipe.result_craft_time * component.count : undefined;
         }
 
         component.result_price = (component[source + '_price'] ?? 0) * component.count;
 
         recipe.craft_price += component.result_price;
-        recipe.result_craft_time += component.result_craft_time ?? 0;
+        if (recipe.result_craft_time !== undefined) recipe.result_craft_time += component.result_craft_time ?? 0;
     }
+    recipe.craft_price /= (recipe.count ?? 1);
     for (const component of recipe.components) 
-        component.percent = recipe.craft_price === 0 ? undefined : 100 * component.result_price / recipe.craft_price;
+        component.percent = recipe.craft_price === 0 ? undefined : 100 * component.result_price / recipe.craft_price / (recipe.count ?? 1);
 }
 
 function updateCraft() {
@@ -130,18 +145,6 @@ function collapseTick() {
     if (--collapseState.itemsCount > 0) setTimeout(collapseTick, collapseState.interval);
 }
 
-function findPage(menuName = selectedMenu) {
-    for (let page of config.pages) {
-        if (page.name === menuName) return page;     
-    }
-}
-
-function findElement(searchElement, page) {
-    for (let element of page.elements) {
-        if (searchElement.id === element.id) return element;
-    }
-}
-
 function rowClick(event) {
     if (collapseState.itemsCount > 0) return;
     const item_id = this.getAttribute('hypixel-id');
@@ -169,7 +172,7 @@ function createRow(page_elem, component = undefined, index = 0) {
         {"component-link": page_elem.id + ',' + index});
     if (header) newRow.addEventListener('click', rowClick);
     newRow.appendChild(createElement('th', ["text-start"], {}, snakeToFlu(header? (item?.name ?? page_elem.id): component.id)));
-    addColumn(newRow, header? formatNumber(item?.craft_time / 3600) : undefined);
+    addColumn(newRow, header && item?.craft_time !== undefined ? formatNumber(item?.craft_time / 3600) : undefined);
     addColumn(newRow, header? item.count : component.count);
     addColumn(newRow, undefined, ['table-secondary']);
     addColumn(newRow, undefined, ['table-secondary']);
