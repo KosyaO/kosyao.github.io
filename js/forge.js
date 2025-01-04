@@ -7,7 +7,8 @@ let goods = new Set();
 let currentInterval;
 let selectedMenu;
 
-const lsPrefix = 'hp_frg_'
+const lsPrefix = 'hp_frg_';
+const lang = (navigator.language || navigator.userLanguage);
 const collapsetime = 80;
 const collapseState = { itemsCount: 0 };
 const capitalize = word => word.slice(0, 1).toUpperCase() + word.slice(1);
@@ -17,7 +18,7 @@ function calcRecipe(recipeId) {
     const recipe = config.recipes[recipeId];
     if (recipe.craft_price !== undefined) return;
     recipe.craft_price = 0;
-    recipe.result_craft_time = recipe.craft_time;
+    recipe.result_craft_time = recipe.craft_time * config.time_multiplier / 3600;
     recipe.buy_price = prices.products[recipeId]?.buy_price;
     recipe.sell_price = prices.products[recipeId]?.sell_price;
     for (const component of recipe.components) {
@@ -57,12 +58,12 @@ function drawElem(elem, attrName) {
         profEl.classList.add(profit > 0? 'table-success': 'table-danger');
         profEl.classList.remove(profit > 0? 'table-danger': 'table-success');
         profEl.textContent = formatNumber(profit);
-        elem.childNodes[5].textContent = formatNumber(3600 * profit / recipe.craft_time);
+        elem.childNodes[5].textContent = formatNumber(profit / recipe.result_craft_time);
     } else {
         elem.childNodes[3].textContent = formatNumber(recipe.sell_price);
         elem.childNodes[4].textContent = formatNumber(recipe.buy_price);
         elem.childNodes[7].textContent = formatNumber(recipe.craft_price);
-        elem.childNodes[8].textContent = formatNumber(recipe.result_craft_time === undefined? undefined : recipe.result_craft_time / 3600);
+        elem.childNodes[8].textContent = formatNumber(recipe.result_craft_time);
         for (const component of recipe.components) {
             elem = elem.nextSibling;
             elem.childNodes[3].textContent = formatNumber(component.sell_price);
@@ -70,7 +71,7 @@ function drawElem(elem, attrName) {
             elem.childNodes[5].textContent = formatNumber(component.craft_price);
             elem.childNodes[6].firstChild.value = component.source ?? 'sell';
             elem.childNodes[7].textContent = formatNumber(component.result_price);
-            elem.childNodes[8].textContent = formatNumber(component.result_craft_time === undefined? undefined : component.result_craft_time / 3600);
+            elem.childNodes[8].textContent = formatNumber(component.result_craft_time);
             elem.childNodes[9].textContent = formatNumber(component.percent);
         }
     }
@@ -86,6 +87,7 @@ function updateMarket(data) {
     if (!data.success) return marketSchedule({ message: 'Error loading market data' });
     marketSchedule();
     bazaarUpdate(goods, data, prices);
+    setStatus('Last updated: ' + new Date(data.lastUpdated).toLocaleString(lang) + ` (load time: ${data.load_time/1000} sec)`);
     updateCraft();
     drawPage();
 }
@@ -98,7 +100,7 @@ function marketSchedule(error) {
     const updatedUnsuccessfully = error !== undefined;
     if (updatedUnsuccessfully) setStatus(error.message);
     if (currentInterval) clearInterval(currentInterval);
-    currentInterval = setInterval(downloadMarket, updatedUnsuccessfully? 20000: 650000 );
+    currentInterval = setInterval(downloadMarket, updatedUnsuccessfully? 20000: 65000 );
 }
 
 function saveConfig() {
