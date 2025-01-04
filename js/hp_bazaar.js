@@ -1,7 +1,7 @@
 import { setStatus, addHandlers, loadFromStorage, saveToStorage, createElement, addColumn } from './hp_common.js';
 import { bazaarUpdate, bazaarDownload } from './bazaar.mjs';
 
-let config = {};
+let config = { };
 let prices = { last_updated: 0, products: {} };
 let selectedMenu;
 let currentInterval;

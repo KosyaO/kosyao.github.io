@@ -1,7 +1,7 @@
 import { setStatus, addHandlers, loadFromStorage, saveToStorage, 
     createElement, addColumn, formatNumber } from './hp_common.js';
 import { bazaarDownload, bazaarUpdate} from './bazaar.mjs'
-let config;
+let config = { pages: [], recipes: {} };
 let prices = { last_updated: 0, products: {} };
 let goods = new Set();
 let currentInterval;
@@ -18,7 +18,7 @@ function calcRecipe(recipeId) {
     const recipe = config.recipes[recipeId];
     if (recipe.craft_price !== undefined) return;
     recipe.craft_price = 0;
-    recipe.result_craft_time = recipe.craft_time * config.time_multiplier / 3600;
+    recipe.result_craft_time = recipe.craft_time * (config.time_multiplier ?? 1) / 3600;
     recipe.buy_price = prices.products[recipeId]?.buy_price;
     recipe.sell_price = prices.products[recipeId]?.sell_price;
     for (const component of recipe.components) {
