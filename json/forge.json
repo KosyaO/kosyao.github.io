@@ -25,19 +25,32 @@
                 {"id": "refined_mithril", "collapsed": "true"},
                 {"id": "refined_diamond", "collapsed": "true"},
                 {"id": "refined_titanium", "collapsed": "true"},
+                {"id": "refined_diamond", "collapsed": "true"},
                 {"id": "gemstone_chamber"},
+                {"id": "gleaming_crystal"},
                 {"id": "gemstone_mixture", "collapsed": "true"}
+            ]
+        },
+        {
+            "name": "Other",
+            "elements": [
+                {"id": "wood_singularity"},
+                {"id": "Bobbin' Time III"},
+                {"id": "spooky_water_orb"}
             ]
         },
         {
             "name": "Inferno",
             "elements": [
+                {"id": "capsaicin_eyedrops_no_charges"},
                 {"id": "inferno_fuel_leg"},
                 {"id": "inferno_fuel_reg"},
                 {"id": "hypergolic_gabagool"},
                 {"id": "heavy_gabagool"},
                 {"id": "fuel_gabagool"},
-                {"id": "sulphuric_coal"}
+                {"id": "sulphuric_coal"},
+                {"id": "molten_powder"},
+                {"id": "amalgamated_crimsonite_new"}
             ]
         },
         {
@@ -84,6 +97,19 @@
                 { "id": "bejeweled_handle", "count": 1}
             ]
         },
+        "wood_singularity": {
+            "craft_time": 30,
+            "count": 1,
+            "craft_coins": 1434720,
+            "components": [
+                { "id": "enchanted_oak_log", "count": 320}, 
+                { "id": "enchanted_spruce_log", "count": 320}, 
+                { "id": "enchanted_birch_log", "count": 320}, 
+                { "id": "enchanted_dark_oak_log", "count": 320}, 
+                { "id": "enchanted_acacia_log", "count": 320}, 
+                { "id": "enchanted_jungle_log", "count": 320}
+            ]
+        },
         "perfect_plate": {
             "craft_time": 1800,
             "count": 1,
@@ -106,7 +132,47 @@
             "count": 1,
             "components": [
                 { "id": "glacite_amalgamation", "count": 1, "source": "craft"}, 
-                { "id": "refined_tungsten", "count": 4, "source": "craft"}
+                { "id": "refined_umber", "count": 4, "source": "craft"}
+            ]
+        },
+        "Bobbin' Time III": {
+            "craft_time": 10800,
+            "count": 1,
+            "components": [
+                { "id": "spooky_water_orb", "count": 1, "source": "craft"}, 
+                { "id": "shark_water_orb", "count": 1, "source": "craft"},
+                { "id": "winter_water_orb", "count": 1, "source": "craft"},
+                { "id": "lava_water_orb", "count": 1, "source": "craft"},
+                { "id": "bobbin_scriptures", "count": 1}
+            ]
+        },
+        "spooky_water_orb": {
+            "craft_time": 10800,
+            "count": 1,
+            "components": [
+                { "id": "spooky_water_orb", "count": 1, "source": "craft"}, 
+                { "id": "shark_water_orb", "count": 1, "source": "craft"},
+                { "id": "winter_water_orb", "count": 1, "source": "craft"},
+                { "id": "lava_water_orb", "count": 1, "source": "craft"},
+                { "id": "bobbin_scriptures", "count": 1}
+            ]
+        },
+        "molten_powder": {
+            "count": 1,
+            "components": [
+                { "id": "amalgamated_crimsonite_new", "count": 1, "source": "craft"}, 
+                { "id": "derelict_ashe", "count": 128, "source": "sell"}
+            ]
+        },
+        "amalgamated_crimsonite_new": {
+            "count": 40,
+            "components": [
+                { "id": "enchanted_glowstone", "count": 4}, 
+                { "id": "enchanted_mycelium_cube", "count": 1},
+                { "id": "enchanted_red_sand_cube", "count": 1},
+                { "id": "whipped_magma_cream", "count": 4},
+                { "id": "enchanted_blaze_rod", "count": 4},
+                { "id": "mutant_nether_stalk", "count": 4}
             ]
         },
         "glacite_amalgamation": {
@@ -155,6 +221,15 @@
                 { "id": "sulphuric_coal", "count": 1 }
             ]
         },
+        "capsaicin_eyedrops_no_charges": {
+            "count": 3,
+            "craft_coins": 2000000,
+            "components": [
+                { "id": "chili_pepper", "count": 4 },
+                { "id": "exportable_carrots", "count": 128 },
+                { "id": "enchanted_carrot", "count": 128 }
+            ]
+        },
         "hypergolic_gabagool": {
             "count": 1,
             "components": [
@@ -199,6 +274,14 @@
             "craft_time": 21600,
             "components": [
                 { "id": "enchanted_mithril", "count": 160 }
+            ]
+        },
+        "gleaming_crystal": {
+            "craft_time": 21600,
+            "components": [
+                { "id": "glossy_gemstone", "count": 32 },
+                { "id": "refined_mithril", "count": 32 },
+                { "id": "refined_diamond", "count": 32 }
             ]
         },
         "refined_diamond": {
