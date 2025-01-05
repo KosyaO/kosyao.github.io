@@ -25,10 +25,9 @@
                 {"id": "refined_mithril", "collapsed": "true"},
                 {"id": "refined_diamond", "collapsed": "true"},
                 {"id": "refined_titanium", "collapsed": "true"},
-                {"id": "refined_diamond", "collapsed": "true"},
                 {"id": "gemstone_chamber"},
-                {"id": "gleaming_crystal"},
-                {"id": "gemstone_mixture", "collapsed": "true"}
+                {"id": "gemstone_mixture", "collapsed": "true"},
+                {"id": "gleaming_crystal"}
             ]
         },
         {
@@ -36,11 +35,11 @@
             "elements": [
                 {"id": "wood_singularity"},
                 {"id": "enchantment_ultimate_bobbin_time_3"},
-                {"id": "water_orb"},
-                {"id": "spooky_water_orb"},
-                {"id": "winter_water_orb"},
-                {"id": "lava_water_orb"},
-                {"id": "shark_water_orb"}
+                {"id": "water_orb", "collapsed": "true"},
+                {"id": "spooky_water_orb", "collapsed": "true"},
+                {"id": "winter_water_orb", "collapsed": "true"},
+                {"id": "lava_water_orb", "collapsed": "true"},
+                {"id": "shark_water_orb", "collapsed": "true"}
             ]
         },
         {
@@ -164,7 +163,6 @@
             ]
         },
         "spooky_water_orb": {
-            "craft_time": 10800,
             "count": 1,
             "components": [
                 { "id": "water_orb", "count": 1, "source": "craft"}, 
@@ -174,7 +172,6 @@
             ]
         },
         "lava_water_orb": {
-            "craft_time": 10800,
             "count": 1,
             "components": [
                 { "id": "water_orb", "count": 1, "source": "craft"}, 
@@ -187,7 +184,6 @@
             ]
         },
         "winter_water_orb": {
-            "craft_time": 10800,
             "count": 1,
             "components": [
                 { "id": "water_orb", "count": 1, "source": "craft"}, 
@@ -199,7 +195,6 @@
             ]
         },
         "water_orb": {
-            "craft_time": 10800,
             "count": 1,
             "components": [
                 { "id": "enchanted_raw_fish", "count": 16, "source": "craft"}, 
@@ -213,6 +208,13 @@
                 { "id": "diver_fragment", "count": 1}
             ]
         },
+        "diver_fragment": {
+            "count": 1,
+            "name": "Emperor's skull",
+            "components": [
+                { "id": "diver_fragment", "count": 1}
+            ]
+        },
         "molten_powder": {
             "count": 1,
             "components": [
@@ -222,6 +224,7 @@
         },
         "amalgamated_crimsonite_new": {
             "count": 40,
+            "name": "Amalgamated Crimsonite",
             "components": [
                 { "id": "enchanted_glowstone", "count": 4}, 
                 { "id": "enchanted_mycelium_cube", "count": 1},
@@ -279,6 +282,7 @@
         },
         "capsaicin_eyedrops_no_charges": {
             "count": 3,
+            "name": "Capsaicin Eyedrops",
             "craft_coins": 2000000,
             "components": [
                 { "id": "chili_pepper", "count": 4 },
