@@ -35,8 +35,12 @@
             "name": "Other",
             "elements": [
                 {"id": "wood_singularity"},
-                {"id": "Bobbin' Time III"},
-                {"id": "spooky_water_orb"}
+                {"id": "enchantment_ultimate_bobbin_time_3"},
+                {"id": "water_orb"},
+                {"id": "spooky_water_orb"},
+                {"id": "winter_water_orb"},
+                {"id": "lava_water_orb"},
+                {"id": "shark_water_orb"}
             ]
         },
         {
@@ -135,7 +139,8 @@
                 { "id": "refined_umber", "count": 4, "source": "craft"}
             ]
         },
-        "Bobbin' Time III": {
+        "enchantment_ultimate_bobbin_time_3": {
+            "name": "Bobbin' Time III",
             "craft_time": 10800,
             "count": 1,
             "components": [
@@ -144,24 +149,75 @@
                 { "id": "winter_water_orb", "count": 1, "source": "craft"},
                 { "id": "lava_water_orb", "count": 1, "source": "craft"},
                 { "id": "bobbin_scriptures", "count": 1}
+            ]
+        },
+        "shark_water_orb": {
+            "craft_time": 10800,
+            "count": 1,
+            "components": [
+                { "id": "water_orb", "count": 1, "source": "craft"}, 
+                { "id": "nurse_shark_tooth", "count": 12},
+                { "id": "blue_shark_tooth", "count": 6},
+                { "id": "tiger_shark_tooth", "count": 4},
+                { "id": "enchanted_shark_fin", "count": 4},
+                { "id": "great_white_shark_tooth", "count": 1}
             ]
         },
         "spooky_water_orb": {
             "craft_time": 10800,
             "count": 1,
             "components": [
-                { "id": "spooky_water_orb", "count": 1, "source": "craft"}, 
-                { "id": "shark_water_orb", "count": 1, "source": "craft"},
-                { "id": "winter_water_orb", "count": 1, "source": "craft"},
-                { "id": "lava_water_orb", "count": 1, "source": "craft"},
-                { "id": "bobbin_scriptures", "count": 1}
+                { "id": "water_orb", "count": 1, "source": "craft"}, 
+                { "id": "purple_candy", "count": 64},
+                { "id": "werewolf_skin", "count": 16},
+                { "id": "soul_fragment", "count": 1}
+            ]
+        },
+        "lava_water_orb": {
+            "craft_time": 10800,
+            "count": 1,
+            "components": [
+                { "id": "water_orb", "count": 1, "source": "craft"}, 
+                { "id": "thunder_shards", "count": 2},
+                { "id": "moogma_pelt", "count": 64},
+                { "id": "lump_of_magma", "count": 64},
+                { "id": "flaming_heart", "count": 32},
+                { "id": "magma_fish_silver", "count": 32},
+                { "id": "horn_of_taurus", "count": 16}
+            ]
+        },
+        "winter_water_orb": {
+            "craft_time": 10800,
+            "count": 1,
+            "components": [
+                { "id": "water_orb", "count": 1, "source": "craft"}, 
+                { "id": "ice_hunk", "count": 128},
+                { "id": "enchanted_snow_block", "count": 64},
+                { "id": "white_gift", "count": 64},
+                { "id": "blue_ice_hunk", "count": 32},
+                { "id": "green_gift", "count": 16}
+            ]
+        },
+        "water_orb": {
+            "craft_time": 10800,
+            "count": 1,
+            "components": [
+                { "id": "enchanted_raw_fish", "count": 16, "source": "craft"}, 
+                { "id": "enchanted_prismarine_shard", "count": 16},
+                { "id": "enchanted_pufferfish", "count": 16},
+                { "id": "enchanted_raw_salmon", "count": 16},
+                { "id": "enchanted_prismarine_crystals", "count": 16},
+                { "id": "enchanted_water_lily", "count": 8},
+                { "id": "enchanted_clownfish", "count": 8},
+                { "id": "enchanted_sponge", "count": 4},
+                { "id": "diver_fragment", "count": 1}
             ]
         },
         "molten_powder": {
             "count": 1,
             "components": [
                 { "id": "amalgamated_crimsonite_new", "count": 1, "source": "craft"}, 
-                { "id": "derelict_ashe", "count": 128, "source": "sell"}
+                { "id": "derelict_ashe", "count": 128}
             ]
         },
         "amalgamated_crimsonite_new": {
@@ -280,8 +336,8 @@
             "craft_time": 21600,
             "components": [
                 { "id": "glossy_gemstone", "count": 32 },
-                { "id": "refined_mithril", "count": 32 },
-                { "id": "refined_diamond", "count": 32 }
+                { "id": "refined_mithril", "count": 1 },
+                { "id": "refined_diamond", "count": 1 }
             ]
         },
         "refined_diamond": {
