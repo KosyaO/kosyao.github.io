@@ -1,11 +1,11 @@
 const lang = (navigator.language || navigator.userLanguage);
 const intl = new Intl.NumberFormat(lang,{minimumFractionDigits: 1, maximumFractionDigits: 1});
+
 const capitalize = word => word.slice(0, 1).toUpperCase() + word.slice(1);
 export const snakeToFlu = word => word.split('_').map(capitalize).join(' ');
-
-export function formatNumber(number) {
-    return number === undefined ? '' : intl.format(number);
-}
+export const formatNumber = number => number === undefined ? '' : intl.format(number);
+export const loadFromStorage = name => localStorage?.getItem?.(name);
+export const saveToStorage = (name, value) => localStorage?.setItem?.(name, value);
 
 export function setStatus(text) {
     const status = document.getElementById('cStatus'); 
@@ -21,7 +21,7 @@ export function addHandlers(handlers) {
     }
 }
 
-export const escapeHtml = (unsafe) => {
+export function escapeHtml(unsafe) {
     return unsafe.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
 }
 
@@ -45,6 +45,3 @@ export function createTooltip(tagName, tooltip, classList = [], text = undefined
 export function addColumn(row, text, classList = []) {
     row.appendChild(createElement('td', classList, {}, text));
 }
-
-export const loadFromStorage = name => localStorage?.getItem?.(name);
-export const saveToStorage = (name, value) => localStorage?.setItem?.(name, value);
