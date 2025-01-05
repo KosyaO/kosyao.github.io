@@ -1,5 +1,7 @@
 const lang = (navigator.language || navigator.userLanguage);
 const intl = new Intl.NumberFormat(lang,{minimumFractionDigits: 1, maximumFractionDigits: 1});
+const capitalize = word => word.slice(0, 1).toUpperCase() + word.slice(1);
+export const snakeToFlu = word => word.split('_').map(capitalize).join(' ');
 
 export function formatNumber(number) {
     return number === undefined ? '' : intl.format(number);

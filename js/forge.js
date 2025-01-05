@@ -1,6 +1,6 @@
 import { setStatus, addHandlers, loadFromStorage, saveToStorage, 
-    createElement, addColumn, formatNumber } from './hp_common.js';
-import { bazaarDownload, bazaarUpdate} from './bazaar.mjs'
+    createElement, addColumn, formatNumber, snakeToFlu } from './hp_common.js';
+import { bazaarDownload, bazaarUpdate } from './bazaar.mjs'
 let config = { pages: [], recipes: {} };
 let prices = { last_updated: 0, products: {} };
 let goods = new Set();
@@ -11,8 +11,7 @@ const lsPrefix = 'hp_frg_';
 const lang = (navigator.language || navigator.userLanguage);
 const collapsetime = 80;
 const collapseState = { itemsCount: 0 };
-const capitalize = word => word.slice(0, 1).toUpperCase() + word.slice(1);
-const snakeToFlu = word => word.split('_').map(capitalize).join(' ');
+
 
 
 function findPage(menuName = selectedMenu) {

@@ -1,4 +1,4 @@
-import { setStatus, addHandlers, loadFromStorage, saveToStorage, createElement, addColumn } from './hp_common.js';
+import { setStatus, addHandlers, loadFromStorage, saveToStorage, createElement, addColumn, snakeToFlu } from './hp_common.js';
 import { bazaarUpdate, bazaarDownload } from './bazaar.mjs';
 
 let config = { };
@@ -6,9 +6,6 @@ let prices = { last_updated: 0, products: {} };
 let selectedMenu;
 let currentInterval;
 let lsPrefix = 'hp_baz_';
-
-const capitalize = word => word.slice(0, 1).toUpperCase() + word.slice(1);
-const snakeToFlu = word => word.split('_').map(capitalize).join(' ');
 
 const lang = (navigator.language || navigator.userLanguage);
 const formatter = [0, 1, 2].map(num => new Intl.NumberFormat(lang.slice(0, 2), {maximumFractionDigits: num, minimumFractionDigits: num}));
