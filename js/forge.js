@@ -1,11 +1,12 @@
-import { setStatus, addHandlers, loadFromStorage, saveToStorage, 
-    createElement, addColumn, formatNumber, snakeToFlu } from './hp_common.js';
+import { setStatus, addHandlers, loadFromStorage, saveToStorage, createElement, createTooltip,
+    addColumn, formatNumber, snakeToFlu } from './hp_common.js';
 import { bazaarDownload, bazaarUpdate } from './bazaar.mjs'
 let config = { pages: [], recipes: {} };
 let prices = { last_updated: 0, products: {} };
 let goods = new Set();
 let currentInterval;
 let selectedMenu;
+let tooltipList = [];
 
 const lsPrefix = 'hp_frg_';
 const lang = (navigator.language || navigator.userLanguage);
@@ -29,7 +30,7 @@ function findElement(searchElement, page) {
 function calcRecipe(recipeId) {
     const recipe = config.recipes[recipeId];
     if (recipe.craft_price !== undefined) return;
-    recipe.craft_price = 0;
+    recipe.craft_price = recipe.craft_coins ?? 0;
     recipe.result_craft_time = recipe.craft_time;
     if (recipe.craft_time !== undefined) recipe.result_craft_time *= (config.time_multiplier ?? 1) / 3600;
     recipe.buy_price = prices.products[recipeId]?.buy_price;
@@ -60,6 +61,17 @@ function updateCraft() {
     Object.keys(config.recipes).forEach(recipeId => calcRecipe(recipeId));
 }
 
+function getColoredDifference(greater, lower) {
+    const success = greater > lower;
+    return `<span class="${success? 'text-success': 'text-danger'}">${success? '+': ''}${formatNumber(greater-lower)}</span>`;
+}
+
+function getTooltip(recipe) {
+    const profit = formatNumber((recipe.buy_price - recipe.craft_price)/recipe.result_craft_time);
+    return `<b>Profit</b><br/>Sell order: ${getColoredDifference(recipe.buy_price, recipe.craft_price)}<br/>
+    Instasell: ${getColoredDifference(recipe.sell_price, recipe.craft_price)}<br/>Per hour: ${profit}`;
+}
+
 function drawElem(elem, attrName) {
     const recipe = config.recipes[elem.getAttribute(attrName)] ?? {};
     const page = findPage();
@@ -67,16 +79,21 @@ function drawElem(elem, attrName) {
         elem.childNodes[1].textContent = formatNumber(recipe.sell_price);
         elem.childNodes[2].textContent = formatNumber(recipe.buy_price);
         elem.childNodes[3].textContent = formatNumber(recipe.craft_price);
-        const profit = recipe.buy_price - recipe.craft_price;
+        const profit = recipe.buy_price !== undefined ? recipe.buy_price - recipe.craft_price: undefined;
         const profEl = elem.childNodes[4];
         profEl.classList.add(profit > 0? 'table-success': 'table-danger');
         profEl.classList.remove(profit > 0? 'table-danger': 'table-success');
         profEl.textContent = formatNumber(profit);
-        elem.childNodes[5].textContent = formatNumber(profit / recipe.result_craft_time);
+        elem.childNodes[5].textContent = formatNumber(profit !== undefined? profit / recipe.result_craft_time: undefined);
     } else {
         elem.childNodes[3].textContent = formatNumber(recipe.sell_price);
         elem.childNodes[4].textContent = formatNumber(recipe.buy_price);
-        elem.childNodes[7].textContent = formatNumber(recipe.craft_price);
+        const tooltipElem = elem.childNodes[7];
+        tooltipElem.textContent = formatNumber(recipe.craft_price);
+        if (recipe.buy_price !== undefined) {
+            tooltipElem.setAttribute('data-bs-title', getTooltip(recipe));
+            tooltipList.push(new bootstrap.Tooltip(tooltipElem));
+        }
         elem.childNodes[8].textContent = formatNumber(recipe.result_craft_time);
         for (const component of recipe.components) {
             elem = elem.nextSibling;
@@ -92,6 +109,8 @@ function drawElem(elem, attrName) {
 }
 
 function drawPage() {
+    tooltipList.forEach(tooltip => tooltip.hide());
+    tooltipList.length = 0;
     const attrName = findPage()?.type === 'dashboard' ? 'dashboard-id' : 'hypixel-id';
     const recipeElems = document.querySelectorAll(`*[${attrName}]`);
     recipeElems.forEach(elem => drawElem(elem, attrName));
@@ -145,6 +164,7 @@ function collapseTick() {
 }
 
 function rowClick(event) {
+    if (event.target?.getAttribute('data-bs-toggle') === 'tooltip') return;
     if (collapseState.itemsCount > 0) return;
     const item_id = this.getAttribute('hypixel-id');
     const idx = this.getAttribute('index');
@@ -177,7 +197,7 @@ function createRow(page_elem, component = undefined, index = 0) {
     addColumn(newRow, undefined, ['table-secondary']);
     addColumn(newRow, undefined, ['table-secondary']);
     const srcCol = createElement('td');
-    if (component) {
+    if (component !== undefined) {
         const select = createElement('select', ['form-select', 'py-0', 'pe-0']);
         select.appendChild(createElement('option', [], {}, 'sell'));
         select.appendChild(createElement('option', [], {}, 'buy'));
@@ -188,7 +208,11 @@ function createRow(page_elem, component = undefined, index = 0) {
         srcCol.appendChild(select);
     }
     newRow.appendChild(srcCol);
-    addColumn(newRow, undefined);
+    if (header) {
+        newRow.appendChild(createTooltip('td', ' '));
+    } else {
+        addColumn(newRow, undefined);
+    }
     addColumn(newRow, undefined);
     addColumn(newRow, undefined);
     return newRow;

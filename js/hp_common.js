@@ -37,7 +37,7 @@ export function createTooltip(tagName, tooltip, classList = [], text = undefined
     return createElement(tagName, classList, {
         'data-bs-toggle': 'tooltip', 
         'data-bs-html': true, 
-        'data-bs-custom-class': 'entries-tooltip',
+        'data-bs-custom-class': customClass,
         'data-bs-title': tooltip
     }, text);
 }

@@ -22,7 +22,7 @@ function fillTable(filtered, max_items = 999) {
 
         addColumn(newRow, item['bin'] ? '' : 'No');
         addColumn(newRow, formatNumber(item.top_bid));
-        const tooltipElem = createTooltip('td', tooltip, [], formatNumber(item.real_price/1e6) + 'M', 'entries-tooltip');
+        const tooltipElem = createTooltip('td', tooltip, [], formatNumber(item.real_price/1e6) + 'M');
         newRow.appendChild(tooltipElem);
         tooltipList.push(new bootstrap.Tooltip(tooltipElem));
         addColumn(newRow, formatNumber(item.profit/1e6) + 'M', [item.profit > 0? 'table-success': 'table-danger']);
