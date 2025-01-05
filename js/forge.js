@@ -13,8 +13,6 @@ const lang = (navigator.language || navigator.userLanguage);
 const collapsetime = 80;
 const collapseState = { itemsCount: 0 };
 
-
-
 function findPage(menuName = selectedMenu) {
     for (let page of config.pages) {
         if (page.name === menuName) return page;     
@@ -45,7 +43,6 @@ function calcRecipe(recipeId) {
             component.craft_price = compRecipe.craft_price;
             component.result_craft_time = (source === 'craft' && compRecipe.result_craft_time !== undefined) ? compRecipe.result_craft_time * component.count : undefined;
         }
-
         component.result_price = (component[source + '_price'] ?? 0) * component.count;
 
         recipe.craft_price += component.result_price;

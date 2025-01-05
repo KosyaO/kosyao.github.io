@@ -35,7 +35,7 @@
             "name": "Other",
             "elements": [
                 {"id": "wood_singularity"},
-                {"id": "Bobbin' Time III"},
+                {"id": "enchantment_ultimate_bobbin_time_3"},
                 {"id": "spooky_water_orb"}
             ]
         },
@@ -135,7 +135,8 @@
                 { "id": "refined_umber", "count": 4, "source": "craft"}
             ]
         },
-        "Bobbin' Time III": {
+        "enchantment_ultimate_bobbin_time_3": {
+            "name": "Bobbin' Time III",
             "craft_time": 10800,
             "count": 1,
             "components": [
