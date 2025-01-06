@@ -65,7 +65,9 @@
                 {"id": "umber_key"},
                 {"id": "tungsten_key"},
                 {"id": "mithril_plate"},
-                {"id": "inferno_fuel_leg"}
+                {"id": "inferno_fuel_leg"},
+                {"id": "enchantment_ultimate_bobbin_time_3"},
+                {"id": "capsaicin_eyedrops_no_charges"}
             ]
         }
     ],
@@ -269,12 +271,11 @@
         "capsaicin_eyedrops_no_charges": {
             "count": 3,
             "name": "Capsaicin Eyedrops",
-            "craft_coins": 2200000,
             "components": [
                 { "id": "chili_pepper", "count": 4 },
                 { "id": "exportable_carrots", "count": 128 },
                 { "id": "enchanted_carrot", "count": 128, "source": "buy"},
-                { "id": "water_hydra_head", "count": 1}
+                { "id": "water_hydra_head", "count": 1, "ah_price": 2200000}
             ]
         },
         "sulphuric_coal": {

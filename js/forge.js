@@ -35,7 +35,7 @@ function calcRecipe(recipeId) {
     recipe.sell_price = prices.products[recipeId]?.sell_price;
     for (const component of recipe.components) {
         component.buy_price = prices.products[component.id]?.buy_price;
-        component.sell_price = prices.products[component.id]?.sell_price;
+        component.sell_price = prices.products[component.id]?.sell_price ?? component.ah_price;
         const source = component.source ?? 'sell';
         const compRecipe = config.recipes[component.id];
         if (compRecipe !== undefined) {
@@ -82,7 +82,7 @@ function drawElem(elem, attrName) {
         profEl.classList.add(profit > 0? 'table-success': 'table-danger');
         profEl.classList.remove(profit > 0? 'table-danger': 'table-success');
         profEl.textContent = formatNumber(profit);
-        elem.childNodes[5].textContent = formatNumber(profit !== undefined? profit / recipe.result_craft_time: undefined);
+        elem.childNodes[5].textContent = formatNumber(profit !== undefined && recipe.result_craft_time !== undefined ? profit / recipe.result_craft_time: undefined);
     } else {
         elem.childNodes[3].textContent = formatNumber(recipe.sell_price);
         elem.childNodes[4].textContent = formatNumber(recipe.buy_price);
@@ -225,7 +225,8 @@ function formPage() {
         for (const element of page.elements) {
             const newRow = createElement('tr', [], {"dashboard-id": element.id} );
             elements.push(newRow);
-            newRow.appendChild(createElement('th', ['text-start'], {}, snakeToFlu(element.id)));
+            const item = config.recipes[element.id];
+            newRow.appendChild(createElement('th', ['text-start'], {}, snakeToFlu(item?.name ?? element.id)));
             addColumn(newRow, undefined, ['table-secondary']);
             addColumn(newRow, undefined, ['table-secondary']);
             addColumn(newRow, undefined, ['table-secondary']);
