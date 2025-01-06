@@ -64,7 +64,8 @@ function getColoredDifference(greater, lower) {
 }
 
 function getTooltip(recipe) {
-    const profit = formatNumber((recipe.buy_price - recipe.craft_price)/recipe.result_craft_time);
+    const profit = recipe.result_craft_time !== undefined? 
+        formatNumber((recipe.buy_price - recipe.craft_price)/recipe.result_craft_time): 'only applied to forge';
     return `<b>Profit</b><br/>Sell order: ${getColoredDifference(recipe.buy_price, recipe.craft_price)}<br/>
     Instasell: ${getColoredDifference(recipe.sell_price, recipe.craft_price)}<br/>Per hour: ${profit}`;
 }
