@@ -5,10 +5,16 @@ const capitalize = word => word.slice(0, 1).toUpperCase() + word.slice(1);
 export const snakeToFlu = word => word.split('_').map(capitalize).join(' ');
 export const loadFromStorage = name => localStorage?.getItem?.(name);
 export const saveToStorage = (name, value) => localStorage?.setItem?.(name, value);
+export let shortThousands = isMobileDevice();
+export const setShortThousands = value => shortThousands = value;
 
-export function formatNumber(number, shortThousands = false) {
-    const postfix = shortThousands? 'k' : '';
-    return number === undefined ? '' : intl.format(shortThousands? number/1000 : number) + postfix;
+export function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+export function formatNumber(number, doShortThousands = undefined) {
+    const postfix = (doShortThousands ?? shortThousands) ? 'k' : '';
+    return number === undefined ? '' : intl.format((doShortThousands ?? shortThousands) ? number/1000 : number) + postfix;
 };
 
 export function setStatus(text) {
