@@ -92,7 +92,7 @@ function drawElem(elem, attrName) {
             tooltipElem.setAttribute('data-bs-title', getTooltip(recipe));
             tooltipList.push(new bootstrap.Tooltip(tooltipElem));
         }
-        elem.childNodes[8].textContent = formatNumber(recipe.result_craft_time);
+        elem.childNodes[8].textContent = formatNumber(recipe.result_craft_time, false);
         for (const component of recipe.components) {
             elem = elem.nextSibling;
             elem.childNodes[3].textContent = formatNumber(component.sell_price);
@@ -100,8 +100,8 @@ function drawElem(elem, attrName) {
             elem.childNodes[5].textContent = formatNumber(component.craft_price);
             elem.childNodes[6].firstChild.value = component.source ?? 'sell';
             elem.childNodes[7].textContent = formatNumber(component.result_price);
-            elem.childNodes[8].textContent = formatNumber(component.result_craft_time);
-            elem.childNodes[9].textContent = formatNumber(component.percent);
+            elem.childNodes[8].textContent = formatNumber(component.result_craft_time, false);
+            elem.childNodes[9].textContent = formatNumber(component.percent, false);
         }
     }
 }
@@ -189,7 +189,7 @@ function createRow(page_elem, component = undefined, index = 0) {
         {"component-link": page_elem.id + ',' + index});
     if (header) newRow.addEventListener('click', rowClick);
     newRow.appendChild(createElement('th', ["text-start"], {}, snakeToFlu(header? (item?.name ?? page_elem.id): component.id)));
-    addColumn(newRow, header && item?.craft_time !== undefined ? formatNumber(item?.craft_time / 3600) : undefined);
+    addColumn(newRow, header && item?.craft_time !== undefined ? formatNumber(item?.craft_time / 3600, false) : undefined);
     addColumn(newRow, header? item.count : component.count);
     addColumn(newRow, undefined, ['table-secondary']);
     addColumn(newRow, undefined, ['table-secondary']);
@@ -313,7 +313,7 @@ function clickNav(item) {
 
 function clickThousands() {
     setShortThousands(document.getElementById('chkThousands').checked);
-    saveToStorage(lsPrefix + "checkThousands", shortThousands);
+    saveToStorage(lsPrefix + "shortThousands", shortThousands);
     drawPage();
 }
 
@@ -324,7 +324,7 @@ function init() {
         'change-thousands': clickThousands
     })
     selectedMenu = loadFromStorage(lsPrefix + "selected_menu");
-    setShortThousands('true' === (loadFromStorage(lsPrefix + "checkThousands") ?? shortThousands.toString()));
+    setShortThousands('true' === (loadFromStorage(lsPrefix + "shortThousands") ?? shortThousands.toString()));
     document.getElementById('chkThousands').checked = shortThousands;
     const conf_str = loadFromStorage(lsPrefix + 'config');
     if (conf_str) config = JSON.parse(conf_str);
