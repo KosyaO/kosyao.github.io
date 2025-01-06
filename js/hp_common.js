@@ -3,9 +3,13 @@ const intl = new Intl.NumberFormat(lang,{minimumFractionDigits: 1, maximumFracti
 
 const capitalize = word => word.slice(0, 1).toUpperCase() + word.slice(1);
 export const snakeToFlu = word => word.split('_').map(capitalize).join(' ');
-export const formatNumber = number => number === undefined ? '' : intl.format(number);
 export const loadFromStorage = name => localStorage?.getItem?.(name);
 export const saveToStorage = (name, value) => localStorage?.setItem?.(name, value);
+
+export function formatNumber(number, shortThousands = false) {
+    const postfix = shortThousands? 'k' : '';
+    return number === undefined ? '' : intl.format(shortThousands? number/1000 : number) + postfix;
+};
 
 export function setStatus(text) {
     const status = document.getElementById('cStatus'); 

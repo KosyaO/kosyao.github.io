@@ -58,47 +58,48 @@ function updateCraft() {
     Object.keys(config.recipes).forEach(recipeId => calcRecipe(recipeId));
 }
 
-function getColoredDifference(greater, lower) {
+function getColoredDifference(greater, lower, short) {
     const success = greater > lower;
-    return `<span class="${success? 'text-success': 'text-danger'}">${success? '+': ''}${formatNumber(greater-lower)}</span>`;
+    return `<span class="${success? 'text-success': 'text-danger'}">${success? '+': ''}${formatNumber(greater-lower, short)}</span>`;
 }
 
-function getTooltip(recipe) {
-    const profit = formatNumber((recipe.buy_price - recipe.craft_price)/recipe.result_craft_time);
-    return `<b>Profit</b><br/>Sell order: ${getColoredDifference(recipe.buy_price, recipe.craft_price)}<br/>
-    Instasell: ${getColoredDifference(recipe.sell_price, recipe.craft_price)}<br/>Per hour: ${profit}`;
+function getTooltip(recipe, short) {
+    const profit = formatNumber((recipe.buy_price - recipe.craft_price)/recipe.result_craft_time, short);
+    return `<b>Profit</b><br/>Sell order: ${getColoredDifference(recipe.buy_price, recipe.craft_price, short)}<br/>
+    Instasell: ${getColoredDifference(recipe.sell_price, recipe.craft_price, short)}<br/>Per hour: ${profit}`;
 }
 
 function drawElem(elem, attrName) {
     const recipe = config.recipes[elem.getAttribute(attrName)] ?? {};
     const page = findPage();
+    const short = document.getElementById('chkThousands').checked;
     if (page.type === 'dashboard') {
-        elem.childNodes[1].textContent = formatNumber(recipe.sell_price);
-        elem.childNodes[2].textContent = formatNumber(recipe.buy_price);
-        elem.childNodes[3].textContent = formatNumber(recipe.craft_price);
+        elem.childNodes[1].textContent = formatNumber(recipe.sell_price, short);
+        elem.childNodes[2].textContent = formatNumber(recipe.buy_price, short);
+        elem.childNodes[3].textContent = formatNumber(recipe.craft_price, short);
         const profit = recipe.buy_price !== undefined ? recipe.buy_price - recipe.craft_price: undefined;
         const profEl = elem.childNodes[4];
         profEl.classList.add(profit > 0? 'table-success': 'table-danger');
         profEl.classList.remove(profit > 0? 'table-danger': 'table-success');
-        profEl.textContent = formatNumber(profit);
+        profEl.textContent = formatNumber(profit, short);
         elem.childNodes[5].textContent = formatNumber(profit !== undefined? profit / recipe.result_craft_time: undefined);
     } else {
-        elem.childNodes[3].textContent = formatNumber(recipe.sell_price);
-        elem.childNodes[4].textContent = formatNumber(recipe.buy_price);
+        elem.childNodes[3].textContent = formatNumber(recipe.sell_price, short);
+        elem.childNodes[4].textContent = formatNumber(recipe.buy_price, short);
         const tooltipElem = elem.childNodes[7];
-        tooltipElem.textContent = formatNumber(recipe.craft_price);
+        tooltipElem.textContent = formatNumber(recipe.craft_price, short);
         if (recipe.buy_price !== undefined) {
-            tooltipElem.setAttribute('data-bs-title', getTooltip(recipe));
+            tooltipElem.setAttribute('data-bs-title', getTooltip(recipe, short));
             tooltipList.push(new bootstrap.Tooltip(tooltipElem));
         }
         elem.childNodes[8].textContent = formatNumber(recipe.result_craft_time);
         for (const component of recipe.components) {
             elem = elem.nextSibling;
-            elem.childNodes[3].textContent = formatNumber(component.sell_price);
-            elem.childNodes[4].textContent = formatNumber(component.buy_price);
-            elem.childNodes[5].textContent = formatNumber(component.craft_price);
+            elem.childNodes[3].textContent = formatNumber(component.sell_price, short);
+            elem.childNodes[4].textContent = formatNumber(component.buy_price, short);
+            elem.childNodes[5].textContent = formatNumber(component.craft_price, short);
             elem.childNodes[6].firstChild.value = component.source ?? 'sell';
-            elem.childNodes[7].textContent = formatNumber(component.result_price);
+            elem.childNodes[7].textContent = formatNumber(component.result_price, short);
             elem.childNodes[8].textContent = formatNumber(component.result_craft_time);
             elem.childNodes[9].textContent = formatNumber(component.percent);
         }
@@ -309,12 +310,24 @@ function clickNav(item) {
     drawPage();
 }
 
+function clickThousands() {
+    saveToStorage(lsPrefix + "checkThousands", document.getElementById('chkThousands').checked);
+    drawPage();
+}
+
+function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
 function init() {
     addHandlers({
         'click-reloadcfg': reloadCfg,
-        'click-navigation': clickNav
+        'click-navigation': clickNav,
+        'change-thousands': clickThousands
     })
     selectedMenu = loadFromStorage(lsPrefix + "selected_menu");
+    let checkThousands = loadFromStorage(lsPrefix + "checkThousands") ?? isMobileDevice().toString();
+    document.getElementById('chkThousands').checked = checkThousands === 'true';
     const conf_str = loadFromStorage(lsPrefix + 'config');
     if (conf_str) config = JSON.parse(conf_str);
     reloadCfg();
