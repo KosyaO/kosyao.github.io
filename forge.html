@@ -32,11 +32,31 @@
                             <label class="form-check-label" for="chkThousands">Short thousands</label>
                         </div>
                     </a></li>
-                    <li><a class="dropdown-item" href="#" evnt-click-reloadcfg>Reload config</a></li>
+                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#resetConfig">Reset config</a></li>
+                    <li><a class="dropdown-item" href="forge-config.html">Edit config</a></li>
                 </ul>
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="resetConfig" tabindex="-1" aria-labelledby="resetLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="resetLabel">Are you sure?</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-danger">
+                This action will reset your own config and replace it with the default one.
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal" evnt-click-reloadcfg>Reset config</button>
+            </div>
+          </div>
+        </div>
+    </div>
+    
     <ul class="nav nav-pills" id="nForgeMenu" evnt-click-navigation>
         <li class="nav-item" role="presentation">
             <button class="nav-link" data-bs-toggle="pill" type="button"

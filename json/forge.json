@@ -8,13 +8,13 @@
                 {"id": "perfect_plate"},
                 {"id": "tungsten_plate"},
                 {"id": "umber_plate"},
-                {"id": "mithril_plate", "collapsed": "true"},
-                {"id": "glacite_amalgamation", "collapsed": "true"},
-                {"id": "refined_umber", "collapsed": "true"},
-                {"id": "refined_tungsten", "collapsed": "true"},
-                {"id": "bejeweled_handle", "collapsed": "true"},
-                {"id": "umber_key", "collapsed": "true"},
-                {"id": "tungsten_key", "collapsed": "true"}
+                {"id": "mithril_plate", "collapsed": true},
+                {"id": "glacite_amalgamation", "collapsed": true},
+                {"id": "refined_umber", "collapsed": true},
+                {"id": "refined_tungsten", "collapsed": true},
+                {"id": "bejeweled_handle", "collapsed": true},
+                {"id": "umber_key", "collapsed": true},
+                {"id": "tungsten_key", "collapsed": true}
             ]
         },
         {
@@ -22,25 +22,25 @@
             "elements": [
                 {"id": "mithril_plate"},
                 {"id": "golden_plate"},
-                {"id": "refined_mithril", "collapsed": "true"},
-                {"id": "refined_diamond", "collapsed": "true"},
-                {"id": "refined_titanium", "collapsed": "true"},
+                {"id": "refined_mithril", "collapsed": true},
+                {"id": "refined_diamond", "collapsed": true},
+                {"id": "refined_titanium", "collapsed": true},
                 {"id": "gemstone_chamber"},
-                {"id": "gemstone_mixture", "collapsed": "true"},
+                {"id": "gemstone_mixture", "collapsed": true},
                 {"id": "gleaming_crystal"}
             ]
         },
         {
             "name": "Other",
             "elements": [
-                {"id": "wood_singularity", "collapsed": "true"},
+                {"id": "wood_singularity", "collapsed": true},
                 {"id": "enchantment_cayenne_4"},
                 {"id": "enchantment_ultimate_bobbin_time_3"},
-                {"id": "water_orb", "collapsed": "true"},
-                {"id": "spooky_water_orb", "collapsed": "true"},
-                {"id": "shark_water_orb", "collapsed": "true"},
-                {"id": "winter_water_orb", "collapsed": "true"},
-                {"id": "lava_water_orb", "collapsed": "true"}
+                {"id": "water_orb", "collapsed": true},
+                {"id": "spooky_water_orb", "collapsed": true},
+                {"id": "shark_water_orb", "collapsed": true},
+                {"id": "winter_water_orb", "collapsed": true},
+                {"id": "lava_water_orb", "collapsed": true}
             ]
         },
         {
@@ -48,13 +48,13 @@
             "elements": [
                 {"id": "capsaicin_eyedrops_no_charges"},
                 {"id": "inferno_fuel_leg"},
-                {"id": "inferno_fuel_reg", "collapsed": "true"},
+                {"id": "inferno_fuel_reg", "collapsed": true},
                 {"id": "hypergolic_gabagool"},
-                {"id": "heavy_gabagool", "collapsed": "true"},
-                {"id": "fuel_gabagool", "collapsed": "true"},
-                {"id": "sulphuric_coal", "collapsed": "true"},
+                {"id": "heavy_gabagool", "collapsed": true},
+                {"id": "fuel_gabagool", "collapsed": true},
+                {"id": "sulphuric_coal", "collapsed": true},
                 {"id": "molten_powder"},
-                {"id": "amalgamated_crimsonite_new", "collapsed": "true"}
+                {"id": "amalgamated_crimsonite_new", "collapsed": true}
             ]
         },
         {

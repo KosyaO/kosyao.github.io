@@ -247,7 +247,7 @@ function formPage() {
     }
 }
 
-function updateConfig(response) {
+function restoreConfig(response) {
     // restore collapsed and source values
     for (let page of response.pages) {
         const oldPage = findPage(page.name);
@@ -266,7 +266,12 @@ function updateConfig(response) {
             recipe.components.forEach((component, idx) => component.source = oldRecipe.components[idx]?.source);
         }
     }
-    config = response;
+    return response;
+}
+
+function updateConfig(response) {
+    config = response; // restoreConfig(response);
+    saveConfig();
     // update bazaar goods
     goods.clear();
     for (const [recipeId, recipe] of Object.entries(config.recipes)) {
@@ -327,8 +332,8 @@ function init() {
     setShortThousands('true' === (loadFromStorage(lsPrefix + "shortThousands") ?? shortThousands.toString()));
     document.getElementById('chkThousands').checked = shortThousands;
     const conf_str = loadFromStorage(lsPrefix + 'config');
-    if (conf_str) config = JSON.parse(conf_str);
-    reloadCfg();
+    if (conf_str) updateConfig(JSON.parse(conf_str));
+    else reloadCfg();
 }
 
 init();
