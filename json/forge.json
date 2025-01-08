@@ -10,11 +10,11 @@
                 {"id": "umber_plate"},
                 {"id": "mithril_plate", "collapsed": true},
                 {"id": "glacite_amalgamation", "collapsed": true},
+                {"id": "umber_key", "collapsed": true},
+                {"id": "tungsten_key", "collapsed": true},
                 {"id": "refined_umber", "collapsed": true},
                 {"id": "refined_tungsten", "collapsed": true},
-                {"id": "bejeweled_handle", "collapsed": true},
-                {"id": "umber_key", "collapsed": true},
-                {"id": "tungsten_key", "collapsed": true}
+                {"id": "bejeweled_handle", "collapsed": true}
             ]
         },
         {
