@@ -326,16 +326,16 @@ export async function auctionDownload(stateCallback = undefined) {
     await new Promise((resolve, reject) => {
         let remain = 0, loaded = 0, total = undefined;
         function start() {
-            loaded++
             remain--;
-            if (stateCallback !== undefined) {
-                stateCallback({loaded, total});
-            }
             task().then(json => {
                 if (remain < 0) {
                     total = json['totalPages']
                     remain += total;
                     console.log(`Loading auction, ${total} pages total...`);
+                }
+                loaded++;
+                if (stateCallback !== undefined) {
+                    stateCallback({loaded, total});
                 }
                 if (remain > 0) {
                     start();

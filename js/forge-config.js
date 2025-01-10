@@ -1,4 +1,4 @@
-import { addHandlers, loadFromStorage, saveToStorage } from './hp_common.js';
+import { addHandlers, loadFromStorage, saveToStorage, stringify } from './hp_common.js';
 
 const lsPrefix = 'hp_frg_';
 let verifiedContent;
@@ -22,7 +22,7 @@ function getConfig() {
             component.percent = undefined;
         });
     }
-    document.getElementById('edConfigJson').value = JSON.stringify(config, null, '  ');
+    document.getElementById('edConfigJson').value = stringify(config, 4);
 }
 
 function clickCancel() {
@@ -55,6 +55,9 @@ function init() {
         'click-save': clickSave
     });
     getConfig();
+    const freeSpace = window.innerHeight - document.getElementById('pnlJson').offsetHeight - document.getElementById('btnDescr').offsetHeight - 2;
+    const edText = document.getElementById('edConfigJson');
+    if (freeSpace > 0) edText.setAttribute('style',`height: ${edText.offsetHeight + freeSpace}px;`);
 }
 
 init();
