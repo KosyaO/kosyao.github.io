@@ -440,11 +440,15 @@ export function analyzeData(data, filter, prices) {
                 if (category !== undefined && item.category !== category) continue;
                 if (tier !== undefined && item.tier !== tier) continue;
                 item.top_bid = topBid;
+                // const decoded_bytes = Buffer.from(item.item_bytes, 'base64');
                 let price_item = prices.items[search_name];
                 if (price_item === undefined || (price_item.time_updated ?? 0) < time_updated) {
                     price_item = { entries: [], time_updated };
                     prices.items[search_name] = price_item;
-                } 
+                }
+                // clear some data before store
+                if (item.bids.length > 0) item.bids = 'Bids information was removed';
+                item.item_bytes = 'Item data was removed';
                 price_item.entries.push(item);
                 break;
             }
@@ -453,7 +457,8 @@ export function analyzeData(data, filter, prices) {
     
     for (let [item_name, price_item] of Object.entries(prices.items)) {
         price_item.entries.sort((a, b) => a.top_bid - b.top_bid);
-        const summary = { time_updated: price_item.time_updated };
+        // price_item.entries = price_item.entries.slice(0, 20);
+        const summary = { time_updated: price_item.time_updated, items_found: price_item.entries.length };
         let idx = 0;
         for (let num of [1, 2, 3, 4, 5]) {
             while (idx < price_item.entries.length && !price_item.entries[idx].bin) idx++;
