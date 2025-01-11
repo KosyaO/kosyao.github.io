@@ -12,16 +12,14 @@ function start () {
 }
 function calculateTime() {
     let [hrs, mins] = new Date().toLocaleString('en-GB', {timeStyle: 'short'}).split(":");
-    let [toendHrs, toendMins] = document.getElementById("timeToEnd")?.value.split(".");
-    toendMins = 0.6 * Number(toendMins) ?? '0';
-    const slots = document.getElementById("slots")?.value;
+    let toendHrs = document.getElementById("timeToEnd")?.value;
+    const slots = document.getElementById("slot")?.value;
     const eggsCnt = document.getElementById("selEggsCnt")?.value;
     const filledEggs = document.getElementById("filledEggs")?.value;
-    if (Number(mins) + Number(toendMins) > 60) {
+    if (Number(mins) > 60) {
         toendHrs++;
     } 
-    toendMins = '55';
-    const endTime = createElement('label', ["form-label"], {}, `${(Number(hrs) + Number(toendHrs)) % 24}:${Number(toendMins)}`);
+    const endTime = createElement('label', ["form-label"], {}, `${(Number(hrs) + Number(toendHrs)) % 24}:55`);
     document.getElementById('Result').replaceChildren(endTime);
 }
 init();
