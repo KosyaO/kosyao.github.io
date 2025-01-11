@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Hypixel Hoppity helper</title>
+    <meta name="description" content="Hypixel Hoppity helper"/>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/theme.css" rel="stylesheet">
+    <link href="css/override.css" rel="stylesheet">
+    <script src="js/color-modes.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="js/hoppity.js"></script>
+</head>
+<body>
+    <div class="container-fluid border rounded">
+        <form class="row mb-3">
+            <div class="col">
+                <label class="form-label" for="selEggsCnt">Eggs on area:</label>
+                <select class="form-select" id="selEggsCnt">
+                    <option value = "1">One</option>
+                    <option value = "2">Two</option>
+                    <option value = "3">Three</option>
+                    <option value = "4">Four</option>
+                    <option value = "5">Five</option>
+                    <option value = "6">Six</option>
+                </select>
+            </div>
+            <div class="col">
+                <label for="slots" class="form-label">Hitman slots purchased</label>
+                <input class="form-control" type="number" min="0" max="28" id="slots"/>
+            </div>
+            <div class="col">
+                <label for="filledEggs" class="form-label">Filled Hitman Eggs</label>
+                <input class="form-control" type="number" id="filledEggs" min="0" max="28"/>
+            </div>
+        </form>
+    </div>
+    <button type="button" class="btn btn-danger" id="tHoppity">Calculate!</button>  
+    <label id="Result">dasdada</label>
+</body>
