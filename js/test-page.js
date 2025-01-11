@@ -52,7 +52,7 @@ function createTable(sections_count, elems_count) {
 }
 
 function init() {
-    createTable(10, 3);
+    createTable(3, 2);
 }
 
 init();

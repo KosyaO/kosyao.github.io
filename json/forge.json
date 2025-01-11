@@ -207,21 +207,44 @@
             "count": 1,
             "components": [
                 { "id": "enchanted_raw_fish", "count": 16}, 
-                { "id": "enchanted_prismarine_shard", "count": 16},
-                { "id": "enchanted_pufferfish", "count": 16},
-                { "id": "enchanted_raw_salmon", "count": 16},
+                { "id": "enchanted_prismarine_shard", "count": 16, "source": "craft"},
+                { "id": "enchanted_pufferfish", "count": 16, "source": "craft"},
+                { "id": "enchanted_raw_salmon", "count": 16, "source": "craft"},
                 { "id": "enchanted_prismarine_crystals", "count": 16},
-                { "id": "enchanted_water_lily", "count": 8},
-                { "id": "enchanted_clownfish", "count": 8},
-                { "id": "enchanted_sponge", "count": 4},
+                { "id": "enchanted_water_lily", "count": 8, "source": "craft"},
+                { "id": "enchanted_clownfish", "count": 8, "source": "craft"},
+                { "id": "enchanted_sponge", "count": 4, "source": "craft"},
                 { "id": "diver_fragment", "count": 1}
             ]
         },
-        "diver_fragment": {
-            "count": 1,
-            "name": "Emperor's skull",
+        "enchanted_pufferfish": {
             "components": [
-                { "id": "diver_fragment", "count": 1}
+                { "id": "raw_fish:3", "count": 160}
+            ]
+        },
+        "enchanted_raw_salmon": {
+            "components": [
+                { "id": "raw_fish:1", "count": 160}
+            ]
+        },
+        "enchanted_prismarine_shard": {
+            "components": [
+                { "id": "prismarine_shard", "count": 160}
+            ]
+        },
+        "enchanted_clownfish": {
+            "components": [
+                { "id": "raw_fish:2", "count": 160}
+            ]
+        },
+        "enchanted_sponge": {
+            "components": [
+                { "id": "sponge", "count": 40}
+            ]
+        },
+        "enchanted_water_lily": {
+            "components": [
+                { "id": "water_lily", "count": 160}
             ]
         },
         "molten_powder": {
@@ -383,5 +406,11 @@
                 { "id": "fine_sapphire_gem", "count": 4}
             ]
         }
+    },
+    "translate": {
+        "diver_fragment": "Emperor's Skull",
+        "enchantment_ultimate_bobbin_time_3": "Bobbin' Time III",
+        "capsaicin_eyedrops_no_charges": "Capsaicin Eyedrops",
+        "amalgamated_crimsonite_new": "Amalgamated Crimsonite"
     }
 }
