@@ -140,7 +140,9 @@ export function translate_attribute_name(short_name) {
         'mr': 'Mana Regen',
         'spd': 'Speed ',
         'vet': 'Veteran',
-        'vit': 'Vitality '
+        'vit': 'Vitality ',
+        'ign': 'Ignition',
+        'ms': 'Mana Steal'
     }[short_name.toLowerCase()] ?? short_name;
 }
 

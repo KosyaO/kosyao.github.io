@@ -1,4 +1,4 @@
-import {createElement, addColumn} from './hp_common.js';
+import {addColumn, createElement} from './hp_common.js';
 
 let fadeNext;
 let fadePeriod;
@@ -53,6 +53,7 @@ function createTable(sections_count, elems_count) {
 
 function init() {
     createTable(3, 2);
+    document.getElementById('edTime').value = new Date().toLocaleString('en-GB', {timeStyle: 'short'});
 }
 
 init();
