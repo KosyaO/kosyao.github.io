@@ -16,7 +16,7 @@
 <body>
     <div class="container-fluid border rounded">
         <form class="row mb-3">
-            <div class="col">
+            <div class="col-4">
                 <label class="form-label" for="selEggsCnt">Eggs on area:</label>
                 <select class="form-select" id="selEggsCnt">
                     <option value = "1">One</option>
@@ -27,20 +27,24 @@
                     <option value = "6">Six</option>
                 </select>
             </div>
-            <div class="col">
+            <div class="col-4">
                 <label class="form-label" for="timeToEnd">Hrs to end</label>
                 <input class="form-control" type="numeric" min="0" id="timeToEnd"></input>
             </div>
-            <div class="col">
+            <div class="col-4">
                 <label for="slots" class="form-label">Hitman slots purchased</label>
                 <input class="form-control" type="number" min="0" max="28" id="edSlots"/>
             </div>
-            <div class="col">
+            <div class="col-4">
                 <label for="filledEggs" class="form-label">Filled Hitman Eggs</label>
                 <input class="form-control" type="number" id="edFilledEggs" min="0" max="28"/>
             </div>
+            <div class="col-4">
+                <label for="edEndTime" class="form-label">Hoppity end time</label>
+                <input class="form-control" id="edEndTime" disabled/>
+            </div>
         </form>
     </div>
-    <button type="button" class="btn btn-primary" evnt-click-calc>Calculate!</button>  
-    <label id="Result">jop ruchk</label>
+    <button type="button" class="btn btn-primary" evnt-click-calc>Calculate!</button> 
+    <label id="lbTimeToEnd"> </label>
 </body>
