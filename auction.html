@@ -33,22 +33,24 @@
     </div>
     <div class="container-fluid border rounded">
         <div class="row my-2">
-            <label for="itemTemplate" class="col-auto col-form-label-sm">Item template</label>
-            <div class="col-auto">
-                <select class="form-select form-select-sm" id="itemTemplate" aria-label="Select item template" evnt-change-template>
-                    <option value="">No template - select params manually</option>
-                    <option value="archer_balanced">Archer Balanced (Dominance, Vitality)</option>
-                    <option value="slayer_dps">Slayer DPS (Dominance, Veteran)</option>
-                    <option value="demon_lord_armor">Demon Lord Armor (Veteran, Vitality)</option>
-                    <option value="mage_armor">Mage Armor (Mana Pool, Mana Regen)</option>
-                    <option value="slayer_armor">Slayer Armor (Veteran, Magic Find)</option>
-                    <option value="party_equip">Party Equip</option>
-                    <option value="god_fishing_noob_set">God Fishing Noob Set</option>
-                    <option value="archer_armor">Archer Armor (Lifeline, Mana Pool)</option>
-                    <option value="archer_equip">Archer Equip (Lifeline, Mana Pool)</option>
-                    <option value="mage_equip">Mage Equip (Mana Pool, Mana Regen)</option>
-                    <option value="hellfire_rod_trophy_fast">Hellfire Rod Trophy Fast (Trophy Hunter, Fishing Speed)</option>
-                </select>
+            <div class="col me-2" style="min-width: 20rem;">
+                <div class="row">
+                    <label for="itemTemplate" class="col-auto col-form-label-sm">Item template</label>
+                    <select class="form-select form-select-sm col" id="itemTemplate" aria-label="Select item template" evnt-change-template>
+                        <option value="">No template - select params manually</option>
+                        <option value="archer_balanced">Archer Balanced (Dominance, Vitality)</option>
+                        <option value="slayer_dps">Slayer DPS (Dominance, Veteran)</option>
+                        <option value="demon_lord_armor">Demon Lord Armor (Veteran, Vitality)</option>
+                        <option value="mage_armor">Mage Armor (Mana Pool, Mana Regen)</option>
+                        <option value="slayer_armor">Slayer Armor (Veteran, Magic Find)</option>
+                        <option value="party_equip">Party Equip</option>
+                        <option value="god_fishing_noob_set">God Fishing Noob Set</option>
+                        <option value="archer_armor">Archer Armor (Lifeline, Mana Pool)</option>
+                        <option value="archer_equip">Archer Equip (Lifeline, Mana Pool)</option>
+                        <option value="mage_equip">Mage Equip (Mana Pool, Mana Regen)</option>
+                        <option value="hellfire_rod_trophy_fast">Hellfire Rod Trophy Fast (Trophy Hunter, Fishing Speed)</option>
+                    </select>
+                </div>
             </div>
             <div class="col-auto form-check form-switch ms-2">
                 <input class="form-check-input" type="checkbox" checked role="switch" id="binarySearch">
