@@ -52,7 +52,7 @@
             </div>
             <div class="col-auto form-check form-switch ms-2">
                 <input class="form-check-input" type="checkbox" checked role="switch" id="binarySearch">
-                <label class="form-check-label" for="binarySearch">Binary search only</label>
+                <label class="form-check-label" for="binarySearch">Binary auctions only</label>
             </div>
         </div>
         <div id="pnlParams" class="row">
@@ -68,7 +68,7 @@
                         <label class="btn btn-outline-light" for="tOption3">Name</label>
                     </div>
                 </div>
-                <div class="col form-check form-switch">
+                <div class="col form-check form-switch ms-2">
                     <div>
                         <input class="form-check-input" type="checkbox" role="switch" id="attributeSearch" evnt-change-option>
                         <label class="form-check-label" for="attributeSearch">Attribute search</label>
@@ -78,7 +78,7 @@
     
             <div class="row">
                 <label for="itemName" class="col-form-label-sm">Item name</label>
-                <div class="col">
+                <div class="col-8">
                     <input class="form-control form-control-sm" list="itemNameOptions" id="itemName" placeholder="Enter item name..." evnt-keydown-name>
                     <datalist id="itemNameOptions">
                         <option value="Attribute Shard">
@@ -87,7 +87,7 @@
                     </datalist>
                 </div>
             </div>
-            <div class="row py-2" id="pnlArmorType">
+            <div class="row pt-2" id="pnlArmorType">
                 <div class="col-4">
                     <label for="partName" class="col-form-label-sm">Part name</label>
                     <select class="form-select form-select-sm" id="partName" aria-label="Select part name" evnt-change-armor>
@@ -112,7 +112,7 @@
                     </select>
                 </div>
             </div>
-            <div class="row py-2" id="pnlAttributes">
+            <div class="row pb-2" id="pnlAttributes">
                 <label class="col-form-label-sm">Attributes</label>
                 <div class="col-4">
                     <select class="form-select form-select-sm" id="attribute1" aria-label="Select first attribute">
