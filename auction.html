@@ -32,10 +32,10 @@
         </div>
     </div>
     <div class="container-fluid border rounded">
-        <div class="row">
-            <div class="col">
-                <label for="itemTemplate" class="form-label">Item template</label>
-                <select class="form-select" id="itemTemplate" aria-label="Select item template" evnt-change-template>
+        <div class="row my-2">
+            <label for="itemTemplate" class="col-auto col-form-label-sm">Item template</label>
+            <div class="col-auto">
+                <select class="form-select form-select-sm" id="itemTemplate" aria-label="Select item template" evnt-change-template>
                     <option value="">No template - select params manually</option>
                     <option value="archer_balanced">Archer Balanced (Dominance, Vitality)</option>
                     <option value="slayer_dps">Slayer DPS (Dominance, Veteran)</option>
@@ -49,35 +49,37 @@
                     <option value="mage_equip">Mage Equip (Mana Pool, Mana Regen)</option>
                     <option value="hellfire_rod_trophy_fast">Hellfire Rod Trophy Fast (Trophy Hunter, Fishing Speed)</option>
                 </select>
-            </div>  
+            </div>
+            <div class="col-auto form-check form-switch ms-2">
+                <input class="form-check-input" type="checkbox" checked role="switch" id="binarySearch">
+                <label class="form-check-label" for="binarySearch">Binary search only</label>
+            </div>
         </div>
         <div id="pnlParams" class="row">
-            <div class="row align-items-center py-3">
-                <div class="col">
-                    <label class="form-label pe-2">Generate template</label>
-                    <input type="radio" class="btn-check" name="searchType" id="tOption1"
-                           autocomplete="off" evnt-change-option checked>
-                    <label class="btn px-2" for="tOption1">No</label>
-                    <input type="radio" class="btn-check" name="searchType" id="tOption2"
-                           autocomplete="off" evnt-change-option>
-                    <label class="btn px-2" for="tOption2">Part</label>
-                    <input type="radio" class="btn-check" name="searchType" id="tOption3"
-                           autocomplete="off" evnt-change-option>
-                    <label class="btn px-2" for="tOption3">Name</label>
+            <div class="row align-items-center py-2">
+                <div class="col-auto pe-4">
+                    <label class="col-form-label-sm">Generate template</label>
+                    <div class="btn-group btn-group-sm" role="group">
+                        <input type="radio" class="btn-check" name="searchType" id="tOption1" autocomplete="off" evnt-change-option checked>
+                        <label class="btn btn-outline-light" for="tOption1">No</label>
+                        <input type="radio" class="btn-check" name="searchType" id="tOption2" autocomplete="off" evnt-change-option>
+                        <label class="btn btn-outline-light" for="tOption2">Part</label>
+                        <input type="radio" class="btn-check" name="searchType" id="tOption3" autocomplete="off" evnt-change-option>
+                        <label class="btn btn-outline-light" for="tOption3">Name</label>
+                    </div>
                 </div>
-                <div class="col-auto">
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="attributeSearch"
-                               evnt-change-option>
+                <div class="col form-check form-switch">
+                    <div>
+                        <input class="form-check-input" type="checkbox" role="switch" id="attributeSearch" evnt-change-option>
                         <label class="form-check-label" for="attributeSearch">Attribute search</label>
                     </div>
                 </div>
             </div>
     
             <div class="row">
-                <label for="itemName" class="form-label">Item name</label>
+                <label for="itemName" class="col-form-label-sm">Item name</label>
                 <div class="col">
-                    <input class="form-control" list="itemNameOptions" id="itemName" placeholder="Enter item name..." evnt-keydown-name>
+                    <input class="form-control form-control-sm" list="itemNameOptions" id="itemName" placeholder="Enter item name..." evnt-keydown-name>
                     <datalist id="itemNameOptions">
                         <option value="Attribute Shard">
                         <option value="Gauntlet of Contagion">
@@ -86,10 +88,9 @@
                 </div>
             </div>
             <div class="row py-2" id="pnlArmorType">
-                <label class="form-label d-none">Name constructor</label>
                 <div class="col-4">
-                    <label for="partName" class="form-label">Part name</label>
-                    <select class="form-select" id="partName" aria-label="Select part name" evnt-change-armor>
+                    <label for="partName" class="col-form-label-sm">Part name</label>
+                    <select class="form-select form-select-sm" id="partName" aria-label="Select part name" evnt-change-armor>
                         <option value="">Any piece</option>
                         <option>Helmet</option>
                         <option>Chestplate</option>
@@ -98,8 +99,8 @@
                     </select>
                 </div>
                 <div class="col-4">
-                    <label for="armorName" class="form-label">Armor name</label>
-                    <select class="form-select" id="armorName" aria-label="Select armor name" evnt-change-armor>
+                    <label for="armorName" class="col-form-label-sm">Armor name</label>
+                    <select class="form-select form-select-sm" id="armorName" aria-label="Select armor name" evnt-change-armor>
                         <option value="">Any armor type</option>
                         <option>Crimson</option>
                         <option>Aurora</option>
@@ -112,9 +113,9 @@
                 </div>
             </div>
             <div class="row py-2" id="pnlAttributes">
-                <label class="form-label">Attributes</label>
+                <label class="col-form-label-sm">Attributes</label>
                 <div class="col-4">
-                    <select class="form-select" id="attribute1" aria-label="Select first attribute">
+                    <select class="form-select form-select-sm" id="attribute1" aria-label="Select first attribute">
                         <option selected></option>
                         <option>Dominance</option>
                         <option>Veteran</option>
@@ -131,7 +132,7 @@
                     </select>
                 </div>
                 <div class="col-4">
-                    <select class="form-select" id="attribute2" aria-label="Select second attribute">
+                    <select class="form-select form-select-sm" id="attribute2" aria-label="Select second attribute">
                         <option selected></option>
                         <option>Dominance</option>
                         <option>Veteran</option>
@@ -147,11 +148,11 @@
                         <option>Mana Steal</option>
                     </select>
                 </div>
-                <button id="clearBtn" type="button" class="btn btn col-auto" evnt-click-clear>Clear</button>
+                <button id="clearBtn" type="button" class="btn btn-sm col-auto" evnt-click-clear>Clear</button>
             </div>
         </div>
         <div class="d-grid py-2">
-            <button id="searchBtn" type="button" class="btn btn-primary" evnt-click-search>Search</button>
+            <button id="searchBtn" type="button" class="btn btn-sm btn-primary" evnt-click-search>Search</button>
         </div>
     </div>
     <div class="container-fluid border rounded bg-danger text-center d-none" id="pOutdated">

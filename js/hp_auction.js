@@ -23,9 +23,11 @@ function fillTable(filtered, max_items = 999) {
         ctrl.classList.add('d-none');
     }
     
+    const bin_only = document.getElementById('binarySearch').checked;
     let printed = 0;
     let tableData = [];
     for (let item of filtered.result) {
+        if (bin_only && !item.bin) continue;
         const newRow = createElement('tr');
         newRow.appendChild(createElement('th', [], {'scope': 'row'}, item['item_name'].slice(0, 30)));
         addColumn(newRow, formatNumber(item.top_bid), ['text-end']);
