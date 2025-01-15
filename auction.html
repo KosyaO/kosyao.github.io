@@ -32,8 +32,8 @@
         </div>
     </div>
     <div class="container-fluid border rounded">
-        <div class="row my-2">
-            <div class="col me-2" style="min-width: 20rem;">
+        <div class="row">
+            <div class="col me-2 mt-2" style="min-width: 20rem;">
                 <div class="row">
                     <label for="itemTemplate" class="col-auto col-form-label-sm">Item template</label>
                     <select class="form-select form-select-sm col" id="itemTemplate" aria-label="Select item template" evnt-change-template>
@@ -52,14 +52,14 @@
                     </select>
                 </div>
             </div>
-            <div class="col-auto form-check form-switch ms-2">
+            <div class="col-auto form-check form-switch ms-2 mt-2">
                 <input class="form-check-input" type="checkbox" checked role="switch" id="binarySearch">
                 <label class="form-check-label" for="binarySearch">Binary auctions only</label>
             </div>
         </div>
-        <div id="pnlParams" class="row">
-            <div class="row align-items-center py-2">
-                <div class="col-auto pe-4">
+        <div id="pnlParams" class="row py-2">
+            <div class="row align-items-center">
+                <div class="col-auto pe-3">
                     <label class="col-form-label-sm">Generate template</label>
                     <div class="btn-group btn-group-sm" role="group">
                         <input type="radio" class="btn-check" name="searchType" id="tOption1" autocomplete="off" evnt-change-option checked>
