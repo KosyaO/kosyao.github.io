@@ -54,7 +54,8 @@
                 {"id": "fuel_gabagool", "collapsed": true},
                 {"id": "sulphuric_coal", "collapsed": true},
                 {"id": "molten_powder"},
-                {"id": "amalgamated_crimsonite_new", "collapsed": true}
+                {"id": "amalgamated_crimsonite_new", "collapsed": true},
+                {"id": "enchantment_ultimate_habanero_tactics_4"}
             ]
         },
         {
@@ -405,12 +406,22 @@
                 { "id": "fine_amethyst_gem", "count": 4},
                 { "id": "fine_sapphire_gem", "count": 4}
             ]
+        },
+        "enchantment_ultimate_habanero_tactics_4": {
+            "components": [
+                { "id": "enchanted_huge_mushroom_2", "count": 128},
+                { "id": "enchanted_rabbit_hide", "count": 16},
+                { "id": "chili_pepper", "count": 640},
+                { "id": "plasma", "count": 4}
+            ]
         }
     },
     "translate": {
         "diver_fragment": "Emperor's Skull",
         "enchantment_ultimate_bobbin_time_3": "Bobbin' Time III",
         "capsaicin_eyedrops_no_charges": "Capsaicin Eyedrops",
-        "amalgamated_crimsonite_new": "Amalgamated Crimsonite"
+        "amalgamated_crimsonite_new": "Amalgamated Crimsonite",
+        "enchantment_ultimate_habanero_tactics_4": "Habanero Tactics IV",
+        "enchanted_huge_mushroom_2": "Enchanted Brown Mushroom"
     }
 }

@@ -68,7 +68,7 @@
             "postDebugTask": "StopServer"
         },
         {
-            "name": "Live Debug (Hoppity)",
+            "name": "Live Debug (hoppity)",
             "port": 9222,
             "request": "launch",
             "type": "chrome",
