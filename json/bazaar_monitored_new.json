@@ -59,6 +59,7 @@
         "-",
         "enchanted_diamond",
         "enchanted_iron_block",
+        "enchanted_iron",
         "enchanted_redstone_block",
         "enchanted_coal_block",
         "enchanted_gold_block",
@@ -226,7 +227,8 @@
         "enchantment_ferocious_mana_5",
         "enchantment_strong_mana_5",
         "enchantment_hardened_mana_5",
-        "highlite"
+        "highlite",
+        "magma_lord_fragment"
       ]
     }
   ],
@@ -313,6 +315,7 @@
     "wither_blood",
     "enchantment_critical_7",
     "enchantment_cleave_6",
+    "enchantment_cubism_6",
     "enchantment_first_strike_5",
     "enchantment_experience_5",
     "enchantment_looting_5",
@@ -384,7 +387,7 @@
       {"crop": "Mushrooms" ,"harvested": 23200, "sale_crop": "enchanted_huge_mushroom_1", "ratio": 5120, "npc_cost": 51200}
     ],
     "Cocoa": [
-      {"harvested": 1430000, "sale_crop": "enchanted_cookie", "ratio": 20480, "add_cost": 160, "npc_cost": 61500},
+      {"harvested": 1430000, "sale_crop": "enchantment_replenish_1", "ratio": 327680, "add_cost": 2656, "npc_cost": 0},
       {"crop": "Mushrooms" ,"harvested": 23600, "sale_crop": "enchanted_huge_mushroom_1", "ratio": 5120, "npc_cost": 51200}
     ],
     "Sugar": [
