@@ -29,7 +29,7 @@ function fillTable(filtered, max_items = 999) {
     for (let item of filtered.result) {
         if (bin_only && !item.bin) continue;
         const newRow = createElement('tr');
-        newRow.appendChild(createElement('th', [], {'scope': 'row'}, item['item_name'].slice(0, 30)));
+        newRow.appendChild(createElement('th', [], {'scope': 'row'}, item['item_name'].slice(0, 40)));
         addColumn(newRow, formatNumber(item.top_bid), ['text-end']);
         addColumn(newRow, formatNumber(item.price_one), ['text-end', filtered.attribute_sort? '': 'd-none']);
         addColumn(newRow, item['bin'] ? '' : 'No');

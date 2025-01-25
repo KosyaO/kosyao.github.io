@@ -184,34 +184,12 @@ export const templates = {
         items: ['Slug Boots', 'Moogma Leggings', 'Flaming Chestplate', 'Taurus Helmet'], 
         attributes: ['Blazing Fortune', 'Fishing Exp']
     },
-    archer_armor: {
-        items: ['Terror Chestplate', 'Terror Leggings', 'Terror Boots'],
-        attributes: ['Lifeline', 'Mana Pool']
-    },
-    archer_balanced: {
-        items: ['Terror Chestplate', 'Terror Leggings', 'Terror Boots'],
-        attributes: ['Dominance', 'Vitality ']
-    },
-    mage_armor: {
-        items: ['Aurora Chestplate', 'Aurora Leggings', 'Aurora Boots'],
-        attributes:['Mana Regen', 'Mana Pool'],
-    },
-    mage_ender: {
-        items: ['Crimson Chestplate', 'Crimson Leggings', 'Crimson Boots'],
-        attributes: ['Mana Pool', 'Veteran']
-    },
-    demon_lord_armor: {
-        items: ['Crimson Chestplate', 'Crimson Leggings', 'Crimson Boots'],
-        attributes: ['Veteran', 'Vitality ']
-    },
-    slayer_dps: {
-        items: ['Crimson Chestplate', 'Crimson Leggings', 'Crimson Boots'],
-        attributes: ['Veteran', 'Dominance']
-    },
-    slayer_armor: {
-        items: ['Crimson Chestplate', 'Crimson Leggings', 'Crimson Boots'],
-        attributes: ['Veteran', 'Magic Find ']
-    },
+    archer_armor: generate_armor_template('Terror', ['LL', 'MP']),
+    archer_balanced: generate_armor_template('Terror', ['Dom', 'Vit']),
+    mage_armor: generate_armor_template('Aurora', ['MP', 'MR']),
+    demon_lord_armor: generate_armor_template('Crimson', ['Vet', 'Vit']),
+    slayer_dps: generate_armor_template('Crimson', ['Vet', 'Dom']),
+    slayer_armor: generate_armor_template('Crimson', ['Vet', 'MF']),
     archer_equip: {
         items: ['Lava Shell Necklace', 'Molten Cloak', 'Molten Belt', 'Molten Bracelet'],
         attributes:['Lifeline', 'Mana Pool']
