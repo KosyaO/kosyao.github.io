@@ -14,8 +14,27 @@
     <script type="module" src="js/hoppity.js"></script>
 </head>
 <body>
+    <div class="container-fluid">
+        <label class="col-sm-4">Event ends in: <span id="lbEndTime"></span></label>
+        <label class="col-sm-4">Hitman cooldown: <span id="lbEndTime"></span></label>
+    </div>
     <div class="container-fluid border rounded">
-        <form class="row mb-3">
+        <form>
+            <div class="row mt-2">
+                <label class="col-sm-2 col-form-label" for="timeToEnd">Hrs to end</label>
+                <div class="col-sm-4">
+                    <input class="form-control" type="number" min="0" id="timeToEnd"/>
+                </div>
+                <button type="button" class="btn btn-primary col-sm-auto" evnt-click-setend>Set</button>
+            </div>
+            <div class="row mt-2">
+                <label class="col-sm-2 col-form-label" for="edHitmanCooldown">Hitman cooldown</label>
+                <div class="col-sm-4">
+                    <input class="form-control" id="edHitmanCooldown"/>
+                </div>
+                <button type="button" class="btn btn-primary col-sm-auto" evnt-click-sethitman>Set</button>
+            </div>
+
             <div class="col-4">
                 <label class="form-label" for="selEggsCnt">Eggs on area:</label>
                 <select class="form-select" id="selEggsCnt">
@@ -28,23 +47,17 @@
                 </select>
             </div>
             <div class="col-4">
-                <label class="form-label" for="timeToEnd">Hrs to end</label>
-                <input class="form-control" type="numeric" min="0" id="timeToEnd"></input>
+
             </div>
             <div class="col-4">
-                <label for="slots" class="form-label">Hitman slots purchased</label>
+                <label for="edSlots" class="form-label">Hitman slots purchased</label>
                 <input class="form-control" type="number" min="0" max="28" id="edSlots"/>
             </div>
             <div class="col-4">
-                <label for="filledEggs" class="form-label">Filled Hitman Eggs</label>
+                <label for="edFilledEggs" class="form-label">Filled Hitman Eggs</label>
                 <input class="form-control" type="number" id="edFilledEggs" min="0" max="28"/>
-            </div>
-            <div class="col-4">
-                <label for="edEndTime" class="form-label">Hoppity end time</label>
-                <input class="form-control" id="edEndTime" disabled/>
             </div>
         </form>
     </div>
     <button type="button" class="btn btn-primary" evnt-click-calc>Calculate!</button> 
-    <label id="lbTimeToEnd"> </label>
 </body>
