@@ -6,7 +6,7 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <title>Hypixel Hoppity helper</title>
     <meta name="description" content="Hypixel Hoppity helper"/>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/theme.css" rel="stylesheet">
     <link href="css/override.css" rel="stylesheet">
     <script src="js/color-modes.js"></script>
@@ -14,50 +14,82 @@
     <script type="module" src="js/hoppity.js"></script>
 </head>
 <body>
-    <div class="container-fluid">
-        <label class="col-sm-4">Event ends in: <span id="lbEndTime"></span></label>
-        <label class="col-sm-4">Hitman cooldown: <span id="lbEndTime"></span></label>
+    <div class="row">
+        <div class="col px-3">
+            <label class="col-sm-4 pt-2">Event ends in: <span id="lbEndTime"></span></label>
+            <label class="col-sm-4 pb-2">Hitman cooldown: <span id="lbHitmanCd"></span></label>
+        </div>
     </div>
-    <div class="container-fluid border rounded">
-        <form>
-            <div class="row mt-2">
-                <label class="col-sm-2 col-form-label" for="timeToEnd">Hrs to end</label>
-                <div class="col-sm-4">
-                    <input class="form-control" type="number" min="0" id="timeToEnd"/>
-                </div>
-                <button type="button" class="btn btn-primary col-sm-auto" evnt-click-setend>Set</button>
+    <form class="container-fluid border rounded">
+        <div class="row mt-2">
+            <label class="col-form-label hoppity-label" for="hoursToEnd">Hrs to end</label>
+            <div class="col-5">
+                <input class="form-control" type="number" min="0" max="30" id="hoursToEnd" evnt-change-edit/>
             </div>
-            <div class="row mt-2">
-                <label class="col-sm-2 col-form-label" for="edHitmanCooldown">Hitman cooldown</label>
-                <div class="col-sm-4">
-                    <input class="form-control" id="edHitmanCooldown"/>
-                </div>
-                <button type="button" class="btn btn-primary col-sm-auto" evnt-click-sethitman>Set</button>
+            <button type="button" class="btn btn-primary col-auto" evnt-click-setend>Set</button>
+        </div>
+        <div class="row mt-2">
+            <label class="col-form-label hoppity-label" for="hitmanCooldown">Hitman cooldown</label>
+            <div class="col-5">
+                <input class="form-control" value="0:00:00" id="hitmanCooldown" evnt-change-edit/>
             </div>
-
-            <div class="col-4">
-                <label class="form-label" for="selEggsCnt">Eggs on area:</label>
-                <select class="form-select" id="selEggsCnt">
-                    <option value = "1">One</option>
-                    <option value = "2">Two</option>
-                    <option value = "3">Three</option>
-                    <option value = "4">Four</option>
-                    <option value = "5">Five</option>
-                    <option value = "6">Six</option>
+            <button type="button" class="btn btn-primary col-auto" evnt-click-sethitman>Set</button>
+        </div>
+        <div class="row mt-2">
+            <label for="filledEggs" class="col-form-label hoppity-label">Filled Hitman Eggs</label>
+            <div class="col-5">
+                <input class="form-control" type="number" id="filledEggs" min="0" max="28" evnt-change-edit/>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <label class="col-form-label hoppity-label" for="selEggsCnt">Eggs on area:</label>
+            <div class="col-5">
+                <select class="form-select" id="selEggsCnt" evnt-change-edit>
+                    <option value="0">Zero</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                    <option value="4">Four</option>
+                    <option value="5">Five</option>
+                    <option value="6">Six</option>
                 </select>
             </div>
-            <div class="col-4">
-
+        </div>
+        <div class="row mt-2">
+            <label for="maxHitmanSlots" class="col-form-label hoppity-label">Max hitman slots</label>
+            <div class="col-5">
+                <input class="form-control" type="number" min="0" max="28" id="maxHitmanSlots" evnt-change-edit/>
             </div>
-            <div class="col-4">
-                <label for="edSlots" class="form-label">Hitman slots purchased</label>
-                <input class="form-control" type="number" min="0" max="28" id="edSlots"/>
-            </div>
-            <div class="col-4">
-                <label for="edFilledEggs" class="form-label">Filled Hitman Eggs</label>
-                <input class="form-control" type="number" id="edFilledEggs" min="0" max="28"/>
-            </div>
-        </form>
+        </div>
+        <div class="row my-2 mx-0">
+            <button type="button" class="btn btn-primary" evnt-click-calc>Calculate!</button>
+        </div>
+    </form>
+    <div class="container-fluid border rounded">
+        <table class="table table-midi text-end table-hover">
+            <thead><tr>
+                <th scope="col">Time point</th>
+                <th scope="col" class="text-start">Action</th>
+                <th scope="col">Hitman Eggs</th>
+                <th scope="col">Hitman Slots</th>
+                <th scope="col">Hitman CD</th>
+            </tr></thead>
+            <tbody id="tResults">
+                <tr class="">
+                    <td>18:35:14</td>
+                    <td class="text-start">Collect</td>
+                    <td>0</td>
+                    <td>12</td>
+                    <td>5:28:37</td>
+                </tr>
+                <tr class="">
+                    <td>18:40:50</td>
+                    <td class="text-start">Collect</td>
+                    <td>0</td>
+                    <td>12</td>
+                    <td>5:23:01</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-    <button type="button" class="btn btn-primary" evnt-click-calc>Calculate!</button> 
 </body>
