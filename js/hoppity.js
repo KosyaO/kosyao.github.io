@@ -105,7 +105,7 @@ function calcHoppity() {
         max_hitman_slots: Number(document.getElementById("maxHitmanSlots").value)
     }
     const { total_collected} = simulateHoppity(params);
-    const { total_accumulated, actions } = simulateHoppity(params, total_collected);
+    const { actions } = simulateHoppity(params, total_collected);
     const tableData = [];
     for (const item of actions) {
         const newRow = createElement('tr');
