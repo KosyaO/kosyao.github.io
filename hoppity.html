@@ -14,12 +14,66 @@
     <script type="module" src="js/hoppity.js"></script>
 </head>
 <body>
+    <div class="container-fluid">
+        <label class="col-sm-4 pt-2">Event ends in: <span id="lbEndTime"></span></label>
+        <label class="col-sm-4 pb-2">Hitman cooldown: <span id="lbHitmanCd"></span></label>
+    </div>
     <div class="row">
-        <div class="col px-3">
-            <label class="col-sm-4 pt-2">Event ends in: <span id="lbEndTime"></span></label>
-            <label class="col-sm-4 pb-2">Hitman cooldown: <span id="lbHitmanCd"></span></label>
+        <div class="col-auto px-3">
+            <label class="form-label" for="hoursToEnd">Hrs to end</label>
+            <div class="row">
+                <div class="col">
+                    <input class="form-control" type="number" min="0" max="30" id="hoursToEnd" evnt-change-edit/>
+                </div>
+                <button type="button" class="btn btn-primary col-auto" evnt-click-setend>Set</button>
+            </div>
+            <label class="form-label pt-2" for="hitmanCooldown">Hitman cooldown</label>
+            <div class="row">
+                <div class="col">
+                    <input class="form-control" value="0:00:00" id="hitmanCooldown" evnt-change-edit/>
+                </div>
+                <button type="button" class="btn btn-primary col-auto" evnt-click-sethitman>Set</button>
+            </div>
+            <label for="filledEggs" class="form-label pt-2">Filled Hitman Eggs</label>
+            <input class="form-control" type="number" id="filledEggs" min="0" max="28" evnt-change-edit/>
+            <label class="form-label pt-2" for="selEggsCnt">Eggs on area:</label>
+            <select class="form-select" id="selEggsCnt" evnt-change-edit>
+                <option value="0">Zero</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+                <option value="4">Four</option>
+                <option value="5">Five</option>
+                <option value="6">Six</option>
+            </select>
+            <label for="maxHitmanSlots" class="form-label pt-2">Max hitman slots</label>
+            <input class="form-control" type="number" min="0" max="28" id="maxHitmanSlots" evnt-change-edit/>
+            <div class="row my-2 mx-0">
+                <button type="button" class="btn btn-primary" evnt-click-calc>Calculate!</button>
+            </div>
+        </div>
+        <div class="col p-3">
+            <table class="table table-midi text-end table-hover">
+                <thead><tr>
+                    <th scope="col">Time point</th>
+                    <th scope="col" class="text-start">Action</th>
+                    <th scope="col">Hitman Eggs</th>
+                    <th scope="col">Hitman Slots</th>
+                    <th scope="col">Hitman CD</th>
+                </tr></thead>
+                <tbody id="tResults">
+                    <tr class="">
+                        <td>18:35:14</td>
+                        <td class="text-start">Collect</td>
+                        <td>0</td>
+                        <td>12</td>
+                        <td>5:28:37</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
+    <!--
     <form class="container-fluid border rounded">
         <div class="row mt-2">
             <label class="col-form-label hoppity-label" for="hoursToEnd">Hrs to end</label>
@@ -92,4 +146,5 @@
             </tbody>
         </table>
     </div>
+    -->
 </body>
