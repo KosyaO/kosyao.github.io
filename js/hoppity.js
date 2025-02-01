@@ -58,7 +58,7 @@ function simulateHoppity({current_time, time_limit, hitman_eggs, eggs_on_map, hi
     actions.push({action: 'Start', start_time: current_time, hitman_eggs, hitman_slots: getHitmanSlots(), hitman_cooldown})
     while (hitman_eggs < max_hitman_slots) {
         let nearest_spawn = nearestSpawn(current_time);
-        if (nearest_spawn >= time_limit) {
+        if (time_limit !== undefined && nearest_spawn >= time_limit) {
             actions.push({action: 'Time limit!'});
             break;
         }
@@ -98,10 +98,10 @@ function simulateHoppity({current_time, time_limit, hitman_eggs, eggs_on_map, hi
 function calcHoppity() {
     const params = {
         current_time: Math.trunc(Date.now() / 1000),
-        time_limit: Math.trunc(endTime / 1000),
+        time_limit: endTime === undefined ? undefined : Math.trunc(endTime / 1000),
         hitman_eggs: Number(document.getElementById("filledEggs").value),
         eggs_on_map: Number(document.getElementById("selEggsCnt").value),
-        hitman_cooldown: Math.max(0, Math.trunc((hitmanTime - Date.now()) / 1000)),
+        hitman_cooldown: (hitmanTime === undefined) ? 0 : Math.max(0, Math.trunc((hitmanTime - Date.now()) / 1000)),
         max_hitman_slots: Number(document.getElementById("maxHitmanSlots").value)
     }
     const { total_collected} = simulateHoppity(params);
