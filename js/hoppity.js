@@ -138,15 +138,15 @@ function calcHoppity() {
     drawResults();
 }
 
-function changeCompact(event) {
+function changeCompact() {
     saveToStorage(prefix + 'cbCompact', document.getElementById('cbCompact').checked);
     drawResults();
 }
 
 function init() {
     addHandlers({
-        'click-setend': setEventEnd,
-        'click-sethitman': setHitmanCooldown,
+        'click-set-end': setEventEnd,
+        'click-set-hitman': setHitmanCooldown,
         'change-edit': changeEdit,
         'click-calc': calcHoppity,
         'change-compact': changeCompact

@@ -4,8 +4,13 @@
     <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="1">
+          <list size="6">
             <item index="0" class="java.lang.String" itemvalue="evnt-click-search" />
+            <item index="1" class="java.lang.String" itemvalue="evnt-change-edit" />
+            <item index="2" class="java.lang.String" itemvalue="evnt-click-calc" />
+            <item index="3" class="java.lang.String" itemvalue="evnt-click-set-end" />
+            <item index="4" class="java.lang.String" itemvalue="evnt-click-set-hitman" />
+            <item index="5" class="java.lang.String" itemvalue="evnt-change-compact" />
           </list>
         </value>
       </option>
