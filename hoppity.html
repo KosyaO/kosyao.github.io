@@ -50,6 +50,10 @@
             </select>
             <label for="maxHitmanSlots" class="form-label pt-2">Max hitman slots</label>
             <input class="form-control" type="number" min="0" max="28" id="maxHitmanSlots" evnt-change-edit/>
+            <div class="form-check form-switch mt-2">
+                <input class="form-check-input" type="checkbox" role="switch" id="cbCompact" checked evnt-change-compact>
+                <label class="form-check-label" for="cbCompact">Compact results</label>
+            </div>
             <div class="row my-2 mx-0">
                 <button type="button" class="btn btn-primary" evnt-click-calc>Calculate!</button>
             </div>

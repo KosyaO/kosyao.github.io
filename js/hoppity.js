@@ -1,6 +1,7 @@
 import {addColumn, addHandlers, createElement, loadFromStorage, saveToStorage} from './hp_common.js';
 const prefix = "hoppity_";
 let endTime, hitmanTime;
+let calcResult;
 
 const timezone_offset = new Date().getTimezoneOffset() * 60000;
 const msToStr = time => new Date(time).toLocaleString('en-GB', {timeStyle: "medium"});
@@ -86,27 +87,25 @@ function simulateHoppity({current_time, time_limit, hitman_eggs, eggs_on_map, hi
             }
         }
         current_time = nearest_spawn;
-        if (actions.length > 0 && actions.at(-1).action === action.action) {
-            actions.at(-1).end_time = action.start_time;
-            actions.at(-1).count = 1 + (actions.at(-1).count ?? 1);
-        } else actions.push(action);
+        actions.push(action);
     }
     actions.push({ action: 'Finish' + (isTimeLimit? ' (time limit)': ''), start_time: current_time,
         hitman_eggs, hitman_slots: getHitmanSlots(), hitman_cooldown });
     return {total_accumulated, total_collected, actions};
 }
 
-function calcHoppity() {
-    const params = {
-        current_time: Math.trunc(Date.now() / 1000),
-        time_limit: endTime === undefined ? undefined : Math.trunc(endTime / 1000),
-        hitman_eggs: Number(document.getElementById("filledEggs").value),
-        eggs_on_map: Number(document.getElementById("selEggsCnt").value),
-        hitman_cooldown: (hitmanTime === undefined) ? 0 : Math.max(0, Math.trunc((hitmanTime - Date.now()) / 1000)),
-        max_hitman_slots: Number(document.getElementById("maxHitmanSlots").value)
+function drawResults() {
+    if (calcResult === undefined) return;
+    const compact = document.getElementById('cbCompact').checked;
+    let actions = [];
+    for (const action of calcResult.actions) {
+        action.end_time = undefined;
+        action.count = undefined;
+        if (compact && actions.length > 0 && actions.at(-1).action === action.action) {
+            actions.at(-1).end_time = action.start_time;
+            actions.at(-1).count = 1 + (actions.at(-1).count ?? 1);
+        } else actions.push(action);
     }
-    const { total_collected} = simulateHoppity(params);
-    const { actions } = simulateHoppity(params, total_collected);
     const tableData = [];
     for (const item of actions) {
         const newRow = createElement('tr');
@@ -125,18 +124,40 @@ function calcHoppity() {
     document.getElementById('tResults').replaceChildren(...tableData);
 }
 
+function calcHoppity() {
+    const params = {
+        current_time: Math.trunc(Date.now() / 1000),
+        time_limit: endTime === undefined ? undefined : Math.trunc(endTime / 1000),
+        hitman_eggs: Number(document.getElementById("filledEggs").value),
+        eggs_on_map: Number(document.getElementById("selEggsCnt").value),
+        hitman_cooldown: (hitmanTime === undefined) ? 0 : Math.max(0, Math.trunc((hitmanTime - Date.now()) / 1000)),
+        max_hitman_slots: Number(document.getElementById("maxHitmanSlots").value)
+    }
+    calcResult = simulateHoppity(params);
+    calcResult = simulateHoppity(params, calcResult.total_collected);
+    drawResults();
+}
+
+function changeCompact(event) {
+    saveToStorage(prefix + 'cbCompact', document.getElementById('cbCompact').checked);
+    drawResults();
+}
+
 function init() {
     addHandlers({
         'click-setend': setEventEnd,
         'click-sethitman': setHitmanCooldown,
         'change-edit': changeEdit,
-        'click-calc': calcHoppity
+        'click-calc': calcHoppity,
+        'change-compact': changeCompact
     });
     loadControl('hoursToEnd', '0');
     loadControl('hitmanCooldown', '0:00:00');
     loadControl('selEggsCnt', '0');
     loadControl('filledEggs', '0');
     loadControl('maxHitmanSlots', '28');
+    document.getElementById('cbCompact').checked =
+        'true' === (loadFromStorage(prefix + 'cbCompact') ?? 'true');
     const endTimeStr = loadFromStorage(prefix + 'endTime');
     if (endTimeStr !== null) endTime = Number(endTimeStr);
     const hitmanStr = loadFromStorage(prefix + 'hitmanTime');
