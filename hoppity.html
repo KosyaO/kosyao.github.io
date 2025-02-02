@@ -15,8 +15,10 @@
 </head>
 <body>
     <div class="container-fluid">
-        <label class="col-sm-4 pt-2">Event ends in: <span id="lbEndTime"></span></label>
-        <label class="col-sm-4 pb-2">Hitman cooldown: <span id="lbHitmanCd"></span></label>
+        <label class="col-sm-auto pt-2 pe-4">Event ends in: <span id="lbEndTimeCounter"></span>
+            (<span id="lbEndTime"></span>)
+        </label>
+        <label class="col-sm-auto pb-2">Hitman cooldown: <span id="lbHitmanCd"></span></label>
     </div>
     <div class="row">
         <div class="col-auto px-3">
@@ -62,7 +64,7 @@
                     <th scope="col">Hitman CD</th>
                 </tr></thead>
                 <tbody id="tResults">
-                    <tr class="">
+                    <tr class="d-none">
                         <td>18:35:14</td>
                         <td class="text-start">Collect</td>
                         <td>0</td>

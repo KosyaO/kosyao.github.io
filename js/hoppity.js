@@ -15,8 +15,9 @@ function updateTimeLabel(time, name) {
 }
 
 function updateTimeEnd() {
-    updateTimeLabel(endTime, 'lbEndTime');
+    updateTimeLabel(endTime, 'lbEndTimeCounter');
     updateTimeLabel(hitmanTime, 'lbHitmanCd');
+    document.getElementById('lbEndTime').textContent = msToStr(endTime);
 }
 
 function setEventEnd() {
@@ -54,14 +55,13 @@ function simulateHoppity({current_time, time_limit, hitman_eggs, eggs_on_map, hi
     const getHitmanSlots = () => max_hitman_slots - hitman_eggs - Math.ceil(hitman_cooldown / 1200);
     let total_accumulated = 0, total_collected = 0;
     let actions = [];
+    let isTimeLimit;
 
     actions.push({action: 'Start', start_time: current_time, hitman_eggs, hitman_slots: getHitmanSlots(), hitman_cooldown})
     while (hitman_eggs < max_hitman_slots) {
         let nearest_spawn = nearestSpawn(current_time);
-        if (time_limit !== undefined && nearest_spawn >= time_limit) {
-            actions.push({action: 'Time limit!'});
-            break;
-        }
+        isTimeLimit = time_limit !== undefined && nearest_spawn >= time_limit;
+        if (isTimeLimit) break;
         hitman_cooldown = Math.max(0, hitman_cooldown - nearest_spawn + current_time);
         const hitman_slots = getHitmanSlots();
         const action = { start_time: nearest_spawn, hitman_eggs, hitman_slots, hitman_cooldown};
@@ -91,7 +91,8 @@ function simulateHoppity({current_time, time_limit, hitman_eggs, eggs_on_map, hi
             actions.at(-1).count = 1 + (actions.at(-1).count ?? 1);
         } else actions.push(action);
     }
-    actions.push({ action: 'Finish', start_time: current_time, hitman_eggs, hitman_slots: getHitmanSlots(), hitman_cooldown });
+    actions.push({ action: 'Finish' + (isTimeLimit? ' (time limit)': ''), start_time: current_time,
+        hitman_eggs, hitman_slots: getHitmanSlots(), hitman_cooldown });
     return {total_accumulated, total_collected, actions};
 }
 
