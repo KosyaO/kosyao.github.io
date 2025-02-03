@@ -18,7 +18,7 @@ function updateTimeLabel(time, name) {
 function updateTimeEnd() {
     updateTimeLabel(endTime, 'lbEndTimeCounter');
     updateTimeLabel(hitmanTime, 'lbHitmanCd');
-    document.getElementById('lbEndTime').textContent = msToStr(endTime);
+    document.getElementById('lbEndTime').textContent = endTime === undefined ? '' : msToStr(endTime);
 }
 
 function setEventEnd() {
@@ -134,7 +134,7 @@ function calcHoppity() {
         max_hitman_slots: Number(document.getElementById("maxHitmanSlots").value)
     }
     calcResult = simulateHoppity(params);
-    calcResult = simulateHoppity(params, calcResult.total_collected);
+    if (document.getElementById('cbCollectFirst').checked) calcResult = simulateHoppity(params, calcResult.total_collected);
     drawResults();
 }
 
@@ -143,21 +143,29 @@ function changeCompact() {
     drawResults();
 }
 
+function changeCollect() {
+    saveToStorage(prefix + 'cbCollectFirst', document.getElementById('cbCollectFirst').checked);
+}
+
 function init() {
     addHandlers({
         'click-set-end': setEventEnd,
         'click-set-hitman': setHitmanCooldown,
         'change-edit': changeEdit,
         'click-calc': calcHoppity,
-        'change-compact': changeCompact
+        'change-compact': changeCompact,
+        'change-collect': changeCollect
     });
-    loadControl('hoursToEnd', '0');
-    loadControl('hitmanCooldown', '0:00:00');
+    loadControl('hoursToEnd', '5');
+    loadControl('hitmanCooldown', '5:15:00');
     loadControl('selEggsCnt', '0');
     loadControl('filledEggs', '0');
     loadControl('maxHitmanSlots', '28');
     document.getElementById('cbCompact').checked =
         'true' === (loadFromStorage(prefix + 'cbCompact') ?? 'true');
+    document.getElementById('cbCollectFirst').checked =
+        'true' === (loadFromStorage(prefix + 'cbCollectFirst') ?? 'true');
+
     const endTimeStr = loadFromStorage(prefix + 'endTime');
     if (endTimeStr !== null) endTime = Number(endTimeStr);
     const hitmanStr = loadFromStorage(prefix + 'hitmanTime');
