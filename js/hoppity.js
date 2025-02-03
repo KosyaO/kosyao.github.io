@@ -161,10 +161,10 @@ function init() {
     loadControl('selEggsCnt', '0');
     loadControl('filledEggs', '0');
     loadControl('maxHitmanSlots', '28');
+    document.getElementById('cbCollectFirst').checked =
+        'true' === (loadFromStorage(prefix + 'cbCollectFirst') ?? 'false');
     document.getElementById('cbCompact').checked =
         'true' === (loadFromStorage(prefix + 'cbCompact') ?? 'true');
-    document.getElementById('cbCollectFirst').checked =
-        'true' === (loadFromStorage(prefix + 'cbCollectFirst') ?? 'true');
 
     const endTimeStr = loadFromStorage(prefix + 'endTime');
     if (endTimeStr !== null) endTime = Number(endTimeStr);
