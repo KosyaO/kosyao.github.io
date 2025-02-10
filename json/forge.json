@@ -146,7 +146,7 @@
             "count": 1,
             "components": [
                 { "id": "glacite_amalgamation", "count": 1, "source": "craft"}, 
-                { "id": "refined_umber", "count": 4, "source": "craft"}
+                { "id": "refined_tungsten", "count": 4, "source": "craft"}
             ]
         },
         "enchantment_ultimate_bobbin_time_3": {
