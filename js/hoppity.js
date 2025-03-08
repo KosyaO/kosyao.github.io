@@ -65,7 +65,7 @@ function simulateHoppity({current_time, time_limit, hitman_eggs, eggs_on_map, hi
         if (isTimeLimit) break;
         hitman_cooldown = Math.max(0, hitman_cooldown - nearest_spawn + current_time);
         const hitman_slots = getHitmanSlots();
-        const action = { start_time: nearest_spawn, hitman_eggs, hitman_slots, hitman_cooldown};
+        const action = {start_time: nearest_spawn, hitman_eggs, hitman_slots, hitman_cooldown};
         if (collect_first > 0) {
             action.action = 'Collect';
             collect_first--;
