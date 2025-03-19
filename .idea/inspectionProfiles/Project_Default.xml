@@ -4,7 +4,7 @@
     <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="7">
+          <list size="13">
             <item index="0" class="java.lang.String" itemvalue="evnt-click-search" />
             <item index="1" class="java.lang.String" itemvalue="evnt-change-edit" />
             <item index="2" class="java.lang.String" itemvalue="evnt-click-calc" />
@@ -12,6 +12,12 @@
             <item index="4" class="java.lang.String" itemvalue="evnt-click-set-hitman" />
             <item index="5" class="java.lang.String" itemvalue="evnt-change-compact" />
             <item index="6" class="java.lang.String" itemvalue="evnt-change-collect" />
+            <item index="7" class="java.lang.String" itemvalue="evnt-click-reloadcfg" />
+            <item index="8" class="java.lang.String" itemvalue="evnt-change-option" />
+            <item index="9" class="java.lang.String" itemvalue="evnt-click-clear" />
+            <item index="10" class="java.lang.String" itemvalue="evnt-change-armor" />
+            <item index="11" class="java.lang.String" itemvalue="evnt-change-template" />
+            <item index="12" class="java.lang.String" itemvalue="evnt-keydown-name" />
           </list>
         </value>
       </option>
