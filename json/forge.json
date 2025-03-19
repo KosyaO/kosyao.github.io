@@ -40,7 +40,9 @@
                 {"id": "spooky_water_orb", "collapsed": true},
                 {"id": "shark_water_orb", "collapsed": true},
                 {"id": "winter_water_orb", "collapsed": true},
-                {"id": "lava_water_orb", "collapsed": true}
+                {"id": "lava_water_orb", "collapsed": true},
+                {"id": "hotspot_water_orb", "collapsed": true},
+                {"id": "bayou_water_orb", "collapsed": true}
             ]
         },
         {
@@ -157,6 +159,8 @@
                 { "id": "shark_water_orb", "count": 1, "source": "craft"},
                 { "id": "winter_water_orb", "count": 1, "source": "craft"},
                 { "id": "lava_water_orb", "count": 1, "source": "craft"},
+                { "id": "hotspot_water_orb", "count": 1, "source": "craft"},
+                { "id": "bayou_water_orb", "count": 1, "source": "craft"},
                 { "id": "bobbin_scriptures", "count": 1}
             ]
         },
@@ -202,6 +206,34 @@
                 { "id": "white_gift", "count": 64},
                 { "id": "blue_ice_hunk", "count": 32},
                 { "id": "green_gift", "count": 16}
+            ]
+        },
+        "hotspot_water_orb": {
+            "count": 1,
+            "components": [
+                { "id": "water_orb", "count": 1, "source": "craft"},
+                { "id": "half_eaten_mushroom", "count": 64},
+                { "id": "blue_ring", "count": 8},
+                { "id": "fried_feather", "count": 64},
+                { "id": "singed_powder", "count": 8},
+                { "id": "scorched_crab_stick", "count": 8},
+                { "id": "enchanted_jungle_log", "count": 64},
+                { "id": "broken_radar", "count": 8},
+                { "id": "enchanted_coal", "count": 64}
+            ]
+        },
+        "bayou_water_orb": {
+            "count": 1,
+            "components": [
+                { "id": "water_orb", "count": 1, "source": "craft"},
+                { "id": "busted_belt_buckle", "count": 8},
+                { "id": "old_leather_boot", "count": 1},
+                { "id": "alligator_skin", "count": 8},
+                { "id": "bronze_bowl", "count": 16},
+                { "id": "torn_cloth", "count": 16},
+                { "id": "enchanted_clay_block", "count": 1},
+                { "id": "rusty_coin", "count": 64},
+                { "id": "poison_sample", "count": 1}
             ]
         },
         "water_orb": {
