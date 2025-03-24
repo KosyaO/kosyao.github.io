@@ -31,10 +31,8 @@
             ]
         },
         {
-            "name": "Other",
+            "name": "Fishing",
             "elements": [
-                {"id": "wood_singularity", "collapsed": true},
-                {"id": "enchantment_cayenne_4"},
                 {"id": "enchantment_ultimate_bobbin_time_3"},
                 {"id": "water_orb", "collapsed": true},
                 {"id": "spooky_water_orb", "collapsed": true},
@@ -42,7 +40,9 @@
                 {"id": "winter_water_orb", "collapsed": true},
                 {"id": "lava_water_orb", "collapsed": true},
                 {"id": "hotspot_water_orb", "collapsed": true},
-                {"id": "bayou_water_orb", "collapsed": true}
+                {"id": "bayou_water_orb", "collapsed": true},
+                {"id": "hotspot_hook", "collapsed": true},
+                {"id": "hotspot_sinker", "collapsed": true}
             ]
         },
         {
@@ -57,7 +57,9 @@
                 {"id": "sulphuric_coal", "collapsed": true},
                 {"id": "molten_powder"},
                 {"id": "amalgamated_crimsonite_new", "collapsed": true},
-                {"id": "enchantment_ultimate_habanero_tactics_4"}
+                {"id": "enchantment_ultimate_habanero_tactics_4"},
+                {"id": "wood_singularity", "collapsed": true},
+                {"id": "enchantment_cayenne_4"}
             ]
         },
         {
@@ -445,6 +447,20 @@
                 { "id": "enchanted_rabbit_hide", "count": 16},
                 { "id": "chili_pepper", "count": 640},
                 { "id": "plasma", "count": 4}
+            ]
+        },
+        "hotspot_hook": {
+            "components": [
+                { "id": "broken_radar", "count": 8},
+                { "id": "singed_powder", "count": 8},
+                { "id": "enchanted_water_lily", "count": 32}
+            ]
+        },
+        "hotspot_sinker": {
+            "components": [
+                { "id": "broken_radar", "count": 8},
+                { "id": "singed_powder", "count": 8},
+                { "id": "enchanted_clay_ball", "count": 64}
             ]
         }
     },
