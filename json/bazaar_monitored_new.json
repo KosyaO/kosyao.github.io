@@ -182,6 +182,7 @@
         "wood_singularity",
         "enchantment_cayenne_4",
         "enchantment_ultimate_habanero_tactics_4",
+        "enchantment_ultimate_habanero_tactics_5",
         "enchanted_rabbit_hide",
         "rabbit_hide",
         "volta",
@@ -221,6 +222,7 @@
         "very_crude_gabagool",
         "capsaicin_eyedrops_no_charges",
         "chili_pepper",
+        "derelict_ashe",
         "inferno_vertex",
         "inferno_apex",
         "- Crimson",
@@ -288,6 +290,7 @@
     "poison_sample",
     "hotspot_water_orb",
     "bayou_water_orb",
+    "gold_bottle_cap",
 
     "frozen_bauble",
     "enchantment_protection_6",
@@ -342,6 +345,7 @@
     "enchantment_prosecute_6",
     "enchantment_execute_6",
     "enchantment_scavenger_5",
+    "enchantment_sharpness_6",
     "enchantment_sharpness_7",
     "enchantment_smoldering_1",
     "enchantment_syphon_5",
@@ -357,6 +361,7 @@
     "enchantment_protection_7",
     "enchantment_power_7",
     "enchantment_big_brain_3",
+    "enchantment_counter_strike_5",
 
     "divan_fragment",
     "refined_mineral",
@@ -464,6 +469,7 @@
 
     "very_crude_gabagool": {"low": 100000},
     "capsaicin_eyedrops_no_charges": {"low": 2000000, "high": 3000000},
+    "derelict_ashe": {"low": 1400},
     "inferno_vertex": {"low": 2000000, "high": 3500000},
     "inferno_apex": {"high": 90000000},
     "essence_crimson": {"low": 1500, "high": 2000},
