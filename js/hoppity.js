@@ -43,6 +43,12 @@ function setHitmanCooldown() {
     saveToStorage(prefix + 'hitmanTime', hitmanTime);
 }
 
+function clickAdd(event) {
+    const ctrl = event.target;
+    if (ctrl.text.at(0) === '+') hitmanTime += 3600000;
+    else hitmanTime -= 3600000;
+}
+
 function nearestSpawn(current_time) {
     const curHour = Math.trunc(current_time / 3600);
     const curMinSec = current_time % 3600;
@@ -151,6 +157,7 @@ function init() {
     addHandlers({
         'click-set-end': setEventEnd,
         'click-set-hitman': setHitmanCooldown,
+        'click-add': clickAdd,
         'change-edit': changeEdit,
         'click-calc': calcHoppity,
         'change-compact': changeCompact,

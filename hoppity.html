@@ -42,7 +42,11 @@
                 </div>
                 <button type="button" class="btn btn-primary col-auto" evnt-click-set-end>Set</button>
             </div>
-            <label class="form-label pt-2" for="hitmanCooldown">Hitman cooldown</label>
+            <div class="row pt-2">
+                <label class="form-label col" for="hitmanCooldown">Hitman cooldown</label>
+                <a class="form-label col-auto" href="#" role="button" evnt-click-add>+1h</a>
+                <a class="form-label col-auto" href="#" role="button" evnt-click-add>-1h</a>
+            </div>
             <div class="row">
                 <div class="col">
                     <input class="form-control" value="0:00:00" id="hitmanCooldown" evnt-change-edit/>
