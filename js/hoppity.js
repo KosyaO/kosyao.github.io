@@ -44,9 +44,15 @@ function setHitmanCooldown() {
 }
 
 function clickAdd(event) {
+    let add_time = 3600000;
+    if (event.ctrlKey) {
+        add_time *= 10;
+        event?.preventDefault();
+    }
     const ctrl = event.target;
-    if (ctrl.text.at(0) === '+') hitmanTime += 3600000;
-    else hitmanTime -= 3600000;
+    if (ctrl.text.at(0) === '+') hitmanTime += add_time;
+    else hitmanTime -= add_time;
+    saveToStorage(prefix + 'hitmanTime', hitmanTime);
 }
 
 function nearestSpawn(current_time) {

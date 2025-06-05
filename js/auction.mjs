@@ -42,7 +42,7 @@ export const real_templates = {
     },
     hyperion: {
         item_name: 'Hyperion',
-        base_price: 940000000,
+        base_price: 9000000000,
         base_tier: "LEGENDARY",
         essence: { name: 'Wither Essence', code: 'essence_wither', count: [0, 150, 450, 950, 1850, 3350] },
         abilities: {
