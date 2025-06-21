@@ -49,6 +49,10 @@ function clickAdd(event) {
         add_time *= 10;
         event?.preventDefault();
     }
+    if (event.shiftKey) {
+        add_time /= 3;
+        event?.preventDefault();
+    }
     const ctrl = event.target;
     if (ctrl.text.at(0) === '+') hitmanTime += add_time;
     else hitmanTime -= add_time;
