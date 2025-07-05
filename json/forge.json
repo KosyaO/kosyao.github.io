@@ -63,6 +63,12 @@
             ]
         },
         {
+            "name": "Attributes",
+            "elements": [
+                {"id": "shard_seagull"}
+            ]
+        },
+        {
             "name": "Dashboard",
             "type": "dashboard",
             "elements": [
@@ -461,6 +467,18 @@
                 { "id": "broken_radar", "count": 8},
                 { "id": "singed_powder", "count": 8},
                 { "id": "enchanted_clay_ball", "count": 64}
+            ]
+        },
+        "shard_seagull": {
+            "components": [
+                { "id": "enchanted_egg", "count": 16 },
+                { "id": "enchanted_feather", "count": 16 },
+                { "id": "enchanted_mangrove_log", "count": 32 }
+            ]
+        },
+        "enchanted_egg": {
+            "components": [
+                { "id": "egg", "count": 144 }
             ]
         }
     },

@@ -1,5 +1,6 @@
 import { setStatus, addHandlers, loadFromStorage, saveToStorage, createElement, createTooltip,
     addColumn, formatNumber, snakeToFlu, shortThousands, setShortThousands } from './hp_common.js';
+
 import { bazaarDownload, bazaarUpdate } from './bazaar.mjs'
 let config = { pages: [], recipes: {} };
 let prices = { last_updated: 0, products: {} };
