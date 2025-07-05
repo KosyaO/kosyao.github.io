@@ -1,0 +1,23 @@
+{
+  "shards": {
+    "shard_invisibug": {
+      "name": "Invisibug",
+      "rarity": "RARE",
+      "skill": "farming",
+      "family": "bug"
+    },
+    "shard_cropeetle": {
+      "name": "Cropeetle",
+      "rarity": "RARE",
+      "skill": "farming",
+      "family": "bug",
+      "sources": [
+        {
+          "first": "shard_invisibug",
+          "second": "shard_invisibug",
+          "double": true
+        }
+      ]
+    }
+  }
+}

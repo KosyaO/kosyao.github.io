@@ -65,7 +65,8 @@
         {
             "name": "Attributes",
             "elements": [
-                {"id": "shard_seagull"}
+                {"id": "shard_seagull"},
+                {"id": "shard_sparrow"}
             ]
         },
         {
@@ -479,6 +480,13 @@
         "enchanted_egg": {
             "components": [
                 { "id": "egg", "count": 144 }
+            ]
+        },
+        "shard_sparrow": {
+            "components": [
+                { "id": "enchanted_egg", "count": 16 },
+                { "id": "enchanted_feather", "count": 16 },
+                    { "id": "enchanted_fig_log", "count": 32 }
             ]
         }
     },
