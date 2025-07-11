@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Hypixel Attributes</title>
+    <meta name="description" content="Hypixel Attribute recipe calculator"/>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/theme.css" rel="stylesheet">
+    <link href="css/override.css" rel="stylesheet">
+    <script src="js/color-modes.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="js/forge.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-S5WZQ107MV"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-S5WZQ107MV');
+    </script>
+</head>
+<body>
+    <div class="container-fluid border rounded">
+        <div class="row">
+            <div class="col" id="cStatus">
+                &nbsp;
+            </div>
+            <div class="col-auto btn-group dropstart px-0">
+                <button type="button" class="btn btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Menu</button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="auction.html">Auction</a></li>
+                    <li><a class="dropdown-item" href="bazaar.html">Bazaar</a></li>
+                    <li><a class="dropdown-item" href="estimation.html">Estimation</a></li>
+                    <li><a class="dropdown-item" href="forge.html">Forge</a></li>
+                    <li><a class="dropdown-item" href="hoppity.html">Hoppity</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="chkThousands" evnt-change-thousands>
+                            <label class="form-check-label" for="chkThousands">Short thousands</label>
+                        </div>
+                    </a></li>
+                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#resetConfig">Reset config</a></li>
+                    <li><a class="dropdown-item" href="attrs-config.html">Edit config</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="resetConfig" tabindex="-1" aria-labelledby="resetLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="resetLabel">Are you sure?</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-danger">
+                This action will reset your own config and replace it with the default one.
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal" evnt-click-reloadcfg>Reset config</button>
+            </div>
+          </div>
+        </div>
+    </div>
+    
+
+</body>

@@ -3,8 +3,8 @@ const prefix = "hoppity_";
 let endTime, hitmanTime;
 let calcResult;
 
-const timezone_offset = new Date().getTimezoneOffset() * 60000;
 const msToStr = time => new Date(time).toLocaleString('en-GB', {timeStyle: "medium"});
+const offsetToStr = ms => new Date(ms).toISOString().slice(11, 19);
 const strToSeconds = (str) => str.split(':').reduce((prev, curr) => prev * 60 + Number(curr), 0);
 const egg_spawn = ['00:50', '06:40', '12:30', '20:50', '26:40', '32:30', '40:50', '46:40', '52:30'].map(strToSeconds);
 
@@ -12,7 +12,7 @@ function updateTimeLabel(time, name) {
     if (time === undefined) return;
     let timeToEnd = time - Date.now();
     if (timeToEnd < 0) timeToEnd = 0;
-    document.getElementById(name).textContent = msToStr(timeToEnd + timezone_offset);
+    document.getElementById(name).textContent = offsetToStr(timeToEnd);
 }
 
 function updateTimeEnd() {
@@ -135,7 +135,7 @@ function drawResults() {
         addColumn(newRow, action, ['text-start']);
         addColumn(newRow, item.hitman_eggs);
         addColumn(newRow, item.hitman_slots);
-        addColumn(newRow, msToStr(item.hitman_cooldown * 1000 + timezone_offset));
+        addColumn(newRow, offsetToStr(item.hitman_cooldown * 1000));
     }
     document.getElementById('tResults').replaceChildren(...tableData);
 }
