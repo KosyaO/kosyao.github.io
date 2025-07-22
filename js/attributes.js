@@ -23,7 +23,7 @@ function reloadCfg() {
 
 function init() {
     addHandlers({
-
+        'click-reloadcfg': reloadCfg
     })
     const conf_str = loadFromStorage(lsPrefix + 'config');
     if (conf_str) updateConfig(JSON.parse(conf_str));
