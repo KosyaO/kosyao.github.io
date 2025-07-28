@@ -248,15 +248,15 @@
         "water_orb": {
             "count": 1,
             "components": [
-                { "id": "enchanted_raw_fish", "count": 16}, 
-                { "id": "enchanted_prismarine_shard", "count": 16, "source": "craft"},
-                { "id": "enchanted_pufferfish", "count": 16, "source": "craft"},
+                { "id": "enchanted_raw_fish", "count": 16},
+                { "id": "enchanted_sponge", "count": 8, "source": "craft"},
                 { "id": "enchanted_raw_salmon", "count": 16, "source": "craft"},
-                { "id": "enchanted_prismarine_crystals", "count": 16},
+                { "id": "enchanted_prismarine_shard", "count": 16, "source": "craft"},
                 { "id": "enchanted_water_lily", "count": 8, "source": "craft"},
-                { "id": "enchanted_clownfish", "count": 8, "source": "craft"},
-                { "id": "enchanted_sponge", "count": 4, "source": "craft"},
-                { "id": "diver_fragment", "count": 1}
+                { "id": "enchanted_prismarine_crystals", "count": 16},
+                { "id": "enchanted_clay_ball", "count": 16},
+                { "id": "enchanted_pufferfish", "count": 16, "source": "craft"},
+                { "id": "enchanted_clownfish", "count": 16, "source": "craft"}
             ]
         },
         "enchanted_pufferfish": {

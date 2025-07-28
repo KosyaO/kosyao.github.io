@@ -6,6 +6,38 @@
       "skill": "farming",
       "family": "bug"
     },
+    "shard_pest": {
+      "name": "Pest",
+      "rarity": "UNCOMMON",
+      "skill": "farming",
+      "family": "bug"
+    },
+    "shard_praying_mantis": {
+      "name": "Praying Mantis",
+      "rarity": "UNCOMMON",
+      "skill": "farming",
+      "family": "bug",
+      "sources": [
+        {
+          "first": "shard_pest",
+          "second": "shard_pest",
+          "double": true
+        }
+      ]
+    },
+    "shard_termite": {
+      "name": "Termite",
+      "rarity": "UNCOMMON",
+      "skill": "farming",
+      "family": "bug",
+      "sources": [
+        {
+          "first": "shard_praying_mantis",
+          "second": "shard_pest",
+          "double": true
+        }
+      ]
+    },
     "shard_cropeetle": {
       "name": "Cropeetle",
       "rarity": "RARE",

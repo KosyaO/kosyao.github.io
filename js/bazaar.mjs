@@ -15,6 +15,8 @@ function topOrdersAverage(arr) {
 export function bazaarUpdate(goods, bazaar, prices) {
     const last_up = bazaar['lastUpdated'];
     prices['last_updated'] = last_up;
+    if (goods === undefined)
+        goods = Object.keys(bazaar.products).map(value => value.toLowerCase());
 
     for (let good of goods) {
         const product = bazaar['products'][good.toUpperCase()];

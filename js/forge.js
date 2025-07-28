@@ -1,7 +1,7 @@
 import { setStatus, addHandlers, loadFromStorage, saveToStorage, createElement, createTooltip,
     addColumn, formatNumber, snakeToFlu, shortThousands, setShortThousands } from './hp_common.js';
-
 import { bazaarDownload, bazaarUpdate } from './bazaar.mjs'
+
 let config = { pages: [], recipes: {} };
 let prices = { last_updated: 0, products: {} };
 let goods = new Set();
@@ -10,7 +10,6 @@ let selectedMenu;
 let tooltipList = [];
 
 const lsPrefix = 'hp_frg_';
-const lang = (navigator.language || navigator.userLanguage);
 const collapsetime = 80;
 const collapseState = { itemsCount: 0 };
 
@@ -119,7 +118,7 @@ function updateMarket(data) {
     if (!data.success) return marketSchedule({ message: 'Error loading market data' });
     marketSchedule();
     bazaarUpdate(goods, data, prices);
-    setStatus('Last updated: ' + new Date(data.lastUpdated).toLocaleString(lang) + ` (load time: ${data.load_time/1000} sec)`);
+    setStatus('Last updated: ' + new Date(data.time_updated).toLocaleString(navigator.language) + ` (load time: ${data.load_time/1000} sec)`);
     updateCraft();
     drawPage();
 }
