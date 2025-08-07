@@ -65,8 +65,14 @@
         {
             "name": "Attributes",
             "elements": [
-                {"id": "shard_seagull"},
-                {"id": "shard_sparrow"}
+                {"id": "shard_seagull", "collapsed": true},
+                {"id": "shard_sparrow", "collapsed": true},
+                {"id": "shard_starborn"},
+                {"id": "shard_galaxy_fish"},
+                {"id": "shard_sun_fish", "collapsed": true},
+                {"id": "shard_dragonfly"},
+                {"id": "shard_firefly", "collapsed": true},
+                {"id": "shard_praying_mantis", "collapsed": true}
             ]
         },
         {
@@ -487,6 +493,47 @@
                 { "id": "enchanted_egg", "count": 16 },
                 { "id": "enchanted_feather", "count": 16 },
                     { "id": "enchanted_fig_log", "count": 32 }
+            ]
+        },
+        "shard_starborn": {
+            "count": 2,
+            "components": [
+                { "id": "shard_galaxy_fish", "count": 5, "source": "craft" },
+                { "id": "shard_blizzard", "count": 2 }
+            ]
+        },
+        "shard_galaxy_fish": {
+            "count": 2,
+            "components": [
+                { "id": "shard_sun_fish", "count": 10, "source": "craft" }
+            ]
+        },
+        "shard_sun_fish": {
+            "count": 2,
+            "components": [
+                { "id": "shard_shinyfish", "count": 5 },
+                { "id": "shard_flaming_spider", "count": 5 }
+            ]
+        },
+        "shard_dragonfly": {
+            "count": 2,
+            "components": [
+                { "id": "shard_firefly", "count": 5, "source": "craft" },
+                { "id": "shard_apex_dragon", "count": 5 }
+            ]
+        },
+        "shard_firefly": {
+            "count": 2,
+            "components": [
+                { "id": "shard_praying_mantis", "count": 5, "source": "craft" },
+                { "id": "shard_flaming_spider", "count": 5 }
+            ]
+        },
+        "shard_praying_mantis": {
+            "count": 2,
+            "components": [
+                { "id": "shard_pest", "count": 5 },
+                { "id": "shard_ghost", "count": 5 }
             ]
         }
     },
