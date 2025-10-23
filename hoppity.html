@@ -35,12 +35,20 @@
     </div>
     <div class="row">
         <div class="col-auto px-3">
-            <label class="form-label" for="hoursToEnd">Hrs to end</label>
             <div class="row">
                 <div class="col">
+                    <label class="form-label" for="hoursToEnd">Hrs to end</label>
                     <input class="form-control" type="number" min="0" max="30" id="hoursToEnd" evnt-change-edit/>
                 </div>
-                <button type="button" class="btn btn-primary col-auto" evnt-click-set-end>Set</button>
+                <div class="col">
+                    <label class="form-label" for="eventEndMin">End minutes</label>
+                    <select class="form-select" id="eventEndMin" evnt-change-edit>
+                        <option>15</option>
+                        <option>35</option>
+                        <option selected>55</option>
+                    </select>
+                </div>
+                <button type="button" class="mt-2 btn btn-primary col-auto" evnt-click-set-end>Set</button>
             </div>
             <div class="row pt-2">
                 <label class="form-label col" for="hitmanCooldown">Hitman cooldown</label>

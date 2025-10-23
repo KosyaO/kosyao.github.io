@@ -23,8 +23,9 @@ function updateTimeEnd() {
 
 function setEventEnd() {
     let hours_left = Number(document.getElementById("hoursToEnd").value);
-    const current_time = Math.trunc(Date.now() / 100000); // time in seconds / 100
-    endTime = Math.trunc(current_time / 36 + hours_left + (current_time % 36 >= 33)) * 3600000 + 3300000
+    let end_min = Number(document.getElementById("eventEndMin").value) * 60;
+    const current_time = Math.trunc(Date.now() / 1000); // time in seconds
+    endTime = Math.trunc(current_time / 3600 + hours_left + (current_time % 3600 >= end_min)) * 3600000 + end_min * 1000;
     saveToStorage(prefix + 'endTime', endTime);
 }
 
@@ -178,6 +179,7 @@ function init() {
     loadControl('selEggsCnt', '0');
     loadControl('filledEggs', '0');
     loadControl('maxHitmanSlots', '28');
+    loadControl('eventEndMin', '55');
     document.getElementById('cbCollectFirst').checked =
         'true' === (loadFromStorage(prefix + 'cbCollectFirst') ?? 'false');
     document.getElementById('cbCompact').checked =

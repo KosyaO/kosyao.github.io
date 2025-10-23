@@ -14,7 +14,8 @@
                 {"id": "tungsten_key", "collapsed": true},
                 {"id": "refined_umber", "collapsed": true},
                 {"id": "refined_tungsten", "collapsed": true},
-                {"id": "bejeweled_handle", "collapsed": true}
+                {"id": "bejeweled_handle", "collapsed": true},
+                {"id": "gleaming_crystal"}
             ]
         },
         {
@@ -26,8 +27,7 @@
                 {"id": "refined_diamond", "collapsed": true},
                 {"id": "refined_titanium", "collapsed": true},
                 {"id": "gemstone_chamber"},
-                {"id": "gemstone_mixture", "collapsed": true},
-                {"id": "gleaming_crystal"}
+                {"id": "gemstone_mixture", "collapsed": true}
             ]
         },
         {
@@ -72,7 +72,10 @@
                 {"id": "shard_sun_fish", "collapsed": true},
                 {"id": "shard_dragonfly"},
                 {"id": "shard_firefly", "collapsed": true},
-                {"id": "shard_praying_mantis", "collapsed": true}
+                {"id": "shard_praying_mantis", "collapsed": true},
+                {"id": "shard_lunar_moth"},
+                {"id": "shard_ladybug", "collapsed": true},
+                {"id": "shard_termite", "collapsed": true}
             ]
         },
         {
@@ -534,6 +537,27 @@
             "components": [
                 { "id": "shard_pest", "count": 5 },
                 { "id": "shard_ghost", "count": 5 }
+            ]
+        },
+        "shard_lunar_moth": {
+            "count": 2,
+            "components": [
+                { "id": "shard_ladybug", "count": 5, "source": "craft" },
+                { "id": "shard_invisibug", "count": 5 }
+            ]
+        },
+        "shard_ladybug": {
+            "count": 2,
+            "components": [
+                { "id": "shard_termite", "count": 5, "source": "craft" },
+                { "id": "shard_invisibug", "count": 5 }
+            ]
+        },
+        "shard_termite": {
+            "count": 2,
+            "components": [
+                { "id": "shard_pest", "count": 5 },
+                { "id": "shard_miner_zombie", "count": 5 }
             ]
         }
     },
