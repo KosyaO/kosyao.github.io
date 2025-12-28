@@ -113,7 +113,7 @@ function marketSchedule(error) {
 function updateMarket(market) {
     if (!market.success) return marketSchedule({ message: 'Error loading market data' });
     marketSchedule();
-    bazaarUpdate(config.goods, market, prices);
+    bazaarUpdate(market, prices);
 
     setStatus('Last updated: ' + new Date(market.lastUpdated).toLocaleString(lang) + ` (load time: ${market.load_time/1000} sec)`);
     saveToStorage(lsPrefix + 'prices', JSON.stringify(prices));
@@ -135,13 +135,11 @@ function updateConfig(response) {
         selectedMenu = pages.length > 0? pages[0].name: '';
     }
 
-    config.goods = new Set(config['Hidden'] ?? []);
     const elements = [];
     for (let page of pages) {
         const isActive = page.name === selectedMenu;
         const target = 'pills-' + (page.type ?? 'bazaar');
-        if (target === 'pills-bazaar') page.items.forEach(config.goods.add, config.goods);
-        
+
         const newLi = createElement('li', ['nav-item'], { 'role': 'presentation' });
         const newBt = createElement('button', ['nav-link', isActive? 'active': ''], { 
             'type': 'button', 

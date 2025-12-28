@@ -4,7 +4,6 @@ import { bazaarDownload, bazaarUpdate } from './bazaar.mjs'
 
 let config = { pages: [], recipes: {} };
 let prices = { last_updated: 0, products: {} };
-let goods = new Set();
 let currentInterval;
 let selectedMenu;
 let tooltipList = [];
@@ -117,7 +116,7 @@ function drawPage() {
 function updateMarket(data) {
     if (!data.success) return marketSchedule({ message: 'Error loading market data' });
     marketSchedule();
-    bazaarUpdate(goods, data, prices);
+    bazaarUpdate(data, prices);
     setStatus('Last updated: ' + new Date(data.time_updated).toLocaleString(navigator.language) + ` (load time: ${data.load_time/1000} sec)`);
     updateCraft();
     drawPage();
@@ -273,12 +272,6 @@ function restoreConfig(response) {
 function updateConfig(response) {
     config = response; // restoreConfig(response);
     saveConfig();
-    // update bazaar goods
-    goods.clear();
-    for (const [recipeId, recipe] of Object.entries(config.recipes)) {
-        goods.add(recipeId);
-        recipe.components.forEach(item => goods.add(item.id));
-    }
     // form navigation
     if (findPage() === undefined) selectedMenu = config.pages.length > 0? config.pages[0].name: '';
     const elements = [];

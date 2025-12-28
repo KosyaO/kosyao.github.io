@@ -34,7 +34,7 @@ function reloadCfg() {
 }
 
 function priceUpdate(data) {
-    bazaarUpdate(undefined, data, market);
+    bazaarUpdate(data, market);
     saveToStorage('hypixel_market', JSON.stringify(market));
     marketUpdating = false;
     setStatus('Last updated: ' + new Date(data.time_updated).toLocaleString(navigator.language) + ` (load time: ${data.load_time/1000} sec)`);

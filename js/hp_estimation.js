@@ -57,7 +57,7 @@ async function auctionSearch(filter) {
             );
             setStatus('Downloading bazaar...');
             bazaarData = await bazaarDownload();
-            bazaarUpdate(bazaar_items, bazaarData, bazaarPrices);
+            bazaarUpdate(bazaarData, bazaarPrices);
         }
         setStatus('Processing data...');
         outdatedCtrl.classList.add('d-none');

@@ -102,19 +102,6 @@ const stars = {
 
 const recomb_item = 'recombobulator_3000';
 
-const auxiliary_items = [
-    'wither_shield_scroll', 
-    'shadow_warp_scroll', 
-    'implosion_scroll',
-    recomb_item,
-    'golden_fragment',
-    'essence_wither',
-    'essence_dragon',
-    'essence_gold'
-];
-
-export const bazaar_items = Object.values(enchants_one).concat(Object.values(enchants_exact)).concat(stars.names).concat(auxiliary_items);
-
 export function translate_attribute_name(short_name) {
     return {
         'bf': 'Blazing Fortune',
@@ -300,7 +287,7 @@ export async function auctionDownload(stateCallback = undefined) {
                     console.log(`Loading auction, ${total} pages total...`);
                 }
                 loaded++;
-                if (stateCallback !== undefined) {
+                if (stateCallback) {
                     stateCallback({loaded, total});
                 }
                 if (remain > 0) {
@@ -311,9 +298,7 @@ export async function auctionDownload(stateCallback = undefined) {
                 }
             }).catch(reject);
         }
-        for (let i = 0; i < 10; i++) {
-            start();
-        }
+        for (let i = 0; i < 10; i++) start();
     });
     result.time_updated = Date.now();
     result.load_time = result.time_updated - start;
