@@ -7,22 +7,8 @@ function round(float_number, digits = 0) {
 export const ah_prices_filter = {
     "Artifact of Control": { buy_cheaper: 2000000000, count: 3 },
     "Spirit Mask": { buy_cheaper: 120000000, count: 3 },
-    "Shen": {},
-    "Hegemony": {},
-    // "Midas' Sword": {},
-    "Pandora": {},
-    "Sirius' Personal": {},
-    "Magic 8": {},
-    "Nether Art": {},
-    "Wither": { category: "accessories" },
-    "Ender": { category: "accessories" },
-    "Plasma Nucleus": {},
-    "Pocket Sack-in-a-Sack": {},
-    "Ultimate Carrot Candy Upgrade": {},
-    "God Potion": {},
-    "Jumbo Backpack Upgrade": {},
-    "Autopet Rules 2-Pack": {},
-    "Discrite": {}
+    "[Lvl 100] Slug": { category: "misc", tier: "LEGENDARY" },
+    "Inferno Minion Fuel": { tier: "LEGENDARY", contains: "Crude Gabagool" }
 };
 
 const roman_multipliers = { 'I': 1, 'II': 2, 'III': 4, 'IV': 8, 'V': 16, 'VI': 32, 'VII': 64, 'VIII': 128, 'IX': 256, 'X': 512 };
@@ -42,7 +28,7 @@ export const real_templates = {
     },
     hyperion: {
         item_name: 'Hyperion',
-        base_price: 9000000000,
+        base_price: 940000000,
         base_tier: "LEGENDARY",
         essence: { name: 'Wither Essence', code: 'essence_wither', count: [0, 150, 450, 950, 1850, 3350] },
         abilities: {
@@ -413,12 +399,14 @@ export function analyzeData(data, filter, prices) {
                 const conditions = filter[search_name];
                 const maxPrice = conditions.max_price;
                 const category = conditions.category;
+                const contains = conditions.contains;
                 const tier = conditions.tier;
                 let topBid = item['highest_bid_amount'];
                 if (topBid === 0) topBid = item['starting_bid'];
                 if (maxPrice !== undefined && topBid > maxPrice) continue;
                 if (category !== undefined && item.category !== category) continue;
                 if (tier !== undefined && item.tier !== tier) continue;
+                if (contains !== undefined && !item.item_lore.includes(contains)) continue;
                 item.top_bid = topBid;
                 // const decoded_bytes = Buffer.from(item.item_bytes, 'base64');
                 let price_item = prices.items[search_name];
@@ -480,29 +468,29 @@ export function calculatePrices(data, bazaar, filter) {
                     }
                 }
             }
-            let ench_price = 0;
+            let enchants_price = 0;
             // enchants with specific level
-            for (let [ench, code] of Object.entries(enchants_exact))
-                if (item_lore.includes(ench)) {
+            for (let [enchant, code] of Object.entries(enchants_exact))
+                if (item_lore.includes(enchant)) {
                     const price = getSellPrice(code);
-                    new_item.price_entries[ench] = price;
-                    ench_price += price;
+                    new_item.price_entries[enchant] = price;
+                    enchants_price += price;
                 }
             // enchants counted from 1st level
-            for (let [ench, code] of Object.entries(enchants_one))
-                if (item_lore.includes(ench)) {
+            for (let [enchant, code] of Object.entries(enchants_one))
+                if (item_lore.includes(enchant)) {
                     let price = getSellPrice(code);
-                    let p = item_lore.indexOf(ench);
+                    let p = item_lore.indexOf(enchant);
                     const lore_part = item_lore.slice(p, item_lore.indexOf('§', p));
-                    p = lore_part.indexOf(' ', ench.length - 1) + 1;
+                    p = lore_part.indexOf(' ', enchant.length - 1) + 1;
                     if (p > 0) {
                         let end = lore_part.indexOf('\n', p);
                         if (end === -1) { end = lore_part.length; }
                         const roman = lore_part.slice(p, end);
                         price *= roman_multipliers[roman] ?? 1;
                     }
-                    new_item.price_entries[ench] = price;
-                    ench_price += price;
+                    new_item.price_entries[enchant] = price;
+                    enchants_price += price;
                 }
             // master stars
             let star_price = 0;
@@ -555,10 +543,10 @@ export function calculatePrices(data, bazaar, filter) {
             new_item.base_price = base_price;
             new_item.price_entries['Base price'] = base_price;
             new_item.star_price = round(star_price, 1);
-            new_item.ench_price = round(ench_price, 1);
+            new_item.ench_price = round(enchants_price, 1);
             new_item.scrolls_price = round(scrolls_price, 1);
             new_item.other_price = other_price;
-            new_item.real_price = round(base_price + ench_price + star_price + scrolls_price + other_price, 1);
+            new_item.real_price = round(base_price + enchants_price + star_price + scrolls_price + other_price, 1);
             new_item.profit = round(new_item.real_price - topBid, 1);
             result.push(new_item);
         }
