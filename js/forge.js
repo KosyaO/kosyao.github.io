@@ -9,7 +9,7 @@ let selectedMenu;
 let tooltipList = [];
 
 const lsPrefix = 'hp_frg_';
-const collapsetime = 80;
+const collapse_time = 80;
 const collapseState = { itemsCount: 0 };
 
 function findPage(menuName = selectedMenu) {
@@ -27,14 +27,14 @@ function findElement(searchElement, page) {
 function calcRecipe(recipeId) {
     const recipe = config.recipes[recipeId];
     if (recipe.craft_price !== undefined) return;
-    recipe.craft_price = recipe.craft_coins ?? 0;
-    recipe.result_craft_time = recipe.craft_time;
-    if (recipe.craft_time !== undefined) recipe.result_craft_time *= (config.time_multiplier ?? 1) / 3600;
+    recipe.craft_price = recipe['craft_coins'] ?? 0;
+    recipe.result_craft_time = recipe['craft_time'];
+    if (recipe.result_craft_time !== undefined) recipe.result_craft_time *= (config['time_multiplier'] ?? 1) / 3600;
     recipe.buy_price = prices.products[recipeId]?.buy_price;
     recipe.sell_price = prices.products[recipeId]?.sell_price;
-    for (const component of recipe.components) {
+    for (const component of recipe['components']) {
         component.buy_price = prices.products[component.id]?.buy_price;
-        component.sell_price = prices.products[component.id]?.sell_price ?? component.ah_price;
+        component.sell_price = prices.products[component.id]?.sell_price ?? component['ah_price'];
         const source = component.source ?? 'sell';
         const compRecipe = config.recipes[component.id];
         if (compRecipe !== undefined) {
@@ -48,7 +48,7 @@ function calcRecipe(recipeId) {
         if (recipe.result_craft_time !== undefined) recipe.result_craft_time += component.result_craft_time ?? 0;
     }
     recipe.craft_price /= (recipe.count ?? 1);
-    for (const component of recipe.components) 
+    for (const component of recipe['components'])
         component.percent = recipe.craft_price === 0 ? undefined : 100 * component.result_price / recipe.craft_price / (recipe.count ?? 1);
 }
 
@@ -92,7 +92,7 @@ function drawElem(elem, attrName) {
             tooltipList.push(new bootstrap.Tooltip(tooltipElem));
         }
         elem.childNodes[8].textContent = formatNumber(recipe.result_craft_time, false);
-        for (const component of recipe.components) {
+        for (const component of recipe['components']) {
             elem = elem.nextSibling;
             elem.childNodes[3].textContent = formatNumber(component.sell_price);
             elem.childNodes[4].textContent = formatNumber(component.buy_price);
@@ -141,7 +141,7 @@ function sourceChange(event) {
     const row = this.parentElement.parentElement;
     const [recipe_id, idx] = row.getAttribute('component-link').split(',');
     const recipe = config.recipes[recipe_id];
-    const component = recipe.components[idx];
+    const component = recipe['components'][idx];
     component.source = this.value;
     updateCraft();
     saveConfig();
@@ -165,8 +165,8 @@ function rowClick(event) {
     if (collapseState.itemsCount > 0) return;
     const item_id = this.getAttribute('hypixel-id');
     const idx = this.getAttribute('index');
-    collapseState.itemsCount = config.recipes[item_id].components.length;
-    collapseState.interval = collapsetime / collapseState.itemsCount;
+    collapseState.itemsCount = config.recipes[item_id]['components'].length;
+    collapseState.interval = collapse_time / collapseState.itemsCount;
     collapseState.item = this.nextSibling;
     collapseState.collapse = !(this.getAttribute('collapsed') === 'true');
     this.setAttribute('collapsed', collapseState.collapse);
@@ -189,7 +189,7 @@ function createRow(page_elem, component = undefined, index = 0) {
     if (header) newRow.addEventListener('click', rowClick);
     const name = header? (item?.name ?? page_elem.id): component.id;
     newRow.appendChild(createElement('th', ["text-start"], {}, config.translate?.[name] ?? snakeToFlu(name)));
-    addColumn(newRow, header && item?.craft_time !== undefined ? formatNumber(item?.craft_time / 3600, false) : undefined);
+    addColumn(newRow, header && item?.['craft_time'] !== undefined ? formatNumber(item?.['craft_time'] / 3600, false) : undefined);
     addColumn(newRow, header? item.count : component.count);
     addColumn(newRow, undefined, ['table-secondary']);
     addColumn(newRow, undefined, ['table-secondary']);
@@ -240,7 +240,7 @@ function formPage() {
             if (item !== undefined) {
                 element.idx = idx;
                 elements.push(createRow(element));
-                item.components.forEach((component, idx) => elements.push(createRow(element, component, idx)));
+                item['components'].forEach((component, idx) => elements.push(createRow(element, component, idx)));
             }
         });
         document.getElementById('tForge').replaceChildren(...elements);
@@ -263,7 +263,7 @@ function restoreConfig(response) {
     for (const [item_id, recipe] of Object.entries(response.recipes)) {
         const oldRecipe = config.recipes[item_id];
         if (oldRecipe !== undefined) {
-            recipe.components.forEach((component, idx) => component.source = oldRecipe.components[idx]?.source);
+            recipe['components'].forEach((component, idx) => component.source = oldRecipe['components'][idx]?.source);
         }
     }
     return response;

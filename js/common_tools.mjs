@@ -1,6 +1,3 @@
-import fs from "fs/promises";
-import { stringify } from "./stringifier.mjs";
-
 export const globalAbort = new AbortController();
 
 export async function fetchTimeout(url, headers = undefined, timeoutMs = 10000) {
@@ -16,37 +13,6 @@ export async function fetchTimeout(url, headers = undefined, timeoutMs = 10000) 
     } finally {
         clearTimeout(timeout);
     }
-}
-
-export async function writeJsonToFile(fileName, data) {
-    if (data?.file_changed !== undefined) data.file_changed = Date.now();
-    const filePath = new URL(fileName, import.meta.url);
-    const tmpPath = new URL(fileName + '.tmp', import.meta.url);
-    try {
-        await fs.writeFile(tmpPath, stringify(data), 'utf8');
-        await fs.rename(tmpPath, filePath);
-        if (data?.file_changed !== undefined) {
-            const stat = await fs.stat(filePath);
-            data.file_changed = stat.mtimeMs;
-        }
-    } catch (err) {
-        console.log(`Error saving file "${fileName}":`, err);
-    }
-}
-
-export async function readJsonFromFile(fileName, initial = {}) {
-    let result = initial;
-    const filePath = new URL(fileName, import.meta.url);
-    try {
-        const stat = await fs.stat(filePath);
-        if (result.file_changed !== undefined && stat.mtimeMs <= result.file_changed) return result;
-        const fileData = await fs.readFile(filePath, { encoding: 'utf8' });
-        result = JSON.parse(fileData);
-        if (result.file_changed !== undefined) result.file_changed = stat.mtimeMs;
-    } catch (error) {
-        console.log(`Error reading data from "${fileName}"`);
-    }
-    return result;
 }
 
 export function getSkyblockYear() {
