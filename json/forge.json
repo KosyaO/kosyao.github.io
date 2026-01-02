@@ -79,6 +79,40 @@
             ]
         },
         {
+            "name": "Greenhouse",
+            "elements": [
+                {"id": "rose_dragon"},
+                {"id": "glasscorn", "collapsed": true},
+                {"id": "devourer", "collapsed": true},
+                {"id": "all_in_aloe", "collapsed": true},
+                {"id": "phantomleaf", "collapsed": true},
+                {"id": "timestalk", "collapsed": true},
+                {"id": "chloronite", "collapsed": true},
+                {"id": "startlevine", "collapsed": true},
+                {"id": "coalroot", "collapsed": true},
+                {"id": "thornshade", "collapsed": true},
+                {"id": "blastberry", "collapsed": true},
+                {"id": "cheesebite", "collapsed": true},
+                {"id": "puffercloud", "collapsed": true},
+                {"id": "zombud", "collapsed": true},
+                {"id": "do_not_eat_shroom", "collapsed": true},
+                {"id": "snoozling", "collapsed": true},
+                {"id": "cindershade", "collapsed": true},
+                {"id": "fleshtrap", "collapsed": true},
+                {"id": "magic_jellybean", "collapsed": true},
+                {"id": "duskbloom", "collapsed": true},
+                {"id": "plantboy_advance", "collapsed": true},
+                {"id": "thunderling", "collapsed": true},
+                {"id": "soggybud", "collapsed": true},
+                {"id": "noctilume", "collapsed": true},
+                {"id": "chorus_fruit", "collapsed": true},
+                {"id": "shellfruit", "collapsed": true},
+                {"id": "turtlellini", "collapsed": true},
+                {"id": "stoplight_petal", "collapsed": true},
+                {"id": "", "collapsed": true}
+            ]
+        },
+        {
             "name": "Dashboard",
             "type": "dashboard",
             "elements": [
@@ -559,6 +593,191 @@
                 { "id": "shard_pest", "count": 5 },
                 { "id": "shard_miner_zombie", "count": 5 }
             ]
+        },
+        "rose_dragon": {
+            "craft_coins": 600000000,
+            "components": [
+                { "id": "glasscorn", "count": 1, "source": "craft" },
+                { "id": "devourer", "count": 1 },
+                { "id": "all_in_aloe", "count": 1 },
+                { "id": "phantomleaf", "count": 1 },
+                { "id": "timestalk", "count": 1 },
+                { "id": "condensed_helianthus", "count": 5 }
+            ]
+        },
+        "glasscorn": {
+            "components": [
+                { "id": "chloronite", "count": 6, "source": "buy" },
+                { "id": "startlevine", "count": 6 }
+            ]
+        },
+        "devourer": {
+            "components": [
+                { "id": "puffercloud", "count": 4 },
+                { "id": "zombud", "count": 4 }
+            ]
+        },
+        "all_in_aloe": {
+            "components": [
+                { "id": "magic_jellybean", "count": 6 },
+                { "id": "plantboy_advance", "count": 2 }
+            ]
+        },
+        "phantomleaf": {
+            "components": [
+                { "id": "chorus_fruit", "count": 4 },
+                { "id": "shellfruit", "count": 4 }
+            ]
+        },
+        "timestalk": {
+            "components": [
+                { "id": "stoplight_petal", "count": 4 },
+                { "id": "chorus_fruit", "count": 2 },
+                { "id": "shellfruit", "count": 2 }
+            ]
+        },
+        "chloronite": {
+            "components": [
+                { "id": "coalroot", "count": 6 },
+                { "id": "thornshade", "count": 2 }
+            ]
+        },
+        "startlevine": {
+            "components": [
+                { "id": "blastberry", "count": 4 },
+                { "id": "cheesebite", "count": 4 }
+            ]
+        },
+        "coalroot": {
+            "components": [
+                { "id": "ashwreath", "count": 5 },
+                { "id": "scourroot", "count": 3 }
+            ]
+        },
+        "thornshade": {
+            "components": [
+                { "id": "wild_rose", "count": 5 },
+                { "id": "veilshroom", "count": 3 }
+            ]
+        },
+        "blastberry": {
+            "components": [
+                { "id": "chocoberry", "count": 5 },
+                { "id": "ashwreath", "count": 3 }
+            ]
+        },
+        "cheesebite": {
+            "components": [
+                { "id": "creambloom", "count": 4 },
+                { "id": "fermento", "count": 4 }
+            ]
+        },
+        "puffercloud": {
+            "components": [
+                { "id": "do_not_eat_shroom", "count": 4 },
+                { "id": "snoozling", "count": 4 }
+            ]
+        },
+        "zombud": {
+            "components": [
+                { "id": "dead_plant", "count": 4 },
+                { "id": "cindershade", "count": 2 },
+                { "id": "fleshtrap", "count": 2 }
+            ]
+        },
+        "do_not_eat_shroom": {
+            "components": [
+                { "id": "veilshroom", "count": 4 },
+                { "id": "scourroot", "count": 4 }
+            ]
+        },
+        "snoozling": {
+            "components": [
+                { "id": "creambloom", "count": 4 },
+                { "id": "dustgrain", "count": 3 },
+                { "id": "witherbloom", "count": 3 },
+                { "id": "duskbloom", "count": 3 },
+                { "id": "thornshade", "count": 3 }
+            ]
+        },
+        "cindershade": {
+            "components": [
+                { "id": "ashwreath", "count": 4 },
+                { "id": "witherbloom", "count": 4 }
+            ]
+        },
+        "fleshtrap": {
+            "components": [
+                { "id": "cindershade", "count": 4 },
+                { "id": "lonelily", "count": 4 }
+            ]
+        },
+        "magic_jellybean": {
+            "components": [
+                { "id": "sugar_cane", "count": 5 },
+                { "id": "duskbloom", "count": 3 }
+            ]
+        },
+        "duskbloom": {
+            "components": [
+                { "id": "moonflower", "count": 2 },
+                { "id": "double_plant", "count": 2 },
+                { "id": "shadevine", "count": 2 },
+                { "id": "dustgrain", "count": 2 }
+            ]
+        },
+        "plantboy_advance": {
+            "components": [
+                { "id": "snoozling", "count": 6 },
+                { "id": "thunderling", "count": 4 }
+            ]
+        },
+        "thunderling": {
+            "components": [
+                { "id": "soggybud", "count": 5 },
+                { "id": "noctilume", "count": 3 }
+            ]
+        },
+        "soggybud": {
+            "components": [
+                { "id": "melon", "count": 8 }
+            ]
+        },
+        "noctilume": {
+            "components": [
+                { "id": "duskbloom", "count": 6 },
+                { "id": "lonelily", "count": 6 }
+            ]
+        },
+        "chorus_fruit": {
+            "components": [
+                { "id": "chloronite", "count": 5 },
+                { "id": "magic_jellybean", "count": 3 }
+            ]
+        },
+        "shellfruit": {
+            "count": 8,
+            "components": [
+                { "id": "turtlellini", "count": 8 },
+                { "id": "blastberry", "count": 2 }
+            ]
+        },
+        "turtlellini": {
+            "components": [
+                { "id": "soggybud", "count": 4 },
+                { "id": "choconut", "count": 4 }
+            ]
+        },
+        "choconut": {
+            "components": [
+                { "id": "ink_sack:3", "count": 4 }
+            ]
+        },
+        "stoplight_petal": {
+            "components": [
+                { "id": "snoozling", "count": 4 },
+                { "id": "noctilume", "count": 4 }
+            ]
         }
     },
     "translate": {
@@ -567,6 +786,8 @@
         "capsaicin_eyedrops_no_charges": "Capsaicin Eyedrops",
         "amalgamated_crimsonite_new": "Amalgamated Crimsonite",
         "enchantment_ultimate_habanero_tactics_4": "Habanero Tactics IV",
-        "enchanted_huge_mushroom_2": "Enchanted Brown Mushroom"
+        "enchanted_huge_mushroom_2": "Enchanted Brown Mushroom",
+        "double_plant": "Sunflower",
+        "ink_sack:3": "Cocoa beans"
     }
 }
