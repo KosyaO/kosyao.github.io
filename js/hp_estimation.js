@@ -1,5 +1,5 @@
 import { formatNumber, setStatus, addHandlers, createElement, createTooltip, addColumn } from './hp_common.js';
-import { auctionDownload, calculatePrices, real_templates, bazaar_items } from './auction.mjs';
+import { auctionDownload, calculatePrices, real_templates } from './auction.mjs';
 import { bazaarDownload, bazaarUpdate } from './bazaar.mjs'
 
 let searchProcessed = false;
