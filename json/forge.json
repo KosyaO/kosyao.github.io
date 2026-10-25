@@ -108,8 +108,7 @@
                 {"id": "chorus_fruit", "collapsed": true},
                 {"id": "shellfruit", "collapsed": true},
                 {"id": "turtlellini", "collapsed": true},
-                {"id": "stoplight_petal", "collapsed": true},
-                {"id": "", "collapsed": true}
+                {"id": "stoplight_petal", "collapsed": true}
             ]
         },
         {
@@ -595,7 +594,7 @@
             ]
         },
         "rose_dragon": {
-            "craft_coins": 600000000,
+            "craft_coins": 500000000,
             "components": [
                 { "id": "glasscorn", "count": 1, "source": "craft" },
                 { "id": "devourer", "count": 1 },
@@ -656,8 +655,8 @@
         },
         "thornshade": {
             "components": [
-                { "id": "wild_rose", "count": 5 },
-                { "id": "veilshroom", "count": 3 }
+                { "id": "wild_rose", "count": 4 },
+                { "id": "veilshroom", "count": 4 }
             ]
         },
         "blastberry": {
@@ -674,8 +673,8 @@
         },
         "puffercloud": {
             "components": [
-                { "id": "do_not_eat_shroom", "count": 4 },
-                { "id": "snoozling", "count": 4 }
+                { "id": "do_not_eat_shroom", "count": 6 },
+                { "id": "snoozling", "count": 2 }
             ]
         },
         "zombud": {
