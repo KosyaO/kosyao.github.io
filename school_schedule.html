@@ -27,6 +27,12 @@
   --on-rest: #1B1300;
   --on-free: #FFFFFF;
   --free-tint: #E6F4EC;
+  --w-school: #4A5A75;
+  --w-courses: #B4467F;
+  --w-out: #14768F;
+  --on-w-school: #FFFFFF;
+  --on-w-courses: #FFFFFF;
+  --on-w-out: #FFFFFF;
   --font-display: "Unbounded", "Golos Text", system-ui, sans-serif;
   --font-body: "Golos Text", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
@@ -50,6 +56,12 @@
     --on-rest: #1B1300;
     --on-free: #04140D;
     --free-tint: #12312A;
+    --w-school: #8C9BB5;
+    --w-courses: #E07AAE;
+    --w-out: #4FC0DE;
+    --on-w-school: #0B1220;
+    --on-w-courses: #1F0A15;
+    --on-w-out: #04141A;
     color-scheme: dark;
   }
 }
@@ -71,6 +83,12 @@
   --on-rest: #1B1300;
   --on-free: #04140D;
   --free-tint: #12312A;
+  --w-school: #8C9BB5;
+  --w-courses: #E07AAE;
+  --w-out: #4FC0DE;
+  --on-w-school: #0B1220;
+  --on-w-courses: #1F0A15;
+  --on-w-out: #04141A;
   color-scheme: dark;
 }
 
@@ -105,6 +123,9 @@ h2 { font: 600 20px/1.25 var(--font-body), sans-serif; margin: 0 0 16px; text-wr
 .seg.ege { background: var(--ege); color: var(--on-ege); }
 .seg.rest { background: var(--rest); color: var(--on-rest); }
 .seg.remain { background: var(--free); color: var(--on-free); }
+.seg.wschool { background: var(--w-school); color: var(--on-w-school); }
+.seg.wcourses { background: var(--w-courses); color: var(--on-w-courses); }
+.seg.wout { background: var(--w-out); color: var(--on-w-out); }
 .legend { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
 .legend li { display: grid; grid-template-columns: 14px minmax(0, 1fr) auto 64px; gap: 2px 12px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--line-soft); }
 .sw { width: 12px; height: 12px; border-radius: 2px; align-self: center; }
@@ -113,6 +134,9 @@ h2 { font: 600 20px/1.25 var(--font-body), sans-serif; margin: 0 0 16px; text-wr
 .sw.ege { background: var(--ege); }
 .sw.rest { background: var(--rest); }
 .sw.remain { background: var(--free); }
+.sw.wschool { background: var(--w-school); }
+.sw.wcourses { background: var(--w-courses); }
+.sw.wout { background: var(--w-out); }
 .nm { display: flex; flex-direction: column; }
 .sub { font-size: 13px; color: var(--muted); }
 .v, .p { font-family: var(--font-mono), monospace; font-size: 14px; white-space: nowrap; font-variant-numeric: tabular-nums; }
@@ -121,7 +145,9 @@ h2 { font: 600 20px/1.25 var(--font-body), sans-serif; margin: 0 0 16px; text-wr
 .legend li.subtotal { padding: 6px 0 8px; color: var(--muted); }
 .legend li.subtotal .nm { font-size: 13px; }
 .legend li.subtotal .v, .legend li.subtotal .p { font-size: 13px; }
-.legend li.last { border-bottom: 0; }
+.legend li.last, .legend li.total { border-bottom: 0; }
+.legend li.total .nm { font-weight: 600; }
+.legend li.total .v { font-weight: 500; }
 .legend li.last .nm { font-weight: 600; color: var(--free); }
 .legend li.last .v { font-weight: 500; color: var(--free); }
 .stages { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
@@ -203,6 +229,11 @@ tfoot td { padding: 11px 14px; border-top: 2px solid var(--line); font: 500 15px
     </div>
     <ul class="legend"><li class=""><span class="sw study"></span><span class="nm">Домашние задания по школе</span><span class="v">7 ч 30 мин</span><span class="p">29 %</span></li><li class=""><span class="sw course"></span><span class="nm">Домашние задания по курсам</span><span class="v">4 ч</span><span class="p">15 %</span></li><li class=""><span class="sw ege"></span><span class="nm">Подготовка к ЕГЭ</span><span class="v">5 ч</span><span class="p">19 %</span></li><li class="subtotal"><span></span><span class="nm">Учебная нагрузка вне уроков</span><span class="v">16 ч 30 мин</span><span class="p">63 %</span></li><li class=""><span class="sw rest"></span><span class="nm">Ежедневный отдых<span class="sub">7 × 1 ч в неделю</span></span><span class="v">7 ч</span><span class="p">27 %</span></li><li class="last"><span class="sw remain"></span><span class="nm">Остаётся свободным<span class="sub">после всех вычетов</span></span><span class="v">2 ч 30 мин</span><span class="p">10 %</span></li></ul>
     <div class="stages"><div class="stage"><div class="sl">Этап 1</div><div class="sv">26 ч</div><p>Окна от 45 минут из таблицы недели</p></div><div class="stage"><div class="sl">Этап 2</div><div class="sv">9 ч 30 мин</div><p>После вычета учебной нагрузки вне уроков (16 ч 30 мин)</p></div><div class="stage"><div class="sl">Этап 3</div><div class="sv">2 ч 30 мин</div><p>После вычета 1 часа отдыха ежедневно (7 ч)</p></div></div>
+    <div class="barwrap">
+      <div class="eyebrow">Из чего складываются 67 ч 40 мин рабочей нагрузки</div>
+      <div class="bar" role="img" aria-label="Школа: 39 ч 10 мин; Курсы: 12 ч; Учебная нагрузка вне уроков: 16 ч 30 мин"><div class="seg wschool" style="flex-grow:2350"><span>39 ч 10 мин</span></div><div class="seg wcourses" style="flex-grow:720"><span>12 ч</span></div><div class="seg wout" style="flex-grow:990"><span>16 ч 30 мин</span></div></div>
+    </div>
+    <ul class="legend"><li><span class="sw wschool"></span><span class="nm">Школа<span class="sub">5 дней × 7 ч 50 мин</span></span><span class="v">39 ч 10 мин</span><span class="p">58 %</span></li><li><span class="sw wcourses"></span><span class="nm">Курсы<span class="sub">3 раза в неделю: Вт, Ср, Чт</span></span><span class="v">12 ч</span><span class="p">18 %</span></li><li><span class="sw wout"></span><span class="nm">Учебная нагрузка вне уроков<span class="sub">домашние задания и подготовка к ЕГЭ</span></span><span class="v">16 ч 30 мин</span><span class="p">24 %</span></li><li class="total"><span></span><span class="nm">Общая рабочая нагрузка</span><span class="v">67 ч 40 мин</span><span class="p">100 %</span></li></ul>
   </section>
 
   <section aria-labelledby="sched">
