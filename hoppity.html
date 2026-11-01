@@ -39,33 +39,33 @@
             <div class="row">
                 <div class="col">
                     <label class="form-label" for="hoursToEnd">Hrs to end</label>
-                    <input class="form-control" type="number" min="0" max="30" id="hoursToEnd" evnt-change-edit/>
+                    <input class="form-control" type="number" min="0" max="30" id="hoursToEnd" data-ev="change-edit"/>
                 </div>
                 <div class="col">
                     <label class="form-label" for="eventEndMin">End minutes</label>
-                    <select class="form-select" id="eventEndMin" evnt-change-edit>
+                    <select class="form-select" id="eventEndMin" data-ev="change-edit">
                         <option>15</option>
                         <option>35</option>
                         <option selected>55</option>
                     </select>
                 </div>
-                <button type="button" class="mt-2 btn btn-primary col-auto" evnt-click-set-end>Set</button>
+                <button type="button" class="mt-2 btn btn-primary col-auto" data-ev="click-set-end">Set</button>
             </div>
             <div class="row pt-2">
                 <label class="form-label col" for="hitmanCooldown">Hitman cooldown</label>
-                <a class="form-label col-auto" href="#" role="button" title="Hold ctrl to add 10 hours, shift to add 20 min" evnt-click-add>+1h</a>
-                <a class="form-label col-auto" href="#" role="button" title="Hold ctrl to subtract 10 hours, shift to subtract 20 min" evnt-click-add>-1h</a>
+                <a class="form-label col-auto" href="#" role="button" title="Hold ctrl to add 10 hours, shift to add 20 min" data-ev="click-add">+1h</a>
+                <a class="form-label col-auto" href="#" role="button" title="Hold ctrl to subtract 10 hours, shift to subtract 20 min" data-ev="click-add">-1h</a>
             </div>
             <div class="row">
                 <div class="col">
-                    <input class="form-control" value="0:00:00" id="hitmanCooldown" evnt-change-edit/>
+                    <input class="form-control" value="0:00:00" id="hitmanCooldown" data-ev="change-edit"/>
                 </div>
-                <button type="button" class="btn btn-primary col-auto" evnt-click-set-hitman>Set</button>
+                <button type="button" class="btn btn-primary col-auto" data-ev="click-set-hitman">Set</button>
             </div>
             <label for="filledEggs" class="form-label pt-2">Filled Hitman Eggs</label>
-            <input class="form-control" type="number" id="filledEggs" min="0" max="28" evnt-change-edit/>
+            <input class="form-control" type="number" id="filledEggs" min="0" max="28" data-ev="change-edit"/>
             <label class="form-label pt-2" for="selEggsCnt">Eggs on area:</label>
-            <select class="form-select" id="selEggsCnt" evnt-change-edit>
+            <select class="form-select" id="selEggsCnt" data-ev="change-edit">
                 <option value="0">Zero</option>
                 <option value="1">One</option>
                 <option value="2">Two</option>
@@ -75,17 +75,17 @@
                 <option value="6">Six</option>
             </select>
             <label for="maxHitmanSlots" class="form-label pt-2">Max hitman slots</label>
-            <input class="form-control" type="number" min="0" max="28" id="maxHitmanSlots" evnt-change-edit/>
+            <input class="form-control" type="number" min="0" max="28" id="maxHitmanSlots" data-ev="change-edit"/>
             <div class="form-check form-switch mt-2">
-                <input class="form-check-input" type="checkbox" role="switch" id="cbCollectFirst" evnt-change-collect>
+                <input class="form-check-input" type="checkbox" role="switch" id="cbCollectFirst" data-ev="change-collect">
                 <label class="form-check-label" for="cbCollectFirst">Collect at start</label>
             </div>
             <div class="form-check form-switch mt-2">
-                <input class="form-check-input" type="checkbox" role="switch" id="cbCompact" checked evnt-change-compact>
+                <input class="form-check-input" type="checkbox" role="switch" id="cbCompact" checked data-ev="change-compact">
                 <label class="form-check-label" for="cbCompact">Compact results</label>
             </div>
             <div class="row my-2 mx-0">
-                <button type="button" class="btn btn-primary" evnt-click-calc>Calculate!</button>
+                <button type="button" class="btn btn-primary" data-ev="click-calc">Calculate!</button>
             </div>
         </div>
         <div class="col p-3">
@@ -114,27 +114,27 @@
         <div class="row mt-2">
             <label class="col-form-label hoppity-label" for="hoursToEnd">Hrs to end</label>
             <div class="col-5">
-                <input class="form-control" type="number" min="0" max="30" id="hoursToEnd" evnt-change-edit/>
+                <input class="form-control" type="number" min="0" max="30" id="hoursToEnd" data-ev="change-edit"/>
             </div>
-            <button type="button" class="btn btn-primary col-auto" evnt-click-setend>Set</button>
+            <button type="button" class="btn btn-primary col-auto" data-ev="click-setend">Set</button>
         </div>
         <div class="row mt-2">
             <label class="col-form-label hoppity-label" for="hitmanCooldown">Hitman cooldown</label>
             <div class="col-5">
-                <input class="form-control" value="0:00:00" id="hitmanCooldown" evnt-change-edit/>
+                <input class="form-control" value="0:00:00" id="hitmanCooldown" data-ev="change-edit"/>
             </div>
-            <button type="button" class="btn btn-primary col-auto" evnt-click-sethitman>Set</button>
+            <button type="button" class="btn btn-primary col-auto" data-ev="click-sethitman">Set</button>
         </div>
         <div class="row mt-2">
             <label for="filledEggs" class="col-form-label hoppity-label">Filled Hitman Eggs</label>
             <div class="col-5">
-                <input class="form-control" type="number" id="filledEggs" min="0" max="28" evnt-change-edit/>
+                <input class="form-control" type="number" id="filledEggs" min="0" max="28" data-ev="change-edit"/>
             </div>
         </div>
         <div class="row mt-2">
             <label class="col-form-label hoppity-label" for="selEggsCnt">Eggs on area:</label>
             <div class="col-5">
-                <select class="form-select" id="selEggsCnt" evnt-change-edit>
+                <select class="form-select" id="selEggsCnt" data-ev="change-edit">
                     <option value="0">Zero</option>
                     <option value="1">One</option>
                     <option value="2">Two</option>
@@ -148,11 +148,11 @@
         <div class="row mt-2">
             <label for="maxHitmanSlots" class="col-form-label hoppity-label">Max hitman slots</label>
             <div class="col-5">
-                <input class="form-control" type="number" min="0" max="28" id="maxHitmanSlots" evnt-change-edit/>
+                <input class="form-control" type="number" min="0" max="28" id="maxHitmanSlots" data-ev="change-edit"/>
             </div>
         </div>
         <div class="row my-2 mx-0">
-            <button type="button" class="btn btn-primary" evnt-click-calc>Calculate!</button>
+            <button type="button" class="btn btn-primary" data-ev="click-calc">Calculate!</button>
         </div>
     </form>
     <div class="container-fluid border rounded">

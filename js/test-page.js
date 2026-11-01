@@ -22,7 +22,7 @@ function rowClick(item) {
     fadeNext = item.currentTarget;
     fadeCollapse = !(fadeNext.getAttribute('s-collapsed') === 'true');
     fadeNext.setAttribute('s-collapsed', fadeCollapse);
-    fadeCount = Number(fadeNext.getAttribute('evnt-click-row'));
+    fadeCount = Number(fadeNext.getAttribute('elems_count'));
     fadePeriod = 80 / fadeCount;
     if (fadeCollapse) {
         for (let i = 0; i < fadeCount; i++) fadeNext = fadeNext.nextSibling;
@@ -33,7 +33,7 @@ function rowClick(item) {
 function createTable(sections_count, elems_count) {
     const tableData = []
     while (sections_count-- > 0) {
-        const newRow = createElement('tr', ['table-info'], { 'evnt-click-row': elems_count });
+        const newRow = createElement('tr', ['table-info'], { 'elems_count': elems_count });
         tableData.push(newRow);
         newRow.addEventListener('click', rowClick);
         newRow.appendChild(createElement('th', ['text-start'], {}, 'Elements - ' + elems_count))
